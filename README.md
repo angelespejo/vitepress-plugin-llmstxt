@@ -10,10 +10,19 @@ This plugin automatically generates **LLMS text files** (`llms.txt` and `llms-fu
 - Generates an index table of contents if configured.
 
 ## Installation
-Install the plugin via npm:
+
+Install the plugin:
 
 ```bash
 npm install vitepress-plugin-llmstxt
+# or
+pnpm install vitepress-plugin-llmstxt
+# or
+yarn add vitepress-plugin-llmstxt
+# or
+bun add vitepress-plugin-llmstxt
+# or
+deno add vitepress-plugin-llmstxt
 ```
 
 ## Usage

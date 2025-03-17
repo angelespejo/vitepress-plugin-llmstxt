@@ -103,8 +103,8 @@ jobs:
         uses: changesets/action@v1
         with:
           title: "chore(release): version packages 🦋"
-          version: pnpm . pkg version --silent
-          publish: pnpm . pkg publish --silent
+          version: pnpm exec changeset version
+          publish: pnpm exec changeset publish
           commit: "chore(release): version packages 🦋 [skip ci]"
           createGithubReleases: false
         env:

@@ -246,7 +246,7 @@ const getPagesData = async ( pages: PageData[], originURL: string, config?: Llms
  * @see https://github.com/angelespejo/vitepress-plugin-llmstxt
  * @see https://llmstxt.org/
  */
-export default ( config?: LlmsConfig ):VitePlugin => {
+const plugin = ( config?: LlmsConfig ):VitePlugin => {
 
 	let vpConfig: SiteConfig | undefined = undefined
 	return {
@@ -331,3 +331,4 @@ export default ( config?: LlmsConfig ):VitePlugin => {
 
 }
 
+export default plugin
