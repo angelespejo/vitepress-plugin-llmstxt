@@ -1,0 +1,113 @@
+{
+	"name": "vitepress-plugin-llmstxt",
+	"version": "0.0.0",
+	"description": "VitePress plugin to generate llms.txt files automatically",
+	"keywords": [
+		"pigeonposse",
+		"plugin",
+		"pp",
+		"vite",
+		"vitepress"
+	],
+	"homepage": "https://github.com/angelespejo/vitepress-plugin-llmstxt",
+	"bugs": {
+		"url": "https://github.com/angelespejo/vitepress-plugin-llmstxt/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/angelespejo/vitepress-plugin-llmstxt"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/contribute"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
+	"type": "module",
+	"main": "./dist/main.cjs",
+	"module": "./dist/main.mjs",
+	"types": "./dist/main.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		".": "dovenv",
+		"build": "unbuild",
+		"build-web": "vitepress build examples",
+		"dev": "vitepress dev examples --force",
+		"preview": "vitepress preview examples"
+	},
+	"devDependencies": {
+		"@changesets/changelog-github": "0.5.1",
+		"@changesets/cli": "2.28.1",
+		"@dovenv/core": "1.4.5",
+		"@dovenv/theme-pigeonposse": "1.4.5",
+		"@types/node": "22.13.10",
+		"eslint": "9.22.0",
+		"tslib": "2.8.1",
+		"typescript": "5.8.2",
+		"unbuild": "3.5.0",
+		"vitepress": "1.6.3",
+		"vue": "3.5.13"
+	},
+	"peerDependencies": {
+		"vitepress": "^1.0.0"
+	},
+	"packageManager": "pnpm@10.6.3",
+	"pnpm": {
+		"peerDependencyRules": {
+			"ignoreMissing": [
+				"@algolia/client-search"
+			]
+		},
+		"ignoredBuiltDependencies": [
+			"esbuild"
+		],
+		"onlyBuiltDependencies": [
+			"esbuild"
+		]
+	},
+	"extra": {
+		"id": "vitepress-plugin-llmstxt",
+		"productName": "vitepress-plugin-llmstxt",
+		"libraryURL": "https://www.npmjs.com/package/vitepress-plugin-llmstxt",
+		"licenseURL": "https://github.com/angelespejo/vitepress-plugin-llmstxt/blob/main/LICENSE",
+		"changelogURL": "https://github.com/angelespejo/vitepress-plugin-llmstxt/blob/main/CHANGELOG.md",
+		"contributingURL": "https://github.com/angelespejo/angelespejo/blob/main/CONTRIBUTING.md",
+		"libraryID": "vitepress-plugin-llmstxt",
+		"repoID": "vitepress-plugin-llmstxt",
+		"rawRepoURL": "https://raw.githubusercontent.com/angelespejo/vitepress-plugin-llmstxt",
+		"docsURL": "https://github.com/angelespejo/vitepress-plugin-llmstxt",
+		"type": [
+			"library",
+			"js-library",
+			"ts-library",
+			"plugin"
+		],
+		"collective": {
+			"id": "pigeonposse",
+			"name": "PigeonPosse",
+			"funding": "https://pigeonposse.com/contribute",
+			"gh": "https://github.com/pigeonposse",
+			"about": "https://pigeonposse.com/about",
+			"url": "https://pigeonposse.com",
+			"web": "https://pigeonposse.com",
+			"email": "dev@pigeonposse.com",
+			"socialUser": {
+				"twitter": "pigeonposse_",
+				"instagram": "pigeon.posse",
+				"medium": "pigeonposse"
+			},
+			"social": {
+				"twitter": "https://twitter.com/pigeonposse_",
+				"instagram": "https://www.instagram.com/pigeon.posse/",
+				"medium": "https://medium.com/@pigeonposse"
+			}
+		}
+	}
+}
