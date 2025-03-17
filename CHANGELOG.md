@@ -1,5 +1,11 @@
 # vitepress-plugin-llmstxt
 
+## 0.0.4
+
+### Patch Changes
+
+- add exports
+
 ## 0.0.3
 
 ### Patch Changes
