@@ -1,6 +1,6 @@
 {
 	"name": "vitepress-plugin-llmstxt",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "VitePress plugin to generate llms.txt files automatically",
 	"keywords": [
 		"pigeonposse",
@@ -59,6 +59,10 @@
 		"vitepress": "^1.0.0"
 	},
 	"packageManager": "pnpm@10.6.3",
+	"publishConfig": {
+		"access": "public",
+		"registry": "https://registry.npmjs.org/"
+	},
 	"pnpm": {
 		"peerDependencyRules": {
 			"ignoreMissing": [
