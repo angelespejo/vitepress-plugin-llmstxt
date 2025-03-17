@@ -74,8 +74,10 @@ export default defineConfig({
       onlyFull: false,
       indexTOC: true,
       transform: ({ page, pages }) => {
-        // Customize page data if needed
-        return page;
+		if ( page.path === '/llms.txt' )
+			page.content = `Structured information designed to provide useful metadata to large language models (LLMs)\n\n` + page.content
+
+		return page
       }
     })],
   },

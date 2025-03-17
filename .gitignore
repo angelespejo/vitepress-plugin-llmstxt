@@ -60,6 +60,7 @@ packages/**/build
 # project 
 **/__temp__
 /__cache__
+**/.vitepress/cache
 **/__cache__
 **/*.timestamp-*
 **/__temp__/*
