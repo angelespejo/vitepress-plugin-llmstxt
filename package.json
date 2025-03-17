@@ -3,13 +3,15 @@
 	"version": "0.0.3",
 	"description": "VitePress plugin to generate llms.txt files automatically",
 	"keywords": [
+		"llm",
+		"llmstxt",
 		"pigeonposse",
 		"plugin",
 		"pp",
 		"vite",
 		"vitepress"
 	],
-	"homepage": "https://github.com/angelespejo/vitepress-plugin-llmstxt",
+	"homepage": "https://www.npmjs.com/package/vitepress-plugin-llmstxt",
 	"bugs": {
 		"url": "https://github.com/angelespejo/vitepress-plugin-llmstxt/issues",
 		"email": "dev@pigeonposse.com"
