@@ -30,11 +30,11 @@ Import and use the plugin in your VitePress configuration:
 
 ```typescript
 import { defineConfig } from 'vitepress';
-import llmsPlugin from 'vitepress-plugin-llmstxt';
+import llmstxtPlugin from 'vitepress-plugin-llmstxt';
 
 export default defineConfig({
   vite: {
-    plugins: [llmsPlugin()],
+    plugins: [llmstxtPlugin()],
   },
 });
 ```
@@ -64,11 +64,11 @@ A callback to transform each page's data.
 
 ```typescript
 import { defineConfig } from 'vitepress';
-import llmsPlugin from 'vitepress-plugin-llmstxt';
+import llmstxtPlugin from 'vitepress-plugin-llmstxt';
 
 export default defineConfig({
   vite: {
-    plugins: [llmsPlugin({
+    plugins: [llmstxtPlugin({
       hostname: 'https://example.com',
       ignore: ['drafts/**/*'],
       onlyFull: false,
