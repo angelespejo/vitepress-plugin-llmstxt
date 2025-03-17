@@ -31,9 +31,16 @@
 		"url": "https://github.com/angelespejo"
 	},
 	"type": "module",
+	"exports": {
+		".": {
+			"types": "./dist/main.d.mts",
+			"import": "./dist/main.mjs",
+			"require": "./dist/main.cjs"
+		}
+	},
 	"main": "./dist/main.cjs",
 	"module": "./dist/main.mjs",
-	"types": "./dist/main.d.ts",
+	"types": "./dist/main.d.mts",
 	"files": [
 		"dist"
 	],
