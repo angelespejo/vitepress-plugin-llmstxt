@@ -25,34 +25,43 @@ type VPConfig = SiteConfig
 type LlmsPageData = {
 	path        : string
 	url         : string
+	title       : string
 	llmUrl      : string
 	frontmatter : Record<string, Any>
 	content     : string
 }
 
+type IndexTOC = boolean | 'only-llms' | 'only-web'
+
 export type LlmsConfig = {
 	/**
 	 * Hostname
+	 * @example 'https://example.org'
 	 */
 	hostname?  : string
 	/**
 	 * An array of glob patterns to ignore.
+	 * @example ["**\/guide/api.md"]
 	 */
 	ignore?    : string[]
 	/**
 	 * An array of glob patterns to search for
 	 */
-	pattern?   : string[]
+	// pattern?   : string[]
 	/**
 	 * Build only 'llms-full.txt' file
 	 * @default false
 	 */
 	onlyFull?  : boolean
 	/**
-	 * Add index table of content in index 'llms.txt' file
+	 * Add index table of content in index 'llms.txt' file.
+	 * - _'only-llms'_ - Only title with LLMs links
+	 * - _'only-web'_ - Only title with web links
+	 * - _true_ - both
+	 * - _false_ - none
 	 * @default false
 	 */
-	indexTOC   : boolean
+	indexTOC   : IndexTOC
 	/**
 	 * Callback for transform each page
 	 */
@@ -60,6 +69,7 @@ export type LlmsConfig = {
 		page      : LlmsPageData
 		pages     : LlmsPageData[]
 		vpConfig? : VPConfig
+		utils     : { getIndexTOC: ( type: IndexTOC ) => string }
 	} ) => Promise<LlmsPageData> | LlmsPageData
 }
 
@@ -69,11 +79,21 @@ const PLUGIN_NAME       = name
 
 const addFrontmatter = ( markdown: string, frontmatter: Record<string, unknown> ): string => {
 
+	const parseFrontmatter = ( frontmatter: string ): Record<string, unknown> =>
+		frontmatter.split( '\n' ).reduce( ( acc, line ) => {
+
+			const [ key, ...rest ] = line.split( ':' )
+			const value            = rest.join( ':' ).trim().replace( /^"|"$/g, '' )
+			if ( key ) acc[key.trim()] = value
+			return acc
+
+		}, {} as Record<string, unknown> )
+
 	const frontmatterString = Object.entries( frontmatter )
 		.map( ( [ key, value ] ) => `${key}: ${JSON.stringify( value )}` )
 		.join( '\n' )
 
-	const frontmatterBlock = `---\n${frontmatterString}\n---\n`
+	const frontmatterBlock = `---\n${frontmatterString}\n---\n\n`
 
 	const hasFrontmatter = markdown.trimStart().startsWith( '---' )
 
@@ -101,25 +121,18 @@ const addFrontmatter = ( markdown: string, frontmatter: Record<string, unknown> 
 
 }
 
-const parseFrontmatter = ( frontmatter: string ): Record<string, unknown> =>
-	frontmatter.split( '\n' ).reduce( ( acc, line ) => {
-
-		const [ key, ...rest ] = line.split( ':' )
-		const value            = rest.join( ':' ).trim().replace( /^"|"$/g, '' )
-		if ( key ) acc[key.trim()] = value
-		return acc
-
-	}, {} as Record<string, unknown> )
-
 const getPages = async ( config?:LlmsConfig ) => {
 
 	const loader = createContentLoader( '**/*.md', {
 		includeSrc  : true,
 		excerpt     : true,
-		globOptions : {
-			patterns : config?.pattern,
-			ignore   : config?.ignore,
-		},
+		globOptions : config?.ignore
+			? { ignore : [
+				'node_modules',
+				'dist',
+				...config.ignore,
+			] }
+			: undefined,
 	} )
 
 	const pages = await loader.load()
@@ -137,6 +150,11 @@ const transformPages = async ( pages: LlmsPageData[], config?: LlmsConfig, vpCon
 			page  : pages[key],
 			pages : pages,
 			vpConfig,
+			utils : { getIndexTOC : ( type: IndexTOC ) => getIndex(
+				pages,
+				{ indexTOC: type },
+				vpConfig,
+			) },
 		} )
 		if ( tRes ) pages[key] = tRes
 
@@ -160,27 +178,46 @@ const getMDTitleLine = ( markdown: string ): string | undefined => {
 	}
 
 }
-const setIndex = async ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConfig ) => {
+const getIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConfig ) => {
+
+	try {
+
+		let res = ''
+		if ( !config?.indexTOC ) return res
+		const indexP = pages.find( d => d.path === ( '/' + LLM_FILENAME )  )
+		if ( !indexP ) return res
+
+		const title    =  indexP.title
+		const h        = '#'.repeat( title && title !== '' ? 2 : 1 )
+		const webLinks = `${h}# Web links\n\n${pages.map( p => `- [${p.title}](${p.url})` ).join( '\n' )}`
+		const llmLinks = `${h}# LLMs links\n\n${pages.map( p => `- [${p.title}](${p.llmUrl})` ).join( '\n' )}`
+
+		res += `${h} Table of contents\n${vpConfig?.userConfig.description ? '\n' + vpConfig?.userConfig.description  : ''}`
+
+		if ( config.indexTOC === 'only-web' ) res += '\n' + webLinks
+		else if ( config.indexTOC === 'only-llms' ) res += '\n' + llmLinks
+		else res += '\n' + webLinks + '\n\n' + llmLinks
+
+		return res
+
+	}
+	catch ( _ ) {
+
+		return ''
+
+	}
+
+}
+
+const setIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConfig ) => {
 
 	if ( !config?.indexTOC ) return pages
 	return pages.map( d => {
 
 		if ( d.path !== ( '/' + LLM_FILENAME ) ) return d
-		const title = getMDTitleLine( d.content )
-		const h     = '#'.repeat( title ? 2 : 1 )
-		d.content  += `
-${h} Table of contents
+		const index = getIndex( pages, config, vpConfig )
+		if ( index && index !== '' ) d.content += `\n${index}`
 
-${vpConfig?.userConfig.description || ''}
-
-${h}# Web links
-
-${pages.map( p => `- [${p.frontmatter.title || getMDTitleLine( p.content ) || p.frontmatter.layout}](${p.url})` ).join( '\n' )}
-
-${h}# LLMs links
-
-${pages.map( p => `- [${p.frontmatter.title || getMDTitleLine( p.content ) || p.frontmatter.layout}](${p.llmUrl})` ).join( '\n' )}
-		`
 		return d
 
 	} )
@@ -195,7 +232,7 @@ const getPagesData = async ( pages: PageData[], originURL: string, config?: Llms
 
 		const content      = page.src
 		const route        = page.url
-		const path         = join( route, LLM_FILENAME )
+		const path         = join( route.replace( '.html', '' ), LLM_FILENAME )
 		const URL          = joinUrl( originURL, route )
 		const LLMS_URL     = joinUrl( originURL, path )
 		const extra        = {
@@ -209,6 +246,7 @@ const getPagesData = async ( pages: PageData[], originURL: string, config?: Llms
 			url         : URL,
 			llmUrl      : LLMS_URL,
 			content     : finalContent,
+			title       : page.frontmatter.title || getMDTitleLine( finalContent ) || page.frontmatter.layout || '',
 			frontmatter : {
 				...extra,
 				...page.frontmatter,
@@ -225,16 +263,18 @@ const getPagesData = async ( pages: PageData[], originURL: string, config?: Llms
 	}
 
 	if ( config?.onlyFull ) res = []
+
 	res.push( {
 		path,
 		url         : extra.URL,
 		llmUrl      : extra.LLMS_URL,
 		content     : fullContent,
+		title       : getMDTitleLine( fullContent ) || '',
 		frontmatter : extra,
 	} )
 
 	const resT = await transformPages( res, config, vpConfig )
-	const resI = await setIndex( resT, config, vpConfig )
+	const resI = setIndex( resT, config, vpConfig )
 	return resI
 
 }
@@ -258,20 +298,30 @@ export const llmstxtPlugin = ( config?: LlmsConfig ):VitePlugin => {
 
 			server.middlewares.use( async ( req, res, next ) => {
 
-				// const url = req?.url
-				const url = await ( async () => ( new URL( `http://${process.env.HOST ?? 'localhost'}${req.url}` ) ) )().catch( undefined )
+				const urlPath = req?.url
+				if ( !urlPath || !urlPath.endsWith( '.txt' ) ) return next()
+
+				const url = await ( async () => ( new URL( joinUrl( server.resolvedUrls?.local[0] || process.env.HOST || 'localhost', urlPath ) ) ) )().catch( undefined )
 				if ( !url ) return next()
 
 				try {
 
-					const data = await getPagesData( pages, config?.hostname || url.origin, config, vpConfig )
+					const data = await getPagesData(
+						pages,
+						config?.hostname || '/',
+						config,
+						vpConfig,
+					)
 					for ( const d of data ) {
 
 						const llmRoute = [
 							join( '/', d.path ),
 							join( '/', d.path, 'index.md' ),
 							join( '/', d.path + '.md' ),
+							join( '/', d.path + '.html' ),
+							join( '/', d.path + '.html', 'index.md' ),
 						]
+
 						if ( llmRoute.includes( url.pathname ) ) {
 
 							res.setHeader( 'Content-Type', 'text/markdown' )
@@ -299,25 +349,27 @@ export const llmstxtPlugin = ( config?: LlmsConfig ):VitePlugin => {
 
 			vpConfig = 'vitepress' in params ? params.vitepress as SiteConfig : undefined
 			if ( !vpConfig ) return
+
 			const selfBuildEnd = vpConfig.buildEnd
 			const outDir       = vpConfig.outDir
-			vpConfig.buildEnd  = async siteConfig => {
+
+			vpConfig.buildEnd = async siteConfig => {
 
 				await selfBuildEnd?.( siteConfig )
 				const pages = await getPages( config )
 				const data  = await getPagesData(
-					pages, config?.hostname || '/',
+					pages,
+					config?.hostname || '/',
 					config,
 					vpConfig,
 				)
 
 				for ( const page of data ) {
 
-					const path = page.path.replace( '.html', '' )
-					const dir  = join( outDir, dirname( path ) )
+					const dir = join( outDir, dirname( page.path ) )
 
 					await ensureDir( dir )
-					await writeFile( join( outDir, path ), page.content, 'utf-8' )
+					await writeFile( join( outDir, page.path ), page.content, 'utf-8' )
 
 				}
 				const title = green( '✓ ' + bold( PLUGIN_NAME ) )

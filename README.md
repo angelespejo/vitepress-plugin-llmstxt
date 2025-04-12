@@ -48,14 +48,17 @@ The base URL to use for generated links. Defaults to the server's origin.
 ### `ignore` (string[])
 An array of glob patterns to exclude from processing.
 
-### `pattern` (string[])
-An array of glob patterns to search for markdown files.
-
 ### `onlyFull` (boolean)
 If `true`, only the `llms-full.txt` file will be generated.
 
-### `indexTOC` (boolean)
-If `true`, adds an index table of contents to the generated file.
+### `indexTOC` (boolean | 'only-llms' | 'only-web')
+Add index table of content in index 'llms.txt' file.
+
+- _'only-llms'_ - Only title with LLMs links
+- _'only-web'_ - Only title with web links
+- _true_ - both
+- _false_ - none
+
 
 ### `transform` (function)
 A callback to transform each page's data.
@@ -70,7 +73,7 @@ export default defineConfig({
   vite: {
     plugins: [llmstxtPlugin({
       hostname: 'https://example.com',
-      ignore: ['drafts/**/*'],
+      ignore: ['api/**/*'],
       onlyFull: false,
       indexTOC: true,
       transform: ({ page, pages }) => {

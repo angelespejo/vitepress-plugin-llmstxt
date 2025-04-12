@@ -55,11 +55,7 @@ export async function existsDir( path: string ): Promise<boolean> {
 export const ensureDir = async ( path: string ) => {
 
 	const exist = await existsDir( path )
-	if ( !exist ) {
-
-		await mkdir( path, { recursive: true } )
-
-	}
+	if ( !exist ) await mkdir( path, { recursive: true } )
 
 }
 export const green = ( v: string ) => styleText( 'green', v )
