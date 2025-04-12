@@ -11,11 +11,16 @@ import {
 } from 'node:path'
 import { styleText } from 'node:util'
 
+import { name } from '../package.json'
+
 export {
 	writeFile,
 	join,
 	dirname,
 }
+
+// The name of the plugin
+export const PLUGIN_NAME = name
 /**
  * Joins the given URL parts into a single string.
  * @param {string[]} parts - The URL parts to join.
@@ -26,6 +31,102 @@ export const joinUrl = ( ...parts: string[] ) => {
 	parts = parts.map( part => part.replace( /^\/+|\/+$/g, '' ) )
 
 	return parts.join( '/' )
+
+}
+
+/**
+ * Replaces any existing frontmatter in the Markdown string with the provided one.
+ *
+ * If the Markdown already contains a frontmatter block, it is completely removed and
+ * replaced by the new frontmatter. If no frontmatter exists, the new one is simply added.
+ * @param {string} markdown - The Markdown content.
+ * @param {Record<string, unknown>} frontmatter - The new frontmatter to insert.
+ * @returns {string} - The Markdown with the frontmatter overridden.
+ */
+export const overrideFrontmatter = ( markdown: string, frontmatter: Record<string, unknown> ): string => {
+
+	const toYAML = ( obj: Record<string, unknown>, indent = 0 ): string => {
+
+		const pad = '  '.repeat( indent )
+
+		return Object.entries( obj )
+			.map( ( [ key, value ] ) => {
+
+				if ( Array.isArray( value ) ) {
+
+					return `${pad}${key}:\n` + value.map( item => {
+
+						if ( typeof item === 'object' && item !== null ) {
+
+							const nested = toYAML( item as Record<string, unknown>, indent + 2 )
+							return `${pad}  - ${nested.trimStart().replace( /^/gm, `${pad}    ` ).replace( `${pad}    `, '' )}`
+
+						}
+						else {
+
+							return `${pad}  - ${JSON.stringify( item )}`
+
+						}
+
+					} ).join( '\n' )
+
+				}
+				else if ( typeof value === 'object' && value !== null ) {
+
+					return `${pad}${key}:\n${toYAML( value as Record<string, unknown>, indent + 1 )}`
+
+				}
+				else {
+
+					return `${pad}${key}: ${JSON.stringify( value )}`
+
+				}
+
+			} )
+			.join( '\n' )
+
+	}
+
+	const frontmatterBlock = `---\n${toYAML( frontmatter )}\n---\n\n`
+
+	// Remove existing frontmatter if present
+	const cleanedMarkdown = markdown.replace( /^---\n[\s\S]*?\n---\n*/, '' )
+
+	return frontmatterBlock + cleanedMarkdown.trimStart()
+
+}
+
+/**
+ * Removes the frontmatter from a Markdown string.
+ *
+ * This function takes a Markdown string as an argument, and returns
+ * the same string but with the frontmatter removed. If the Markdown
+ * doesn't contain frontmatter, it returns the original string.
+ * @param {string} markdown - The Markdown content from which the frontmatter will be removed.
+ * @returns {string} - The Markdown content without frontmatter.
+ */
+export const removeFrontmatter = ( markdown: string ): string => {
+
+	const match = markdown.match( /^---\n([\s\S]*?)\n---\n?/ )
+	if ( !match ) return markdown
+
+	return markdown.slice( match[0].length )
+
+}
+
+export const getMDTitleLine = ( markdown: string ): string | undefined => {
+
+	try {
+
+		const match = markdown.match( /^# .*/m )
+		return match ? match[0].replace( '#', '' ).trim() : undefined
+
+	}
+	catch ( _ ) {
+
+		return undefined
+
+	}
 
 }
 
@@ -58,5 +159,14 @@ export const ensureDir = async ( path: string ) => {
 	if ( !exist ) await mkdir( path, { recursive: true } )
 
 }
-export const green = ( v: string ) => styleText( 'green', v )
-export const bold = ( v: string ) => styleText( 'bold', v )
+
+const green  = ( v: string ) => styleText( 'green', v )
+const bold   = ( v: string ) => styleText( 'bold', v )
+const red    = ( v: string ) => styleText( 'red', v )
+const yellow = ( v: string ) => styleText( 'yellow', v )
+export const log = {
+	success : ( v: string ) => console.log( green( '✓ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
+	error   : ( v: string ) => console.log( red( '✗ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
+	warn    : ( v: string ) => console.log( yellow( '⚠ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
+	info    : ( v: string ) => console.log( 'i ' + bold( PLUGIN_NAME ) + ' ' + v  ),
+}

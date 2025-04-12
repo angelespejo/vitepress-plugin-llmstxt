@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { defineConfig } from 'vitepress'
 
 import llmsPlugin from '../../src/main' // CHANGE TO: import llmsPlugin from 'vitepress-plugin-llmstxt'
@@ -23,10 +24,10 @@ export default defineConfig( {
 				// Add a content before llms.txt content
 				if ( page.path === '/llms.txt' )
 					page.content = `Structured information designed to provide useful metadata to large language models (LLMs)\n\n` + page.content
-
+				// if ( page.path === '/llms-full.txt' ) page.content = utils.removeFrontmatter( page.content )
 				// Add a title and an index table of contents in llms-full.txt
-				if ( page.path === '/llms-full.txt' )
-					page.content = '# LLMS Full\n\n' + utils.getIndexTOC( 'only-llms' ) + '\n\n' + page.content
+				// if ( page.path === '/llms-full.txt' )
+				// 	page.content = '# LLMS Full\n\n' + utils.getIndexTOC( 'only-llms' ) + '\n\n' + page.content
 				return page
 
 			},

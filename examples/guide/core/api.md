@@ -13,6 +13,7 @@ It is similar to the cli tool but for use in `js`|`ts` projects.
 Provides tools for managing configurations, constants, and path transformations etc.
 Supports custom configurations and predefined commands.
 Features:
+
 - Validate files or directories with custom rules.
 - Manage workspace constants efficiently.
 - Transform paths with configurable patterns.
@@ -22,7 +23,7 @@ Features:
 
 #### See
 
-https://dovenv.pigeonposse.com/guide/core
+<https://dovenv.pigeonposse.com/guide/core>
 
 #### Example
 
@@ -119,8 +120,6 @@ function createCLI(opts?: CreateCliParams): Promise<Argv<{}>>
 
 `Promise`\<`Argv`\<\{\}\>\>
 
-***
-
 ### defineConfig()
 
 ```ts
@@ -143,7 +142,7 @@ Defines and returns the given configuration object.
 
 #### See
 
-https://dovenv.pigeonposse.com/guide/core
+<https://dovenv.pigeonposse.com/guide/core>
 
 ---
 
@@ -163,8 +162,6 @@ export default defineConfig(config1, config2);
 // Example 3: An array of configurations
 export default defineConfig([config1, config2]);
 ```
-
-***
 
 ### getCommandUtils()
 
@@ -198,8 +195,6 @@ If a package.json object is not provided, it reads and parses it from the worksp
 const utils = await getCommandUtils();
 console.log(utils);
 ```
-
-***
 
 ### run()
 
@@ -235,8 +230,6 @@ await run(['-c', 'my/config.js', 'check'])
 type CommandUtils: CommandSuper;
 ```
 
-***
-
 ### Config
 
 ```ts
@@ -263,8 +256,6 @@ type Config: {
 | `name`? | `string` | Name of the project |
 | `transform`? | `TransformConfig` | Configuration for the `transform` command |
 
-***
-
 ### Params
 
 ```ts
@@ -277,4 +268,4 @@ type Params: {
 
 | Name | Type | Description |
 | ------ | ------ | ------ |
-| `config`? | [`Config`](#config) | Configuration for dovenv **See** https://dovenv.pigeonposse.com/guide/core/api#config |
+| `config`? | [`Config`](#config) | Configuration for dovenv **See** <https://dovenv.pigeonposse.com/guide/core/api#config> |

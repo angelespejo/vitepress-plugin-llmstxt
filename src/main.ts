@@ -1,14 +1,16 @@
 import { createContentLoader } from 'vitepress'
 
-import { name } from '../package.json'
 import {
 	ensureDir,
 	joinUrl,
 	join,
 	dirname,
 	writeFile,
-	green,
-	bold,
+	removeFrontmatter,
+	overrideFrontmatter,
+	PLUGIN_NAME,
+	log,
+	getMDTitleLine,
 } from './utils'
 
 import type {
@@ -69,57 +71,15 @@ export type LlmsConfig = {
 		page      : LlmsPageData
 		pages     : LlmsPageData[]
 		vpConfig? : VPConfig
-		utils     : { getIndexTOC: ( type: IndexTOC ) => string }
+		utils     : {
+			getIndexTOC       : ( type: IndexTOC ) => string
+			removeFrontmatter : ( content: string ) => string
+		}
 	} ) => Promise<LlmsPageData> | LlmsPageData
 }
 
 const LLM_FILENAME      = 'llms.txt' as const
 const LLM_FULL_FILENAME = 'llms-full.txt' as const
-const PLUGIN_NAME       = name
-
-const addFrontmatter = ( markdown: string, frontmatter: Record<string, unknown> ): string => {
-
-	const parseFrontmatter = ( frontmatter: string ): Record<string, unknown> =>
-		frontmatter.split( '\n' ).reduce( ( acc, line ) => {
-
-			const [ key, ...rest ] = line.split( ':' )
-			const value            = rest.join( ':' ).trim().replace( /^"|"$/g, '' )
-			if ( key ) acc[key.trim()] = value
-			return acc
-
-		}, {} as Record<string, unknown> )
-
-	const frontmatterString = Object.entries( frontmatter )
-		.map( ( [ key, value ] ) => `${key}: ${JSON.stringify( value )}` )
-		.join( '\n' )
-
-	const frontmatterBlock = `---\n${frontmatterString}\n---\n\n`
-
-	const hasFrontmatter = markdown.trimStart().startsWith( '---' )
-
-	if ( hasFrontmatter ) {
-
-		const existingFrontmatter = markdown.match( /^---\n([\s\S]*?)\n---\n?/ )
-
-		if ( existingFrontmatter ) {
-
-			const mergedFrontmatter       = {
-				...frontmatter,
-				...parseFrontmatter( existingFrontmatter[1] ),
-			}
-			const mergedFrontmatterString = Object.entries( mergedFrontmatter )
-				.map( ( [ key, value ] ) => `${key}: ${JSON.stringify( value )}` )
-				.join( '\n' )
-
-			return `---\n${mergedFrontmatterString}\n---\n` + markdown.slice( existingFrontmatter[0].length )
-
-		}
-
-	}
-
-	return frontmatterBlock + markdown
-
-}
 
 const getPages = async ( config?:LlmsConfig ) => {
 
@@ -140,6 +100,7 @@ const getPages = async ( config?:LlmsConfig ) => {
 	return pages
 
 }
+
 const transformPages = async ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConfig ) => {
 
 	if ( !config?.transform  ) return pages
@@ -150,11 +111,14 @@ const transformPages = async ( pages: LlmsPageData[], config?: LlmsConfig, vpCon
 			page  : pages[key],
 			pages : pages,
 			vpConfig,
-			utils : { getIndexTOC : ( type: IndexTOC ) => getIndex(
-				pages,
-				{ indexTOC: type },
-				vpConfig,
-			) },
+			utils : {
+				getIndexTOC : ( type: IndexTOC ) => getIndex(
+					pages,
+					{ indexTOC: type },
+					vpConfig,
+				),
+				removeFrontmatter,
+			},
 		} )
 		if ( tRes ) pages[key] = tRes
 
@@ -163,21 +127,7 @@ const transformPages = async ( pages: LlmsPageData[], config?: LlmsConfig, vpCon
 	return pages
 
 }
-const getMDTitleLine = ( markdown: string ): string | undefined => {
 
-	try {
-
-		const match = markdown.match( /^# .*/m )
-		return match ? match[0].replace( '#', '' ).trim() : undefined
-
-	}
-	catch ( _ ) {
-
-		return undefined
-
-	}
-
-}
 const getIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConfig ) => {
 
 	try {
@@ -235,22 +185,20 @@ const getPagesData = async ( pages: PageData[], originURL: string, config?: Llms
 		const path         = join( route.replace( '.html', '' ), LLM_FILENAME )
 		const URL          = joinUrl( originURL, route )
 		const LLMS_URL     = joinUrl( originURL, path )
-		const extra        = {
+		const frontmatter  = {
 			URL,
 			LLMS_URL,
+			...page.frontmatter,
 		}
-		const finalContent = addFrontmatter( content || '', extra )
+		const finalContent = overrideFrontmatter( content || '', frontmatter )
 
 		res.push( {
 			path,
-			url         : URL,
-			llmUrl      : LLMS_URL,
-			content     : finalContent,
-			title       : page.frontmatter.title || getMDTitleLine( finalContent ) || page.frontmatter.layout || '',
-			frontmatter : {
-				...extra,
-				...page.frontmatter,
-			},
+			url     : URL,
+			llmUrl  : LLMS_URL,
+			content : finalContent,
+			title   : page.frontmatter.title || getMDTitleLine( finalContent ) || page.frontmatter.layout || '',
+			frontmatter,
 		} )
 
 		fullContent += `${finalContent}\n\n`
@@ -286,7 +234,7 @@ const getPagesData = async ( pages: PageData[], originURL: string, config?: Llms
  * @see https://github.com/angelespejo/vitepress-plugin-llmstxt
  * @see https://llmstxt.org/
  */
-export const llmstxtPlugin = ( config?: LlmsConfig ):VitePlugin => {
+export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 
 	let vpConfig: SiteConfig | undefined = undefined
 	return {
@@ -299,7 +247,7 @@ export const llmstxtPlugin = ( config?: LlmsConfig ):VitePlugin => {
 			server.middlewares.use( async ( req, res, next ) => {
 
 				const urlPath = req?.url
-				if ( !urlPath || !urlPath.endsWith( '.txt' ) ) return next()
+				if ( !urlPath || !( urlPath.endsWith( '.txt' ) || urlPath.endsWith( '.md' ) ) ) return next()
 
 				const url = await ( async () => ( new URL( joinUrl( server.resolvedUrls?.local[0] || process.env.HOST || 'localhost', urlPath ) ) ) )().catch( undefined )
 				if ( !url ) return next()
@@ -326,6 +274,7 @@ export const llmstxtPlugin = ( config?: LlmsConfig ):VitePlugin => {
 
 							res.setHeader( 'Content-Type', 'text/markdown' )
 							res.end( d.content )
+							// log.info( `Serving ${url.pathname}` )
 							return
 
 						}
@@ -335,7 +284,7 @@ export const llmstxtPlugin = ( config?: LlmsConfig ):VitePlugin => {
 				}
 				catch ( e ) {
 
-					console.warn( e instanceof Error ? e.message : 'Unexpected error' )
+					log.warn( e instanceof Error ? e.message : 'Unexpected error' )
 
 				}
 				next()
@@ -372,8 +321,8 @@ export const llmstxtPlugin = ( config?: LlmsConfig ):VitePlugin => {
 					await writeFile( join( outDir, page.path ), page.content, 'utf-8' )
 
 				}
-				const title = green( '✓ ' + bold( PLUGIN_NAME ) )
-				console.log( `\n${title} LLM routes builded susccesfully ✨\n` )
+
+				log.success( 'LLM routes builded susccesfully ✨\n' )
 
 			}
 
