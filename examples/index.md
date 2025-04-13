@@ -9,5 +9,4 @@ hero:
     - theme: alt
       text: View on GitHub
       link: https://github.com/angelespejo/vitepress-plugin-llmstxt
-
 ---

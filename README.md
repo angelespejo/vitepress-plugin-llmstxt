@@ -40,49 +40,85 @@ export default defineConfig({
 ```
 
 ## Configuration
+
 The plugin supports the following configuration options:
 
 ### `hostname` (string)
-The base URL to use for generated links. Defaults to the server's origin.
+The base URL to use for generated links.  
+**@example** `'https://example.org'`  
+Defaults to the server's origin if not specified.
 
 ### `ignore` (string[])
-An array of glob patterns to exclude from processing.
+An array of glob patterns to exclude from processing.  
+**@example** `["**/guide/api.md"]`
 
-### `onlyFull` (boolean)
-If `true`, only the `llms-full.txt` file will be generated.
+### `llmsFile` (boolean | object)
+Whether to generate the main `llms.txt` file.  
+Defaults to `true`.
 
-### `indexTOC` (boolean | 'only-llms' | 'only-web')
-Add index table of content in index 'llms.txt' file.
+If passed as an object, you can control additional options:
 
-- _'only-llms'_ - Only title with LLMs links
-- _'only-web'_ - Only title with web links
-- _true_ - both
-- _false_ - none
+#### `indexTOC` (boolean | 'only-llms' | 'only-web' | 'only-llms-links' | 'only-web-links')
+Controls the content of the table of contents inside the `llms.txt` file.
 
+- `'only-llms'` - Only the title with LLMs links  
+- `'only-web'` - Only the title with web links  
+- `'only-llms-links'` - Only the LLMs links  
+- `'only-web-links'` - Only the web links  
+- `true` - Show both  
+- `false` - No index included  
+
+### `llmsFullFile` (boolean)
+Whether to generate the extended `llms-full.txt` file.  
+**@default** `true`
+
+### `mdFiles` (boolean)
+Whether to generate a `.md` file for each route.  
+**@default** `true`
 
 ### `transform` (function)
-A callback to transform each page's data.
+A callback to transform each page's data before writing it.  
+It receives:
+
+```ts
+{
+  page: LlmsPageData,
+  pages: LlmsPageData[],
+  vpConfig?: VPConfig,
+  utils: {
+    getIndexTOC: (type: IndexTOC) => string,
+    removeFrontmatter: (content: string) => string
+  }
+}
+```
+
+You can use this to mutate `page.content`, add or remove metadata, or conditionally skip pages.
 
 ### Example
 
-```typescript
+```ts
 import { defineConfig } from 'vitepress';
 import llmstxtPlugin from 'vitepress-plugin-llmstxt';
 
 export default defineConfig({
   vite: {
-    plugins: [llmstxtPlugin({
-      hostname: 'https://example.com',
-      ignore: ['api/**/*'],
-      onlyFull: false,
-      indexTOC: true,
-      transform: ({ page, pages }) => {
-		if ( page.path === '/llms.txt' )
-			page.content = `Structured information designed to provide useful metadata to large language models (LLMs)\n\n` + page.content
-
-		return page
-      }
-    })],
+    plugins: [
+      llmstxtPlugin({
+        hostname: 'https://example.com',
+        ignore: ['*/api/**/*'],
+        llmsFile: {
+          indexTOC: 'only-llms',
+        },
+        llmsFullFile: true,
+        mdFiles: false,
+        transform: ({ page, pages }) => {
+          if (page.path === '/llms.txt') {
+            page.content = `Structured information designed to provide useful metadata to large language models (LLMs)\n\n` + page.content;
+          }
+          return page;
+        },
+      })
+    ],
   },
 });
 ```

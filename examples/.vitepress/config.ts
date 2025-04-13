@@ -1,3 +1,4 @@
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { defineConfig } from 'vitepress'
 
@@ -13,8 +14,9 @@ export default defineConfig( {
 			// Add a custom hostname if needed
 			// hostname  : 'https://example.com',
 			//////////////////////////////////////////////////////
-			// Add a Table of Contents in index llms.txt if needed
-			indexTOC  : true,
+			// llmsFullFile : true,
+			// llmsFile     : true,
+			// mdFiles      : true,
 			//////////////////////////////////////////////////////
 			// Transform the page content if needed
 			transform : async ( {
@@ -24,10 +26,13 @@ export default defineConfig( {
 				// Add a content before llms.txt content
 				if ( page.path === '/llms.txt' )
 					page.content = `Structured information designed to provide useful metadata to large language models (LLMs)\n\n` + page.content
+
 				// if ( page.path === '/llms-full.txt' ) page.content = utils.removeFrontmatter( page.content )
+
 				// Add a title and an index table of contents in llms-full.txt
 				// if ( page.path === '/llms-full.txt' )
 				// 	page.content = '# LLMS Full\n\n' + utils.getIndexTOC( 'only-llms' ) + '\n\n' + page.content
+
 				return page
 
 			},

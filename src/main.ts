@@ -1,3 +1,4 @@
+/* eslint-disable @stylistic/object-curly-newline */
 import { createContentLoader } from 'vitepress'
 
 import {
@@ -33,37 +34,45 @@ type LlmsPageData = {
 	content     : string
 }
 
-type IndexTOC = boolean | 'only-llms' | 'only-web'
+type IndexTOC = boolean | 'only-llms' | 'only-llms-links' | 'only-web' | 'only-web-links'
 
 export type LlmsConfig = {
 	/**
 	 * Hostname
 	 * @example 'https://example.org'
 	 */
-	hostname?  : string
+	hostname? : string
 	/**
 	 * An array of glob patterns to ignore.
 	 * @example ["**\/guide/api.md"]
 	 */
-	ignore?    : string[]
+	ignore?   : string[]
 	/**
-	 * An array of glob patterns to search for
+	 * Build `llms.txt` file
+	 * @default true
 	 */
-	// pattern?   : string[]
+	llmsFile?: boolean | {
+		/**
+		 * Add index table of content in index 'llms.txt' file.
+		 * - _'only-llms'_ - Only title with LLMs links
+		 * - _'only-web'_ - Only title with web links
+		 * - _'only-llms-links'_ - Only LLMs links
+		 * - _'only-web-links'_ - Only web links
+		 * - _true_ - both
+		 * - _false_ - none
+		 */
+		indexTOC : IndexTOC
+	}
 	/**
-	 * Build only 'llms-full.txt' file
-	 * @default false
+	 * Build `llms-full.txt` file
+	 * @default true
 	 */
-	onlyFull?  : boolean
+	llmsFullFile? : boolean
 	/**
-	 * Add index table of content in index 'llms.txt' file.
-	 * - _'only-llms'_ - Only title with LLMs links
-	 * - _'only-web'_ - Only title with web links
-	 * - _true_ - both
-	 * - _false_ - none
-	 * @default false
+	 * Build `.md` file for each route
+	 * @default true
 	 */
-	indexTOC   : IndexTOC
+	mdFiles?      : boolean
 	/**
 	 * Callback for transform each page
 	 */
@@ -112,11 +121,7 @@ const transformPages = async ( pages: LlmsPageData[], config?: LlmsConfig, vpCon
 			pages : pages,
 			vpConfig,
 			utils : {
-				getIndexTOC : ( type: IndexTOC ) => getIndex(
-					pages,
-					{ indexTOC: type },
-					vpConfig,
-				),
+				getIndexTOC : ( type: IndexTOC ) => getIndex( pages, { llmsFile: { indexTOC: type } }, vpConfig ),
 				removeFrontmatter,
 			},
 		} )
@@ -132,21 +137,24 @@ const getIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConf
 
 	try {
 
-		let res = ''
-		if ( !config?.indexTOC ) return res
+		let res        = ''
+		const indextoc = typeof config?.llmsFile === 'object' ? config?.llmsFile?.indexTOC : config?.llmsFile
+		if ( !indextoc ) return res
 		const indexP = pages.find( d => d.path === ( '/' + LLM_FILENAME )  )
 		if ( !indexP ) return res
 
-		const title    =  indexP.title
+		const title    =  getMDTitleLine( indexP.content )
 		const h        = '#'.repeat( title && title !== '' ? 2 : 1 )
-		const webLinks = `${h}# Web links\n\n${pages.map( p => `- [${p.title}](${p.url})` ).join( '\n' )}`
-		const llmLinks = `${h}# LLMs links\n\n${pages.map( p => `- [${p.title}](${p.llmUrl})` ).join( '\n' )}`
+		const webLinks = pages.filter( d => !d.path.endsWith( '.txt' ) ).map( p => `- [${p.title}](${p.url})` ).join( '\n' )
+		const llmLinks = pages.filter( d => !d.path.endsWith( '.txt' ) ).map( p => `- [${p.title}](${p.llmUrl})` ).join( '\n' )
 
 		res += `${h} Table of contents\n${vpConfig?.userConfig.description ? '\n' + vpConfig?.userConfig.description  : ''}`
 
-		if ( config.indexTOC === 'only-web' ) res += '\n' + webLinks
-		else if ( config.indexTOC === 'only-llms' ) res += '\n' + llmLinks
-		else res += '\n' + webLinks + '\n\n' + llmLinks
+		if ( indextoc === 'only-web' ) res += `\n${h}# Web links\n\n${webLinks}`
+		else if ( indextoc === 'only-web-links' ) res = webLinks
+		else if ( indextoc === 'only-llms' ) res += `\n${h}# LLMs links\n\n${llmLinks}`
+		else if ( indextoc === 'only-llms-links' ) res  = llmLinks
+		else res += `\n${h}# Web links\n\n${webLinks}\n\n${h}# LLMs links\n\n${llmLinks}`
 
 		return res
 
@@ -161,7 +169,8 @@ const getIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConf
 
 const setIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConfig ) => {
 
-	if ( !config?.indexTOC ) return pages
+	const indextoc = typeof config?.llmsFile === 'object' ? config?.llmsFile?.indexTOC : config?.llmsFile
+	if ( !indextoc ) return pages
 	return pages.map( d => {
 
 		if ( d.path !== ( '/' + LLM_FILENAME ) ) return d
@@ -175,51 +184,80 @@ const setIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConf
 }
 const getPagesData = async ( pages: PageData[], originURL: string, config?: LlmsConfig, vpConfig?: VPConfig ) => {
 
+	// eslint-disable-next-line prefer-const
 	let res: LlmsPageData[] = [],
 		fullContent         = ''
 
-	for ( const page of pages.slice().reverse() ) {
+	if ( config?.llmsFile ) {
 
-		const content      = page.src
-		const route        = page.url
-		const path         = join( route.replace( '.html', '' ), LLM_FILENAME )
-		const URL          = joinUrl( originURL, route )
-		const LLMS_URL     = joinUrl( originURL, path )
-		const frontmatter  = {
-			URL,
-			LLMS_URL,
-			...page.frontmatter,
+		const path  = '/' + LLM_FILENAME
+		const extra = {
+			URL      : join( originURL, path ),
+			LLMS_URL : join( originURL, path ),
 		}
-		const finalContent = overrideFrontmatter( content || '', frontmatter )
 
 		res.push( {
 			path,
-			url     : URL,
-			llmUrl  : LLMS_URL,
-			content : finalContent,
-			title   : page.frontmatter.title || getMDTitleLine( finalContent ) || page.frontmatter.layout || '',
-			frontmatter,
+			url         : extra.URL,
+			llmUrl      : extra.LLMS_URL,
+			content     : fullContent,
+			title       : getMDTitleLine( fullContent ) || '',
+			frontmatter : extra,
 		} )
 
-		fullContent += `${finalContent}\n\n`
-
-	}
-	const path  = '/' + LLM_FULL_FILENAME
-	const extra = {
-		URL      : join( originURL, path ),
-		LLMS_URL : join( originURL, path ),
 	}
 
-	if ( config?.onlyFull ) res = []
+	if ( config?.mdFiles ) {
 
-	res.push( {
-		path,
-		url         : extra.URL,
-		llmUrl      : extra.LLMS_URL,
-		content     : fullContent,
-		title       : getMDTitleLine( fullContent ) || '',
-		frontmatter : extra,
-	} )
+		for ( const page of pages.slice().reverse() ) {
+
+			const content = page.src
+			const route   = page.url
+
+			const pathname = page.url.replace( '.html', '' )
+
+			const path         = join( ( pathname === '/' ? '/index' : pathname.endsWith( '/' ) ? pathname.slice( 0, -1 ) : pathname ) + '.md' )
+			const URL          = joinUrl( originURL, route )
+			const LLMS_URL     = joinUrl( originURL, path )
+			const frontmatter  = {
+				URL,
+				LLMS_URL,
+				...page.frontmatter,
+			}
+			const finalContent = overrideFrontmatter( content || '', frontmatter )
+
+			res.push( {
+				path,
+				url     : URL,
+				llmUrl  : LLMS_URL,
+				content : finalContent,
+				title   : page.frontmatter.title || getMDTitleLine( finalContent ) || page.frontmatter.layout || '',
+				frontmatter,
+			} )
+
+			fullContent += `${finalContent}\n\n`
+
+		}
+
+	}
+	if ( config?.llmsFullFile ) {
+
+		const path  = '/' + LLM_FULL_FILENAME
+		const extra = {
+			URL      : join( originURL, path ),
+			LLMS_URL : join( originURL, path ),
+		}
+
+		res.push( {
+			path,
+			url         : extra.URL,
+			llmUrl      : extra.LLMS_URL,
+			content     : fullContent,
+			title       : getMDTitleLine( fullContent ) || '',
+			frontmatter : extra,
+		} )
+
+	}
 
 	const resT = await transformPages( res, config, vpConfig )
 	const resI = setIndex( resT, config, vpConfig )
@@ -236,17 +274,33 @@ const getPagesData = async ( pages: PageData[], originURL: string, config?: Llms
  */
 export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 
+	const {
+		llmsFullFile = true,
+		llmsFile     = true,
+		mdFiles      = true,
+		hostname     = '/',
+	} = config || {}
+
+	const c = {
+		...config,
+		llmsFullFile,
+		llmsFile,
+		mdFiles,
+		hostname,
+	}
+
 	let vpConfig: SiteConfig | undefined = undefined
 	return {
 		name    : PLUGIN_NAME,
 		enforce : 'pre',
 		async configureServer( server ) {
 
-			const pages = await getPages( config )
+			const pages = await getPages( c )
 
 			server.middlewares.use( async ( req, res, next ) => {
 
 				const urlPath = req?.url
+
 				if ( !urlPath || !( urlPath.endsWith( '.txt' ) || urlPath.endsWith( '.md' ) ) ) return next()
 
 				const url = await ( async () => ( new URL( joinUrl( server.resolvedUrls?.local[0] || process.env.HOST || 'localhost', urlPath ) ) ) )().catch( undefined )
@@ -256,10 +310,11 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 
 					const data = await getPagesData(
 						pages,
-						config?.hostname || '/',
-						config,
+						c.hostname,
+						c,
 						vpConfig,
 					)
+
 					for ( const d of data ) {
 
 						const llmRoute = [
@@ -305,11 +360,11 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 			vpConfig.buildEnd = async siteConfig => {
 
 				await selfBuildEnd?.( siteConfig )
-				const pages = await getPages( config )
+				const pages = await getPages( c )
 				const data  = await getPagesData(
 					pages,
-					config?.hostname || '/',
-					config,
+					c.hostname,
+					c,
 					vpConfig,
 				)
 
