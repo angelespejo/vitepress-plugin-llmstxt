@@ -164,8 +164,9 @@ export default defineConfig({
 You can display your call information on the frontend.
 Here's an example:
 
-```vue
-<!-- .vitepress/theme/components/llmstxt.vue -->
+#### .vitepress/theme/components/llmstxt.vue
+
+```html
 <script setup>
 
 import { computed } from 'vue'
@@ -220,8 +221,9 @@ const llmsPath = computed( () => {
 
 ```
 
+#### .vitepress/theme/index.{ts,js}
+
 ```js
-// .vitepress/theme/index.{ts,js}
 import DefaultTheme from 'vitepress/theme'
 import { h }        from 'vue'
 import Llmstxt from './components/llmstxt.vue'
