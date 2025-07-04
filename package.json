@@ -3,13 +3,19 @@
 	"version": "0.1.1",
 	"description": "VitePress plugin to generate llms.txt files automatically",
 	"keywords": [
+		"ai",
+		"docs",
+		"documentation",
 		"llm",
+		"llms-txt",
 		"llmstxt",
 		"pigeonposse",
 		"plugin",
 		"pp",
 		"vite",
-		"vitepress"
+		"vite-plugin",
+		"vitepress",
+		"vitepress-plugin"
 	],
 	"homepage": "https://www.npmjs.com/package/vitepress-plugin-llmstxt",
 	"bugs": {
@@ -33,14 +39,14 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"types": "./dist/main.d.mts",
-			"import": "./dist/main.mjs",
-			"require": "./dist/main.cjs"
+			"types": "./dist/index.d.mts",
+			"import": "./dist/index.mjs",
+			"require": "./dist/index.cjs"
 		}
 	},
-	"main": "./dist/main.cjs",
-	"module": "./dist/main.mjs",
-	"types": "./dist/main.d.mts",
+	"main": "./dist/index.cjs",
+	"module": "./dist/index.mjs",
+	"types": "./dist/index.d.mts",
 	"files": [
 		"dist"
 	],

@@ -4,6 +4,8 @@ export default setConfig( {
 	general   : 'ts',
 	jsdoc     : true,
 	gitignore : true,
+	package   : true,
+	json      : true,
 	ignore    : [ '**/README.md', '**/CHANGELOG.md' ],
 } )
 

@@ -7,22 +7,24 @@
 [![NPM package minimized gzipped size](https://img.shields.io/bundlejs/size/vitepress-plugin-llmstxt?style=for-the-badge&color=orange&label=Minimized+size&logoColor=white)](https://www.npmjs.com/package/vitepress-plugin-llmstxt)
 [![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/vitepress-plugin-llmstxt/0.0.2?style=for-the-badge&color=orange&logoColor=white)](https://www.npmjs.com/package/vitepress-plugin-llmstxt)
 
-This plugin **automatically** generates **LLMS text files** (`llms.txt` and `llms-full.txt`) for VitePress projects. It can be used to create useful metadata files and provide structured information for large language models (LLMs).
-
+This plugin **automatically** generates **LLMS text files** (`llms.txt` and `llms-full.txt`) for VitePress projects. 
+It can be used to create useful metadata files and provide structured information for large language models (_LLMs_).
+ 
 
 ## 🗂️ Index
 
 - ✨ [Features](#-features)
 - 🔑 [Installation](#-installation)
 - 📖 [Usage](#-usage)
-- ⚙️ [Configuration](#⚙️--configuration)
+- ⚙️ [Configuration](#%EF%B8%8F-configuration)
 - 💡 [Examples](#-example)
 - 👨‍💻 [Contribute](#-contribute)
 
 
 ## ✨ Features
 
-- **Simple**, **zero dependencies**, **zero-configuration** and **lightweight** plugin.
+- **Simple** to use _(no configuration required)_.
+- **lightweight** and **zero dependencies**.
 - Automatically Generates a `llms.txt` of all pages.
 - Automatically Generates a `llms-full.txt` of all pages.
 - Automatically Generates `.md` files for each page.
@@ -51,7 +53,7 @@ deno add vitepress-plugin-llmstxt
 
 ## 📖 Usage
 
-Import and use the plugin in your VitePress configuration:
+Import and use the plugin in your _VitePress_ configuration:
 
 ```typescript
 import { defineConfig } from 'vitepress';
@@ -157,10 +159,11 @@ export default defineConfig({
 
 `vitepress-plugin-llmstxt` is an open source project and its development is open to anyone who wants to participate.
 
+
 - 🐛 [Report issues](https://github.com/angelespejo/vitepress-plugin-llmstxt/issues)
 - 🚀 [Pull request](https://github.com/angelespejo/vitepress-plugin-llmstxt/pulls)
 - ⭐️ [Star the repository](https://github.com/angelespejo/vitepress-plugin-llmstxt)
 - ❤️ [Support](https://github.com/sponsors/angelespejo)
-
+- 👀 [See code](https://github.com/angelespejo/vitepress-plugin-llmstxt/tree/main/src)
 
 

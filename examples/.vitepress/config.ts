@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { defineConfig } from 'vitepress'
 
-import llmsPlugin from '../../src/main' // CHANGE TO: import llmsPlugin from 'vitepress-plugin-llmstxt'
+import llmsPlugin from '../../src/index' // CHANGE TO: import llmsPlugin from 'vitepress-plugin-llmstxt'
 
 // https://vitepress.vuejs.org/config/app-configs
 export default defineConfig( {
