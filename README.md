@@ -7,7 +7,7 @@
 [![NPM package minimized gzipped size](https://img.shields.io/bundlejs/size/vitepress-plugin-llmstxt?style=for-the-badge&color=orange&label=Minimized+size&logoColor=white)](https://www.npmjs.com/package/vitepress-plugin-llmstxt)
 [![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/vitepress-plugin-llmstxt/0.0.2?style=for-the-badge&color=orange&logoColor=white)](https://www.npmjs.com/package/vitepress-plugin-llmstxt)
 
-This plugin automatically generates **LLMS text files** (`llms.txt` and `llms-full.txt`) for VitePress projects. It can be used to create useful metadata files and provide structured information for large language models (LLMs).
+This plugin **automatically** generates **LLMS text files** (`llms.txt` and `llms-full.txt`) for VitePress projects. It can be used to create useful metadata files and provide structured information for large language models (LLMs).
 
 
 ## 🗂️ Index
@@ -23,12 +23,15 @@ This plugin automatically generates **LLMS text files** (`llms.txt` and `llms-fu
 ## ✨ Features
 
 - **Simple**, **zero dependencies**, **zero-configuration** and **lightweight** plugin.
-- Generate `llms.txt` for each page and `llms-full.txt` with all content.
+- Automatically Generates a `llms.txt` of all pages.
+- Automatically Generates a `llms-full.txt` of all pages.
+- Automatically Generates `.md` files for each page.
+- Supports **Ignoring** certain routes.
 - Supports custom **frontmatter** addition.
-- Supports transformation of page data via a callback.
-- Option to build only the `llms-full.txt` file.
-- Generates an index table of contents if configured.
-- Based in https://llmstxt.org/
+- Supports **transformation** of page data via a callback.
+- Supports for building only certain files.
+- Generates a table of contents (**TOC**).
+- Follows the https://llmstxt.org/ standard.
 
 ## 🔑 Installation
 
@@ -47,6 +50,7 @@ deno add vitepress-plugin-llmstxt
 ```
 
 ## 📖 Usage
+
 Import and use the plugin in your VitePress configuration:
 
 ```typescript
@@ -115,6 +119,9 @@ It receives:
 
 You can use this to mutate `page.content`, add or remove metadata, or conditionally skip pages.
 
+
+- 👉 [More](https://unpkg.com/vitepress-plugin-llmstxt/dist/main.d.ts)
+
 ### 💡 Examples
 
 ```ts
@@ -153,7 +160,7 @@ export default defineConfig({
 - 🐛 [Report issues](https://github.com/angelespejo/vitepress-plugin-llmstxt/issues)
 - 🚀 [Pull request](https://github.com/angelespejo/vitepress-plugin-llmstxt/pulls)
 - ⭐️ [Star the repository](https://github.com/angelespejo/vitepress-plugin-llmstxt)
-- ❤️ [Suppport](https://github.com/sponsors/angelespejo)
+- ❤️ [Support](https://github.com/sponsors/angelespejo)
 
 
 
