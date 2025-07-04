@@ -64,7 +64,7 @@ export default defineConfig({
 });
 ```
 
-## ⚙️ Configuration
+## 🛠️ Configuration
 
 The plugin supports the following configuration options:
 
