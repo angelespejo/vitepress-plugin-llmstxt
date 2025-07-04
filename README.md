@@ -9,17 +9,28 @@
 
 This plugin automatically generates **LLMS text files** (`llms.txt` and `llms-full.txt`) for VitePress projects. It can be used to create useful metadata files and provide structured information for large language models (LLMs).
 
-## Features
+
+## 🗂️ Index
+
+- ✨ [Features](#-features)
+- 🔑 [Installation](#-installation)
+- 📖 [Usage](#-usage)
+- ⚙️ [Configuration](#-configuration)
+- 💡 [Example](#-example)
+- 👨‍💻 [Contribute](#-contribute)
+
+
+## ✨ Features
 
 - **Simple**, **zero dependencies**, **zero-configuration** and **lightweight** plugin.
 - Generate `llms.txt` for each page and `llms-full.txt` with all content.
-- Supports custom frontmatter addition.
+- Supports custom **frontmatter** addition.
 - Supports transformation of page data via a callback.
 - Option to build only the `llms-full.txt` file.
 - Generates an index table of contents if configured.
 - Based in https://llmstxt.org/
 
-## Installation
+## 🔑 Installation
 
 Install the plugin:
 
@@ -35,7 +46,7 @@ bun add vitepress-plugin-llmstxt
 deno add vitepress-plugin-llmstxt
 ```
 
-## Usage
+## 📖 Usage
 Import and use the plugin in your VitePress configuration:
 
 ```typescript
@@ -49,7 +60,7 @@ export default defineConfig({
 });
 ```
 
-## Configuration
+## ⚙️ Configuration
 
 The plugin supports the following configuration options:
 
@@ -104,7 +115,7 @@ It receives:
 
 You can use this to mutate `page.content`, add or remove metadata, or conditionally skip pages.
 
-### Example
+### 💡 Example
 
 ```ts
 import { defineConfig } from 'vitepress';
@@ -138,9 +149,9 @@ export default defineConfig({
 `vitepress-plugin-llmstxt` is an open source project and its development is open to anyone who wants to participate.
 
 - 🐛 [Report issues](https://github.com/angelespejo/vitepress-plugin-llmstxt/issues)
-- [Pull request](https://github.com/angelespejo/vitepress-plugin-llmstxt/pulls)
+- 🚀 [Pull request](https://github.com/angelespejo/vitepress-plugin-llmstxt/pulls)
+- ⭐️ [Star the repository](https://github.com/angelespejo/vitepress-plugin-llmstxt)
+- ❤️ [Suppport](https://github.com/sponsors/angelespejo)
 
 
-## ❤️ Donate
 
-- 

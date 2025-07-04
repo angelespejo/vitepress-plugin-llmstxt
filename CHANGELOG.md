@@ -4,7 +4,7 @@
 
 ### Patch Changes
 
-- up devDeps, add docs
+- up devDeps, add docs, change license
 
 ## 0.1.0
 
