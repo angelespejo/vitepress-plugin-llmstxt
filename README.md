@@ -17,7 +17,8 @@ It can be used to create useful metadata files and provide structured informatio
 - 🔑 [Installation](#-installation)
 - 📖 [Usage](#-usage)
 - ⚙️ [Configuration](#%EF%B8%8F-configuration)
-- 💡 [Examples](#-example)
+- 💡 [Examples](#-examples)
+- 💡 [Client Examples](#-client-examples)
 - 👨‍💻 [Contribute](#-contribute)
 
 
@@ -127,7 +128,7 @@ It receives:
 You can use this to mutate `page.content`, add or remove metadata, or conditionally skip pages.
 
 
-### 💡 Examples
+## 💡 Examples
 
 ```ts
 import { defineConfig } from 'vitepress';
@@ -157,6 +158,85 @@ export default defineConfig({
 ```
 
 - 👉 [More](https://github.com/angelespejo/vitepress-plugin-llmstxt/tree/main/examples)
+
+### Client examples
+
+You can display your call information on the frontend.
+Here's an example:
+
+```vue
+<!-- .vitepress/theme/components/llmstxt.vue -->
+<script setup>
+
+import { computed } from 'vue'
+import { getRouteData } from 'vitepress-plugin-llmstxt/client' 
+
+const llmsPath = computed( () => {
+	const llmsData = getRouteData()
+	return llmsData?.path
+} )
+
+</script>
+<template>
+	<div
+		class="llmstxt-section"
+		v-if="llmsPath"
+	>
+		<p class="outline-title">
+			LLM Resources
+		</p>
+		<ul>
+			<li>
+				<a
+					:href="llmsPath"
+					target="_blank"
+					class="VPLink link"
+				>
+					llms.txt
+				</a>
+			</li>
+		</ul>
+	</div>
+</template>
+
+<style>
+.llmstxt-section {
+  margin: 25px 0px 5px 0px;
+}
+.llmstxt-section li {
+  margin: 5px;
+}
+.llmstxt-section a {
+  font-size: small;
+  margin: 0;
+  color: var(--vp-c-text-2);
+  transition: color 0.5s;
+}
+.llmstxt-section a:hover {
+  color: var(--vp-c-text-1);
+  transition: color 0.25s;
+}
+</style>
+
+```
+
+```js
+// .vitepress/theme/index.{ts,js}
+import DefaultTheme from 'vitepress/theme'
+import { h }        from 'vue'
+import Llmstxt from './components/llmstxt.vue'
+
+/** @type {import('vitepress').Theme} */
+export default {
+	extends : DefaultTheme,
+	Layout( ) {
+		return h( DefaultTheme.Layout, null, { 'aside-outline-after': () => h( Llmstxt ) } )
+	},
+
+}
+```
+
+- 👉 [More](https://github.com/angelespejo/vitepress-plugin-llmstxt/tree/main/examples/.vitepress/theme)
 
 ## 👨‍💻 Contribute
 
