@@ -15,8 +15,8 @@ This plugin automatically generates **LLMS text files** (`llms.txt` and `llms-fu
 - ✨ [Features](#-features)
 - 🔑 [Installation](#-installation)
 - 📖 [Usage](#-usage)
-- ⚙️ [Configuration](#-configuration)
-- 💡 [Example](#-example)
+- 🛠️ [Configuration](#-configuration)
+- 💡 [Examples](#-example)
 - 👨‍💻 [Contribute](#-contribute)
 
 
@@ -115,7 +115,7 @@ It receives:
 
 You can use this to mutate `page.content`, add or remove metadata, or conditionally skip pages.
 
-### 💡 Example
+### 💡 Examples
 
 ```ts
 import { defineConfig } from 'vitepress';
@@ -143,6 +143,8 @@ export default defineConfig({
   },
 });
 ```
+
+- 👉 [More](https://github.com/angelespejo/vitepress-plugin-llmstxt/tree/main/examples)
 
 ## 👨‍💻 Contribute
 
