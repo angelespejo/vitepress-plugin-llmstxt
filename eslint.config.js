@@ -1,11 +1,9 @@
-import { lint } from '@dovenv/theme-pigeonposse'
+import { setConfig } from '@dovenv/theme-pigeonposse/eslint'
 
-const { dovenvEslintConfig } = lint
-const ignore                 = dovenvEslintConfig.setIgnoreConfig( [ '**/README.md', '**/CHANGELOG.md' ] )
-
-export default [
-	dovenvEslintConfig.includeGitIgnore( ),
-	...dovenvEslintConfig.config,
-	ignore,
-]
+export default setConfig( {
+	general   : 'ts',
+	jsdoc     : true,
+	gitignore : true,
+	ignore    : [ '**/README.md', '**/CHANGELOG.md' ],
+} )
 

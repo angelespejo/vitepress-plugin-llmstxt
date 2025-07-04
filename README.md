@@ -1,13 +1,23 @@
 # VitePress Plugin LLMS Text
 
+![BANNER](.dovenv/banner.png)
+
+[![License](https://img.shields.io/github/license/angelespejo/vitepress-plugin-llmstxt?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
+[![Version](https://img.shields.io/npm/v/vitepress-plugin-llmstxt?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/vitepress-plugin-llmstxt)
+[![NPM package minimized gzipped size](https://img.shields.io/bundlejs/size/vitepress-plugin-llmstxt?style=for-the-badge&color=orange&label=Minimized+size&logoColor=white)](https://www.npmjs.com/package/vitepress-plugin-llmstxt)
+[![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/vitepress-plugin-llmstxt/0.0.2?style=for-the-badge&color=orange&logoColor=white)](https://www.npmjs.com/package/vitepress-plugin-llmstxt)
+
 This plugin automatically generates **LLMS text files** (`llms.txt` and `llms-full.txt`) for VitePress projects. It can be used to create useful metadata files and provide structured information for large language models (LLMs).
 
 ## Features
+
+- **Simple**, **zero dependencies**, **zero-configuration** and **lightweight** plugin.
 - Generate `llms.txt` for each page and `llms-full.txt` with all content.
 - Supports custom frontmatter addition.
 - Supports transformation of page data via a callback.
 - Option to build only the `llms-full.txt` file.
 - Generates an index table of contents if configured.
+- Based in https://llmstxt.org/
 
 ## Installation
 
@@ -123,7 +133,14 @@ export default defineConfig({
 });
 ```
 
-## License
+## 👨‍💻 Contribute
 
-GPL-3.0
+`vitepress-plugin-llmstxt` is an open source project and its development is open to anyone who wants to participate.
 
+- 🐛 [Report issues](https://github.com/angelespejo/vitepress-plugin-llmstxt/issues)
+- [Pull request](https://github.com/angelespejo/vitepress-plugin-llmstxt/pulls)
+
+
+## ❤️ Donate
+
+- 

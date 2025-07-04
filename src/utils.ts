@@ -21,10 +21,12 @@ export {
 
 // The name of the plugin
 export const PLUGIN_NAME = name
+
 /**
  * Joins the given URL parts into a single string.
- * @param {string[]} parts - The URL parts to join.
- * @returns {string} - The joined URL string.
+ *
+ * @param   {string[]} parts - The URL parts to join.
+ * @returns {string}         - The joined URL string.
  */
 export const joinUrl = ( ...parts: string[] ) => {
 
@@ -39,9 +41,10 @@ export const joinUrl = ( ...parts: string[] ) => {
  *
  * If the Markdown already contains a frontmatter block, it is completely removed and
  * replaced by the new frontmatter. If no frontmatter exists, the new one is simply added.
- * @param {string} markdown - The Markdown content.
- * @param {Record<string, unknown>} frontmatter - The new frontmatter to insert.
- * @returns {string} - The Markdown with the frontmatter overridden.
+ *
+ * @param   {string}                  markdown    - The Markdown content.
+ * @param   {Record<string, unknown>} frontmatter - The new frontmatter to insert.
+ * @returns {string}                              - The Markdown with the frontmatter overridden.
  */
 export const overrideFrontmatter = ( markdown: string, frontmatter: Record<string, unknown> ): string => {
 
@@ -102,8 +105,9 @@ export const overrideFrontmatter = ( markdown: string, frontmatter: Record<strin
  * This function takes a Markdown string as an argument, and returns
  * the same string but with the frontmatter removed. If the Markdown
  * doesn't contain frontmatter, it returns the original string.
- * @param {string} markdown - The Markdown content from which the frontmatter will be removed.
- * @returns {string} - The Markdown content without frontmatter.
+ *
+ * @param   {string} markdown - The Markdown content from which the frontmatter will be removed.
+ * @returns {string}          - The Markdown content without frontmatter.
  */
 export const removeFrontmatter = ( markdown: string ): string => {
 
@@ -132,6 +136,7 @@ export const getMDTitleLine = ( markdown: string ): string | undefined => {
 
 /**
  * Checks if a directory exists at the specified path.
+ *
  * @param   {string}           path - The path to check.
  * @returns {Promise<boolean>}      - A promise that resolves to true if a directory exists at the specified path, otherwise false.
  * @example import { existsDir } from '@dovenv/utils'
@@ -168,5 +173,5 @@ export const log = {
 	success : ( v: string ) => console.log( green( '✓ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
 	error   : ( v: string ) => console.log( red( '✗ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
 	warn    : ( v: string ) => console.log( yellow( '⚠ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
-	info    : ( v: string ) => console.log( 'i ' + bold( PLUGIN_NAME ) + ' ' + v  ),
+	info    : ( v: string ) => console.log( 'i ' + bold( PLUGIN_NAME ) + ' ' + v ),
 }

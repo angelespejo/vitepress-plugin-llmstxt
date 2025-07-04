@@ -39,16 +39,19 @@ type IndexTOC = boolean | 'only-llms' | 'only-llms-links' | 'only-web' | 'only-w
 export type LlmsConfig = {
 	/**
 	 * Hostname
+	 *
 	 * @example 'https://example.org'
 	 */
 	hostname? : string
 	/**
 	 * An array of glob patterns to ignore.
+	 *
 	 * @example ["**\/guide/api.md"]
 	 */
 	ignore?   : string[]
 	/**
 	 * Build `llms.txt` file
+	 *
 	 * @default true
 	 */
 	llmsFile?: boolean | {
@@ -65,11 +68,13 @@ export type LlmsConfig = {
 	}
 	/**
 	 * Build `llms-full.txt` file
+	 *
 	 * @default true
 	 */
 	llmsFullFile? : boolean
 	/**
 	 * Build `.md` file for each route
+	 *
 	 * @default true
 	 */
 	mdFiles?      : boolean
@@ -112,7 +117,7 @@ const getPages = async ( config?:LlmsConfig ) => {
 
 const transformPages = async ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConfig ) => {
 
-	if ( !config?.transform  ) return pages
+	if ( !config?.transform ) return pages
 
 	for ( const key in pages ) {
 
@@ -140,7 +145,7 @@ const getIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConf
 		let res        = ''
 		const indextoc = typeof config?.llmsFile === 'object' ? config?.llmsFile?.indexTOC : config?.llmsFile
 		if ( !indextoc ) return res
-		const indexP = pages.find( d => d.path === ( '/' + LLM_FILENAME )  )
+		const indexP = pages.find( d => d.path === ( '/' + LLM_FILENAME ) )
 		if ( !indexP ) return res
 
 		const title    =  getMDTitleLine( indexP.content )
@@ -148,7 +153,7 @@ const getIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConf
 		const webLinks = pages.filter( d => !d.path.endsWith( '.txt' ) ).map( p => `- [${p.title}](${p.url})` ).join( '\n' )
 		const llmLinks = pages.filter( d => !d.path.endsWith( '.txt' ) ).map( p => `- [${p.title}](${p.llmUrl})` ).join( '\n' )
 
-		res += `${h} Table of contents\n${vpConfig?.userConfig.description ? '\n' + vpConfig?.userConfig.description  : ''}`
+		res += `${h} Table of contents\n${vpConfig?.userConfig.description ? '\n' + vpConfig?.userConfig.description : ''}`
 
 		if ( indextoc === 'only-web' ) res += `\n${h}# Web links\n\n${webLinks}`
 		else if ( indextoc === 'only-web-links' ) res = webLinks
@@ -267,8 +272,9 @@ const getPagesData = async ( pages: PageData[], originURL: string, config?: Llms
 
 /**
  * [VitePress](http://vitepress.dev/) plugin for generating "llms.txt" files automatically
- * @param {LlmsConfig} [config] - Plugin configuration
- * @returns {VitePlugin} - Vite plugin
+ *
+ * @param   {LlmsConfig} [config] - Plugin configuration
+ * @returns {VitePlugin}          - Vite plugin
  * @see https://github.com/angelespejo/vitepress-plugin-llmstxt
  * @see https://llmstxt.org/
  */
@@ -276,9 +282,9 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 
 	const {
 		llmsFullFile = true,
-		llmsFile     = true,
-		mdFiles      = true,
-		hostname     = '/',
+		llmsFile = true,
+		mdFiles = true,
+		hostname = '/',
 	} = config || {}
 
 	const c = {
