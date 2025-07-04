@@ -158,7 +158,7 @@ export default defineConfig({
 
 - 👉 [More](https://github.com/angelespejo/vitepress-plugin-llmstxt/tree/main/examples)
 
-### Client examples
+## Client examples
 
 You can display your call information on the frontend.
 Here's an example:
