@@ -15,7 +15,7 @@ This plugin **automatically** generates **LLMS text files** (`llms.txt` and `llm
 - ✨ [Features](#-features)
 - 🔑 [Installation](#-installation)
 - 📖 [Usage](#-usage)
-- 🛠️ [Configuration](#-configuration)
+- ⚙️ [Configuration](#-⚙️--configuration)
 - 💡 [Examples](#-example)
 - 👨‍💻 [Contribute](#-contribute)
 
@@ -64,7 +64,7 @@ export default defineConfig({
 });
 ```
 
-## 🛠️ Configuration
+## ⚙️ Configuration
 
 The plugin supports the following configuration options:
 
