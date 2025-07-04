@@ -18,7 +18,7 @@ It can be used to create useful metadata files and provide structured informatio
 - 📖 [Usage](#-usage)
 - ⚙️ [Configuration](#%EF%B8%8F-configuration)
 - 💡 [Examples](#-examples)
-- 💡 [Client Examples](#-client-examples)
+- 💡 [Client Examples](#client-examples)
 - 👨‍💻 [Contribute](#-contribute)
 
 
@@ -169,15 +169,16 @@ Here's an example:
 ```html
 <script setup>
 
-import { computed } from 'vue'
-import { getRouteData } from 'vitepress-plugin-llmstxt/client' 
+	import { computed } from 'vue'
+	import { getRouteData } from 'vitepress-plugin-llmstxt/client' 
 
-const llmsPath = computed( () => {
-	const llmsData = getRouteData()
-	return llmsData?.path
-} )
+	const llmsPath = computed( () => {
+		const llmsData = getRouteData()
+		return llmsData?.path
+	} )
 
 </script>
+
 <template>
 	<div
 		class="llmstxt-section"
@@ -201,22 +202,22 @@ const llmsPath = computed( () => {
 </template>
 
 <style>
-.llmstxt-section {
-  margin: 25px 0px 5px 0px;
-}
-.llmstxt-section li {
-  margin: 5px;
-}
-.llmstxt-section a {
-  font-size: small;
-  margin: 0;
-  color: var(--vp-c-text-2);
-  transition: color 0.5s;
-}
-.llmstxt-section a:hover {
-  color: var(--vp-c-text-1);
-  transition: color 0.25s;
-}
+	.llmstxt-section {
+		margin: 25px 0px 5px 0px;
+	}
+	.llmstxt-section li {
+		margin: 5px;
+	}
+	.llmstxt-section a {
+		font-size: small;
+		margin: 0;
+		color: var(--vp-c-text-2);
+		transition: color 0.5s;
+	}
+	.llmstxt-section a:hover {
+		color: var(--vp-c-text-1);
+		transition: color 0.25s;
+	}
 </style>
 
 ```
