@@ -1,6 +1,13 @@
 /* eslint-disable @stylistic/object-curly-newline */
-import { createContentLoader } from 'vitepress'
+import { createContentLoader,
+	SiteConfig } from 'vitepress'
 
+import { IndexTOC,
+	LlmsConfig,
+	LlmsPageData,
+	PageData,
+	VitePlugin,
+	VPConfig } from './types'
 import {
 	ensureDir,
 	joinUrl,
@@ -14,83 +21,7 @@ import {
 	getMDTitleLine,
 } from './utils'
 
-import type {
-	ContentData,
-	SiteConfig,
-	UserConfig,
-} from 'vitepress'
-
-type PageData = ContentData
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Any = any
-type VitePlugin = NonNullable<NonNullable<UserConfig['vite']>['plugins']>[number]
-type VPConfig = SiteConfig
-type LlmsPageData = {
-	path        : string
-	url         : string
-	title       : string
-	llmUrl      : string
-	frontmatter : Record<string, Any>
-	content     : string
-}
-
-type IndexTOC = boolean | 'only-llms' | 'only-llms-links' | 'only-web' | 'only-web-links'
-
-export type LlmsConfig = {
-	/**
-	 * Hostname
-	 *
-	 * @example 'https://example.org'
-	 */
-	hostname? : string
-	/**
-	 * An array of glob patterns to ignore.
-	 *
-	 * @example ["**\/guide/api.md"]
-	 */
-	ignore?   : string[]
-	/**
-	 * Build `llms.txt` file
-	 *
-	 * @default true
-	 */
-	llmsFile?: boolean | {
-		/**
-		 * Add index table of content in index 'llms.txt' file.
-		 * - _'only-llms'_ - Only title with LLMs links
-		 * - _'only-web'_ - Only title with web links
-		 * - _'only-llms-links'_ - Only LLMs links
-		 * - _'only-web-links'_ - Only web links
-		 * - _true_ - both
-		 * - _false_ - none
-		 */
-		indexTOC : IndexTOC
-	}
-	/**
-	 * Build `llms-full.txt` file
-	 *
-	 * @default true
-	 */
-	llmsFullFile? : boolean
-	/**
-	 * Build `.md` file for each route
-	 *
-	 * @default true
-	 */
-	mdFiles?      : boolean
-	/**
-	 * Callback for transform each page
-	 */
-	transform? : ( data: {
-		page      : LlmsPageData
-		pages     : LlmsPageData[]
-		vpConfig? : VPConfig
-		utils     : {
-			getIndexTOC       : ( type: IndexTOC ) => string
-			removeFrontmatter : ( content: string ) => string
-		}
-	} ) => Promise<LlmsPageData> | LlmsPageData
-}
+export type { LlmsConfig }
 
 const LLM_FILENAME      = 'llms.txt' as const
 const LLM_FULL_FILENAME = 'llms-full.txt' as const
@@ -269,6 +200,13 @@ const getPagesData = async ( pages: PageData[], originURL: string, config?: Llms
 	return resI
 
 }
+const addVPConfigLllmData = ( data: LlmsPageData[] | undefined, vpConfig?: SiteConfig ) => {
+
+	if ( vpConfig ) vpConfig.site.themeConfig.llmstxt = {
+		pageData : data,
+	}
+
+}
 
 /**
  * [VitePress](http://vitepress.dev/) plugin for generating "llms.txt" files automatically
@@ -302,6 +240,13 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 		async configureServer( server ) {
 
 			const pages = await getPages( c )
+			const data  = await getPagesData(
+				pages,
+				c.hostname,
+				c,
+				vpConfig,
+			)
+			addVPConfigLllmData( data, vpConfig )
 
 			server.middlewares.use( async ( req, res, next ) => {
 
@@ -358,7 +303,17 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 			if ( vpConfig ) return
 
 			vpConfig = 'vitepress' in params ? params.vitepress as SiteConfig : undefined
+
 			if ( !vpConfig ) return
+
+			const pages = await getPages( c )
+			const data  = await getPagesData(
+				pages,
+				c.hostname,
+				c,
+				vpConfig,
+			)
+			addVPConfigLllmData( data, vpConfig )
 
 			const selfBuildEnd = vpConfig.buildEnd
 			const outDir       = vpConfig.outDir

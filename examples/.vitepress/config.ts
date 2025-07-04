@@ -42,6 +42,8 @@ export default defineConfig( {
 			// IMPORTANT: "import { createContentLoader } from 'vitepress'" is used to get the md files, so the pattern cannot start with '/'.
 			//             [read more](https://vitepress.dev/guide/data-loading#createcontentloader)
 			ignore : [ '*/guide/core/api.md' ],
+			// ignore : [ '*/guide/index.md' ], // only index
+			// ignore : [ '*/guide/core/*' ], // all core folder
 		} ),
 	] },
 } )

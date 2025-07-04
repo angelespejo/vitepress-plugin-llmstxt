@@ -1,6 +1,6 @@
 {
 	"name": "vitepress-plugin-llmstxt",
-	"version": "0.1.1",
+	"version": "0.2.0",
 	"description": "VitePress plugin to generate llms.txt files automatically",
 	"keywords": [
 		"ai",
@@ -40,11 +40,14 @@
 	"exports": {
 		".": {
 			"types": "./dist/index.d.mts",
-			"import": "./dist/index.mjs",
-			"require": "./dist/index.cjs"
+			"import": "./dist/index.mjs"
+		},
+		"./client": {
+			"types": "./dist/client.d.mts",
+			"import": "./dist/client.mjs"
 		}
 	},
-	"main": "./dist/index.cjs",
+	"main": "./dist/index.mjs",
 	"module": "./dist/index.mjs",
 	"types": "./dist/index.d.mts",
 	"files": [
@@ -53,8 +56,8 @@
 	"scripts": {
 		".": "dovenv",
 		"build": "unbuild",
-		"build-web": "vitepress build examples",
 		"dev": "vitepress dev examples --force",
+		"dev-build": "vitepress build examples",
 		"preview": "vitepress preview examples"
 	},
 	"devDependencies": {

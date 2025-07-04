@@ -68,7 +68,12 @@ export default defineConfig({
 
 ## ⚙️ Configuration
 
+This plugin requires no configuration, but if you need specific settings, it can be flexibly configured to suit any use case.
+
+- 👉 [See d.ts](https://unpkg.com/vitepress-plugin-llmstxt/dist/index.d.ts)
+
 The plugin supports the following configuration options:
+
 
 ### `hostname` (string)
 The base URL to use for generated links.  
@@ -121,8 +126,6 @@ It receives:
 
 You can use this to mutate `page.content`, add or remove metadata, or conditionally skip pages.
 
-
-- 👉 [More](https://unpkg.com/vitepress-plugin-llmstxt/dist/main.d.ts)
 
 ### 💡 Examples
 

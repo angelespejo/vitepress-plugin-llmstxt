@@ -6,6 +6,7 @@ export default setConfig( {
 	gitignore : true,
 	package   : true,
 	json      : true,
+	vue  		   : true,
 	ignore    : [ '**/README.md', '**/CHANGELOG.md' ],
 } )
 

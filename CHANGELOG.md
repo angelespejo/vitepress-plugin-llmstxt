@@ -1,5 +1,11 @@
 # vitepress-plugin-llmstxt
 
+## 0.2.0
+
+### Minor Changes
+
+- add client support
+
 ## 0.1.1
 
 ### Patch Changes
