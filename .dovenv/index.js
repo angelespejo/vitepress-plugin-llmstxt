@@ -23,6 +23,7 @@ export default defineConfig(
 				desc  : 'Only development environment',
 			},
 		] } },
+		lint : { publint: { pkg: { pkgDir: '.' } } },
 		core : await getWorkspaceConfig( {
 			metaURL : import.meta.url,
 			path    : '../',

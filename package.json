@@ -24,7 +24,7 @@
 		"email": "dev@pigeonposse.com"
 	},
 	"repository": {
-		"type": "git",
+		"type": "https",
 		"url": "https://github.com/angelespejo/vitepress-plugin-llmstxt"
 	},
 	"funding": {
@@ -69,9 +69,8 @@
 		"@types/node": "24.0.15",
 		"eslint": "9.31.0",
 		"tslib": "2.8.1",
-		"tsup": "^8.5.0",
+		"tsup": "8.5.0",
 		"typescript": "5.8.3",
-		"unbuild": "3.5.0",
 		"vitepress": "1.6.3",
 		"vue": "3.5.17"
 	},
