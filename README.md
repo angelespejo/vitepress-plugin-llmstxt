@@ -30,6 +30,7 @@ It can be used to create useful metadata files and provide structured informatio
 - Automatically Generates `.md` files for each page.
 - Supports **Ignoring** certain routes.
 - Supports custom **frontmatter** addition.
+- Supports dynamic routes and i18n routes.
 - Supports **transformation** of page data via a callback.
 - Supports for building only certain files.
 - Generates a table of contents (**TOC**).
@@ -70,10 +71,10 @@ export default defineConfig({
 
 This plugin requires no configuration, but if you need specific settings, it can be flexibly configured to suit any use case.
 
+- 👉 [See types](https://github.com/angelespejo/vitepress-plugin-llmstxt/blob/main/src/types.ts)
 - 👉 [See d.ts](https://unpkg.com/vitepress-plugin-llmstxt/dist/index.d.ts)
-
+s
 The plugin supports the following configuration options:
-
 
 ### `hostname` (string)
 The base URL to use for generated links.  
@@ -106,6 +107,10 @@ Whether to generate the extended `llms-full.txt` file.
 
 ### `mdFiles` (boolean)
 Whether to generate a `.md` file for each route.  
+**@default** `true`
+
+### `dynamicRoutes` (boolean)
+Support vitepress [dynamic routes](https://vitepress.dev/guide/routing#dynamic-routes).
 **@default** `true`
 
 ### `transform` (function)

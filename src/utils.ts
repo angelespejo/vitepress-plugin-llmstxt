@@ -2,7 +2,6 @@ import {
 	access,
 	stat,
 	writeFile,
-	readFile,
 	constants,
 	mkdir,
 } from 'node:fs/promises'
@@ -16,7 +15,6 @@ import { name } from '../package.json'
 
 export {
 	writeFile,
-	readFile,
 	join,
 	dirname,
 }

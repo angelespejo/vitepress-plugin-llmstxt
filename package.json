@@ -1,6 +1,6 @@
 {
 	"name": "vitepress-plugin-llmstxt",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"description": "VitePress plugin to generate llms.txt files automatically",
 	"keywords": [
 		"ai",
@@ -40,23 +40,23 @@
 	"type": "module",
 	"exports": {
 		".": {
-			"types": "./dist/index.d.mts",
-			"import": "./dist/index.mjs"
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.js"
 		},
 		"./client": {
-			"types": "./dist/client.d.mts",
-			"import": "./dist/client.mjs"
+			"types": "./dist/client.d.ts",
+			"import": "./dist/client.js"
 		}
 	},
-	"main": "./dist/index.mjs",
-	"module": "./dist/index.mjs",
-	"types": "./dist/index.d.mts",
+	"main": "./dist/index.js",
+	"module": "./dist/index.js",
+	"types": "./dist/index.d.ts",
 	"files": [
 		"dist"
 	],
 	"scripts": {
 		".": "dovenv",
-		"build": "unbuild",
+		"build": "tsup src/index.ts src/client.ts --clean --dts --format esm",
 		"dev": "vitepress dev examples --force",
 		"dev-build": "vitepress build examples",
 		"preview": "vitepress preview examples"
@@ -69,6 +69,7 @@
 		"@types/node": "24.0.15",
 		"eslint": "9.31.0",
 		"tslib": "2.8.1",
+		"tsup": "^8.5.0",
 		"typescript": "5.8.3",
 		"unbuild": "3.5.0",
 		"vitepress": "1.6.3",
