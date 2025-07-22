@@ -1,5 +1,11 @@
 # vitepress-plugin-llmstxt
 
+## 0.3.0
+
+### Minor Changes
+
+- Add suport to dynamic routes [Related issue](https://github.com/angelespejo/vitepress-plugin-llmstxt/issues/2)
+
 ## 0.2.1
 
 ### Patch Changes
