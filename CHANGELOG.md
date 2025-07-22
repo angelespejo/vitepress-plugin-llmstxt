@@ -1,5 +1,11 @@
 # vitepress-plugin-llmstxt
 
+## 0.3.2
+
+### Patch Changes
+
+- up docs
+
 ## 0.3.1
 
 ### Patch Changes

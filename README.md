@@ -73,7 +73,7 @@ This plugin requires no configuration, but if you need specific settings, it can
 
 - 👉 [See types](https://github.com/angelespejo/vitepress-plugin-llmstxt/blob/main/src/types.ts)
 - 👉 [See d.ts](https://unpkg.com/vitepress-plugin-llmstxt/dist/index.d.ts)
-s
+
 The plugin supports the following configuration options:
 
 ### `hostname` (string)
@@ -87,7 +87,7 @@ An array of glob patterns to exclude from processing.
 
 ### `llmsFile` (boolean | object)
 Whether to generate the main `llms.txt` file.  
-Defaults to `true`.
+**@default** `true`
 
 If passed as an object, you can control additional options:
 
