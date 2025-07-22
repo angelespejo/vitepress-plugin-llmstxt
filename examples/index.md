@@ -8,5 +8,5 @@ hero:
       link: /guide
     - theme: alt
       text: View on GitHub
-      link: https://github.com/angelespejo/vitepress-plugin-llmstxt
+      link: https://github.com/angelespejo/vitepress-plugin-llmstxt/tree/main/examples
 ---

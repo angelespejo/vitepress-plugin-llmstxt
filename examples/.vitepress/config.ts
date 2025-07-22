@@ -1,14 +1,53 @@
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { defineConfig } from 'vitepress'
 
 import llmsPlugin from '../../src/index' // CHANGE TO: import llmsPlugin from 'vitepress-plugin-llmstxt'
 
 // https://vitepress.vuejs.org/config/app-configs
 export default defineConfig( {
-	title     : 'Test',
-	cleanUrls : true,
-	vite      : { plugins : [
+	title       : 'VitePress Example page',
+	cleanUrls   : true,
+	description : 'VitePress Plugin for LLMs',
+	themeConfig : {
+		nav : [
+			{
+				text : 'Guide',
+				link : '/guide/',
+			},
+			{
+				text : 'Contributors',
+				link : '/contributors/',
+			},
+		],
+		sidebar : [
+			{
+				text  : 'Guide',
+				items : [
+					{
+						text : 'Index',
+						link : '/guide/',
+					},
+					{
+						text : 'Core',
+						link : '/guide/core/',
+					},
+					{
+						text : 'Core Examples',
+						link : '/guide/core/examples/',
+					},
+					{
+						text : 'Core API',
+						link : '/guide/core/api/',
+					},
+				],
+			},
+			{
+				text : 'Dynamic routes',
+				link : '/dynamic/',
+			},
+		],
+	},
+	vite : { plugins : [
 		llmsPlugin( {
 			//////////////////////////////////////////////////////
 			// Add a custom hostname if needed
@@ -19,13 +58,11 @@ export default defineConfig( {
 			// mdFiles      : true,
 			//////////////////////////////////////////////////////
 			// Transform the page content if needed
-			transform : async ( {
-				page, utils,
-			} ) => {
+			transform : async ( { page } ) => {
 
 				// Add a content before llms.txt content
-				if ( page.path === '/llms.txt' )
-					page.content = `Structured information designed to provide useful metadata to large language models (LLMs)\n\n` + page.content
+				// if ( page.path === '/llms.txt' )
+				// 	page.content = `Structured information designed to provide useful metadata to large language models (LLMs)\n\n` + page.content
 
 				// if ( page.path === '/llms-full.txt' ) page.content = utils.removeFrontmatter( page.content )
 
@@ -44,6 +81,7 @@ export default defineConfig( {
 			ignore : [ '*/guide/core/api.md' ],
 			// ignore : [ '*/guide/index.md' ], // only index
 			// ignore : [ '*/guide/core/*' ], // all core folder
+			// dynamicRoutes : false,
 		} ),
 	] },
 } )

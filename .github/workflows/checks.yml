@@ -16,9 +16,11 @@ env:
   GITHUB_TOKEN: ${{ github.token }}
   NPM_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
 permissions:
-  contents: write
-  pull-requests: write
-  
+  contents: write # to create release (changesets/action)
+  pull-requests: write # to create pull request (changesets/action)
+  issues: write # to post issue comments (changesets/action
+  id-token: write # to use OpenID Connect token for provenance (changesets/action)
+
 ###############################################################################
 # JOBS
 ###############################################################################
@@ -106,11 +108,11 @@ jobs:
           version: pnpm exec changeset version
           publish: pnpm exec changeset publish
           commit: "chore(release): version packages 🦋 [skip ci]"
-          createGithubReleases: false
+          createGithubReleases: true
         env:
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ env.NPM_TOKEN }}
-
+          NPM_CONFIG_PROVENANCE: true
       - name: Get updated versions if exists
         id: updated
         run: |
@@ -146,11 +148,5 @@ jobs:
         run: pnpm . gh info update
         continue-on-error: true
 
-    #   - name: 📚🐙😺➡️ Call to workflow for deploy Documentation
-    #     if: steps.updated.outputs.core_version != ''
-    #     uses: benc-uk/workflow-dispatch@v1
-    #     with:
-    #       workflow: release-docs.yml
-    #     continue-on-error: true
 
 ###############################################################################

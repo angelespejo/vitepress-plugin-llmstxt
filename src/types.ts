@@ -6,7 +6,7 @@ import type {
 } from 'vitepress'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Any = any
+export type Any = any
 
 export type PageData = ContentData
 export type VitePlugin = NonNullable<NonNullable<UserConfig['vite']>['plugins']>[number]
@@ -50,19 +50,27 @@ export type LlmsConfig = {
 		 * - _true_ - both
 		 * - _false_ - none
 		 */
-		indexTOC : IndexTOC }
+		indexTOC : IndexTOC
+	}
+	/**
+	 * Support dynamic routes
+	 *
+	 * @default true
+	 * @see https://vitepress.dev/guide/routing#dynamic-routes
+	 */
+	dynamicRoutes? : boolean
 	/**
 	 * Build `llms-full.txt` file
 	 *
 	 * @default true
 	 */
-	llmsFullFile? : boolean
+	llmsFullFile?  : boolean
 	/**
 	 * Build `.md` file for each route
 	 *
 	 * @default true
 	 */
-	mdFiles?      : boolean
+	mdFiles?       : boolean
 	/**
 	 * Callback for transform each page
 	 */

@@ -1,13 +1,18 @@
-/* eslint-disable @stylistic/object-curly-newline */
-import { createContentLoader,
-	SiteConfig } from 'vitepress'
+import {
+	ContentData,
+	createContentLoader,
+	SiteConfig,
+} from 'vitepress'
 
-import { IndexTOC,
+import {
+	Any,
+	IndexTOC,
 	LlmsConfig,
 	LlmsPageData,
 	PageData,
 	VitePlugin,
-	VPConfig } from './types'
+	VPConfig,
+} from './types'
 import {
 	ensureDir,
 	joinUrl,
@@ -26,7 +31,56 @@ export type { LlmsConfig }
 const LLM_FILENAME      = 'llms.txt' as const
 const LLM_FULL_FILENAME = 'llms-full.txt' as const
 
-const getPages = async ( config?:LlmsConfig ) => {
+const replaceMarkdownTemplate = (
+	template: string,
+	params: Record<string, Any>,
+	frontmatter: Record<string, Any>,
+	content?: string,
+): string => {
+
+	try {
+
+		return template
+			.replace( /\{\{\s*\$params\.(\w+)\s*\}\}/g, ( _, key ) => params[key] ?? '' )
+			.replace( /\{\{\s*\$frontmatter\.(\w+)\s*\}\}/g, ( _, key ) => frontmatter[key] ?? '' )
+			.replace( /<!--\s*@content\s*-->/g, content ?? '' )
+
+	}
+	catch ( _e ) {
+
+		return template
+
+	}
+
+}
+const markdownPathToUrlRoute  = ( path: string ) => {
+
+	// const basePath = path.endsWith( '/' ) ? path : path + '/'
+	const route = path.endsWith( '.md' ) ? path.slice( 0, -3 ) : path
+	return route.startsWith( '/' ) ? route : '/' + route
+
+}
+
+// const urlRoute2MarkdownPath = ( route: string ) => {
+
+// 	const basePath = route.endsWith( '/' ) ? route.slice( 0, -1 ) : route
+// 	const path     = basePath.endsWith( '.md' ) ? basePath : basePath + '.md'
+
+// 	return path.startsWith( '/' ) ? path.slice( 1 ) : path
+
+// }
+
+/**
+ * Sorts an array of ContentData objects by their URL in descending order.
+ *
+ * @param   {ContentData[]} content - The array of ContentData objects to be sorted.
+ * @returns {ContentData[]}         The sorted array of ContentData objects.
+ */
+
+const orderContent = ( content: ContentData[] ) =>
+	content.sort( ( a, b ) => b.url.localeCompare( a.url ) )
+
+const getPages = async ( config?: LlmsConfig, vpConfig?: VPConfig ) => {
 
 	const loader = createContentLoader( '**/*.md', {
 		includeSrc  : true,
@@ -42,7 +96,33 @@ const getPages = async ( config?:LlmsConfig ) => {
 
 	const pages = await loader.load()
 
-	return pages
+	if ( !vpConfig?.dynamicRoutes.routes || config?.dynamicRoutes === false ) return orderContent( pages )
+
+	const dynamicPaths: string[] = []
+
+	for ( const key in vpConfig?.dynamicRoutes.routes ) {
+
+		const page  = vpConfig?.dynamicRoutes.routes[key]
+		const route = markdownPathToUrlRoute( page.route )
+
+		const content =  pages.find( p => p.url === route )
+
+		if ( !content || !content.src ) continue
+
+		dynamicPaths.push( content.url )
+		pages.push( {
+			excerpt     : undefined,
+			frontmatter : {},
+			html        : undefined,
+			url         : markdownPathToUrlRoute( page.path ),
+			src         : replaceMarkdownTemplate( content.src, page.params, {}, page.content ),
+		} )
+
+	}
+
+	const res = dynamicPaths.length ? pages.filter( p => dynamicPaths.includes( p.url ) ? undefined : p ) : pages
+
+	return orderContent( res )
 
 }
 
@@ -84,7 +164,7 @@ const getIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConf
 		const webLinks = pages.filter( d => !d.path.endsWith( '.txt' ) ).map( p => `- [${p.title}](${p.url})` ).join( '\n' )
 		const llmLinks = pages.filter( d => !d.path.endsWith( '.txt' ) ).map( p => `- [${p.title}](${p.llmUrl})` ).join( '\n' )
 
-		res += `${h} Table of contents\n${vpConfig?.userConfig.description ? '\n' + vpConfig?.userConfig.description : ''}`
+		res += `${h} Table of contents\n${vpConfig?.userConfig.description ? '\n' + vpConfig?.userConfig.description.trimEnd() + '\n' : ''}`
 
 		if ( indextoc === 'only-web' ) res += `\n${h}# Web links\n\n${webLinks}`
 		else if ( indextoc === 'only-web-links' ) res = webLinks
@@ -112,7 +192,7 @@ const setIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConf
 		if ( d.path !== ( '/' + LLM_FILENAME ) ) return d
 		const index = getIndex( pages, config, vpConfig )
 		if ( index && index !== '' ) d.content += `\n${index}`
-
+		d.content = d.content.trim()
 		return d
 
 	} )
@@ -202,9 +282,7 @@ const getPagesData = async ( pages: PageData[], originURL: string, config?: Llms
 }
 const addVPConfigLllmData = ( data: LlmsPageData[] | undefined, vpConfig?: SiteConfig ) => {
 
-	if ( vpConfig ) vpConfig.site.themeConfig.llmstxt = {
-		pageData : data,
-	}
+	if ( vpConfig ) vpConfig.site.themeConfig.llmstxt = { pageData: data }
 
 }
 
@@ -223,10 +301,12 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 		llmsFile = true,
 		mdFiles = true,
 		hostname = '/',
+		dynamicRoutes = true,
 	} = config || {}
 
 	const c = {
 		...config,
+		dynamicRoutes,
 		llmsFullFile,
 		llmsFile,
 		mdFiles,
@@ -239,7 +319,7 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 		enforce : 'pre',
 		async configureServer( server ) {
 
-			const pages = await getPages( c )
+			const pages = await getPages( c, vpConfig )
 			const data  = await getPagesData(
 				pages,
 				c.hostname,
@@ -306,7 +386,7 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 
 			if ( !vpConfig ) return
 
-			const pages = await getPages( c )
+			const pages = await getPages( c, vpConfig )
 			const data  = await getPagesData(
 				pages,
 				c.hostname,
@@ -321,7 +401,7 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 			vpConfig.buildEnd = async siteConfig => {
 
 				await selfBuildEnd?.( siteConfig )
-				const pages = await getPages( c )
+				const pages = await getPages( c, vpConfig )
 				const data  = await getPagesData(
 					pages,
 					c.hostname,
