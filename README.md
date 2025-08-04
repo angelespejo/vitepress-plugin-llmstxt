@@ -103,22 +103,18 @@ An array of glob patterns to exclude from processing.
 #### Examples
 
 ```js
-// Ignore only guide index.
 {
-  ignore: [ '**/guide/index.md' ]
+  ignore: [ '**/guide/index.md' ] // Ignore only guide index.
 }
 ```
 ```js
-// Ignore all core folder.
 {
-  ignore: [ '**/guide/core/*' ]
+  ignore: [ '**/guide/core/*' ] // Ignore all core folder.
 }
 ```
 ```js
-// Ignore multiple patterns. 
-// Ignore all core and api folder.
 {
-  ignore: [ '**/guide/core/*', '**/guide/api/*' ]
+  ignore: [ '**/guide/core/*', '**/guide/api/*' ] // Ignore multiple patterns (all core and api folder)
 }
 ```
 
@@ -179,21 +175,22 @@ You can use this to mutate `page.content`, add or remove metadata, or conditiona
 
 ```ts
 {
-	transform : async ( { page } ) => {
+  transform: async ({ page }) => {
 
-	// Add a content before llms.txt content
-	if ( page.path === '/llms.txt' )
-		page.content = `Structured information designed to provide useful metadata to large language models (LLMs)\n\n` + page.content
+    // Add a content before llms.txt content
+    if (page.path === '/llms.txt')
+      page.content = `Structured information designed to provide useful metadata to large language models (LLMs)\n\n` + page.content
 
-	// Remove frontmatter from llms-full.txt
-	if ( page.path === '/llms-full.txt' ) page.content = utils.removeFrontmatter( page.content )
+    // Remove frontmatter from llms-full.txt
+    if (page.path === '/llms-full.txt')
+      page.content = utils.removeFrontmatter(page.content)
 
-	// Add a title and an index table of contents in llms-full.txt
-	if ( page.path === '/llms-full.txt' )
-		page.content = '# LLMS Full\n\n' + utils.getIndexTOC( 'only-llms' ) + '\n\n' + page.content
+    // Add a title and an index table of contents in llms-full.txt
+    if (page.path === '/llms-full.txt')
+      page.content = '# LLMS Full\n\n' + utils.getIndexTOC('only-llms') + '\n\n' + page.content
 
-	return page
-
+    return page
+  }
 }
 ```
 

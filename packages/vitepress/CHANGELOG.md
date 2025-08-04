@@ -1,5 +1,15 @@
 # vitepress-plugin-llmstxt
 
+## 0.4.0
+
+### Minor Changes
+
+- Refactored code
+- Added support for view mode for development.
+- Fixed issues with build size.
+- Added tests to make the plugin robust.
+- Modified `/client` functions.
+
 ## 0.3.2
 
 ### Patch Changes
