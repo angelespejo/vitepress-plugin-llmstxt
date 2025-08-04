@@ -1,6 +1,6 @@
 {
-	"name": "vitepress-plugin-llmstxt",
-	"version": "0.3.2",
+	"name": "@llms-txt/monorepo",
+	"private": true,
 	"description": "VitePress plugin to generate llms.txt files automatically",
 	"keywords": [
 		"ai",
@@ -38,66 +38,38 @@
 		"url": "https://github.com/angelespejo"
 	},
 	"type": "module",
-	"exports": {
-		".": {
-			"types": "./dist/index.d.ts",
-			"import": "./dist/index.js"
-		},
-		"./client": {
-			"types": "./dist/client.d.ts",
-			"import": "./dist/client.js"
-		}
-	},
-	"main": "./dist/index.js",
-	"module": "./dist/index.js",
-	"types": "./dist/index.d.ts",
-	"files": [
-		"dist"
+	"workspaces": [
+		"packages/*"
 	],
 	"scripts": {
+		"+": "pnpm -F",
 		".": "dovenv",
-		"build": "tsup src/index.ts src/client.ts --clean --dts --format esm",
-		"dev": "vitepress dev examples --force",
-		"dev-build": "vitepress build examples",
-		"preview": "vitepress preview examples"
+		"build": "dovenv readme --silent && pnpm -F './packages/*' build",
+		"lint:commit": "dovenv lint commitlint --silent",
+		"lint:eslint": "dovenv lint eslint --silent",
+		"lint:pkg": "dovenv lint custom -k pkg --silent",
+		"lint:staged": "dovenv lint staged --silent",
+		"prepare": "dovenv git husky --silent",
+		"test": "pnpm run --sequential \"/test:.*/\"",
+		"test:check": "pnpm --parallel check",
+		"test:check-ws": "dovenv check --silent",
+		"test:pkg": "pnpm --parallel test"
 	},
 	"devDependencies": {
 		"@changesets/changelog-github": "0.5.1",
 		"@changesets/cli": "2.29.5",
-		"@dovenv/core": "1.5.35",
-		"@dovenv/theme-pigeonposse": "1.5.35",
-		"@types/node": "24.0.15",
-		"eslint": "9.31.0",
+		"@dovenv/core": "1.6.0",
+		"@dovenv/theme-pigeonposse": "1.6.0",
+		"@playwright/test": "1.54.2",
+		"@types/node": "24.1.0",
+		"eslint": "9.32.0",
 		"tslib": "2.8.1",
 		"tsup": "8.5.0",
-		"typescript": "5.8.3",
-		"vitepress": "1.6.3",
-		"vue": "3.5.17"
+		"typescript": "5.9.2"
 	},
-	"peerDependencies": {
-		"vitepress": "^1.0.0"
-	},
-	"packageManager": "pnpm@10.13.1",
+	"packageManager": "pnpm@10.14.0",
 	"engines": {
-		"node": ">=21.7.0"
-	},
-	"publishConfig": {
-		"access": "public",
-		"registry": "https://registry.npmjs.org/"
-	},
-	"pnpm": {
-		"peerDependencyRules": {
-			"ignoreMissing": [
-				"@algolia/client-search"
-			]
-		},
-		"ignoredBuiltDependencies": [
-			"esbuild"
-		],
-		"onlyBuiltDependencies": [
-			"esbuild",
-			"sharp"
-		]
+		"node": ">=20.19.4"
 	},
 	"extra": {
 		"id": "vitepress-plugin-llmstxt",

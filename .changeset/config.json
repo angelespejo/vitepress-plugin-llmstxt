@@ -8,6 +8,9 @@
 	],
 	"commit": false,
 	"linked": [
+		[
+			"vitepress-plugin-llmstxt"
+		]
 	],
 	"access": "restricted",
 	"baseBranch": "main",

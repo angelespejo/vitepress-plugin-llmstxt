@@ -65,8 +65,19 @@ jobs:
            export npm_config_build_from_source=false
            pnpm install --no-frozen-lockfile --ignore-scripts
 
-    #   - name: ⬇️🌐 Install Playwright Browsers
-    #     run: pnpx playwright install --with-deps
+      # Playwright binaries
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "PLAYWRIGHT_VERSION=$( node -e "console.log(require('./package.json').devDependencies['@playwright/test'])" )" >> $GITHUB_ENV
+      - name: Cache playwright binaries
+        uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+      - name: ⬇️🌐 Install Playwright Browsers
+        run: pnpx playwright install --with-deps
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
 
       #########################################################################
       # BUILD
@@ -79,8 +90,8 @@ jobs:
       # TEST
       #########################################################################
 
-    #   - name: ✅ Run [e2e & unit] tests
-    #     run: pnpm test
+      - name: ✅ Run [e2e & unit] tests
+        run: pnpm test
 
       #########################################################################
       # EXIT IF IS PULL REQUEST

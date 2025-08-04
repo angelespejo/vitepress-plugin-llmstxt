@@ -33,6 +33,6 @@
 		"removeComments": false,
 		"allowSyntheticDefaultImports": true,
 		"outDir": "./dist",
-		"baseUrl": "./src"
+		"baseUrl": "packages/vitepress/src"
 	},
 }

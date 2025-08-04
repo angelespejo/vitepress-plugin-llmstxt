@@ -11,7 +11,7 @@ import {
 } from 'node:path'
 import { styleText } from 'node:util'
 
-import { name } from '../package.json'
+import { name } from '../../../package.json'
 
 export {
 	writeFile,
@@ -19,8 +19,15 @@ export {
 	dirname,
 }
 
-// The name of the plugin
 export const PLUGIN_NAME = name
+
+/**
+ * ********************************************************************************
+ * ********************************************************************************
+ * **** STRINGS ******************************************************************
+ * ********************************************************************************
+ * ********************************************************************************
+ */
 
 /**
  * Joins the given URL parts into a single string.
@@ -35,6 +42,36 @@ export const joinUrl = ( ...parts: string[] ) => {
 	return parts.join( '/' )
 
 }
+
+// /**
+//  * Cleans the given URL path by removing leading and trailing slashes.
+//  *
+//  * @param   {string} path - The URL path to clean.
+//  * @returns {string}      - The cleaned URL path without leading or trailing slashes.
+//  */
+
+// export const cleanUrlPath = ( path: string ) =>
+// 	path.replace( /^\/+|\/+$/g, '' )
+
+// /**
+//  * Checks if two file paths are equal after normalization.
+//  *
+//  * Normalization ensures that differences like trailing slashes or redundant path segments are ignored.
+//  *
+//  * @param   {string}  pathA - The first file path to compare.
+//  * @param   {string}  pathB - The second file path to compare.
+//  * @returns {boolean}       - true if the paths are equal, false otherwise.
+//  */
+// export const matchUrlPath = ( pathA: string, pathB: string ): boolean =>
+// 	cleanUrlPath( pathA ) === cleanUrlPath( pathB )
+
+/**
+ * ********************************************************************************
+ * ********************************************************************************
+ * **** MARKDOWN ******************************************************************
+ * ********************************************************************************
+ * ********************************************************************************
+ */
 
 /**
  * Replaces any existing frontmatter in the Markdown string with the provided one.
@@ -118,6 +155,23 @@ export const removeFrontmatter = ( markdown: string ): string => {
 
 }
 
+export const markdownPathToUrlRoute = ( path: string ) => {
+
+	// const basePath = path.endsWith( '/' ) ? path : path + '/'
+	const route = path.endsWith( '.md' ) ? path.slice( 0, -3 ) : path
+	return route.startsWith( '/' ) ? route : '/' + route
+
+}
+
+// const urlRoute2MarkdownPath = ( route: string ) => {
+
+// 	const basePath = route.endsWith( '/' ) ? route.slice( 0, -1 ) : route
+// 	const path     = basePath.endsWith( '.md' ) ? basePath : basePath + '.md'
+
+// 	return path.startsWith( '/' ) ? path.slice( 1 ) : path
+
+// }
+
 export const getMDTitleLine = ( markdown: string ): string | undefined => {
 
 	try {
@@ -133,6 +187,14 @@ export const getMDTitleLine = ( markdown: string ): string | undefined => {
 	}
 
 }
+
+/**
+ * ********************************************************************************
+ * ********************************************************************************
+ * **** SYSTEM ********************************************************************
+ * ********************************************************************************
+ * ********************************************************************************
+ */
 
 /**
  * Checks if a directory exists at the specified path.
@@ -158,6 +220,7 @@ export async function existsDir( path: string ): Promise<boolean> {
 	}
 
 }
+
 export const ensureDir = async ( path: string ) => {
 
 	const exist = await existsDir( path )
@@ -165,10 +228,19 @@ export const ensureDir = async ( path: string ) => {
 
 }
 
+/**
+ * ********************************************************************************
+ * ********************************************************************************
+ * **** LOG ***********************************************************************
+ * ********************************************************************************
+ * ********************************************************************************
+ */
+
 const green  = ( v: string ) => styleText( 'green', v )
 const bold   = ( v: string ) => styleText( 'bold', v )
 const red    = ( v: string ) => styleText( 'red', v )
 const yellow = ( v: string ) => styleText( 'yellow', v )
+
 export const log = {
 	success : ( v: string ) => console.log( green( '✓ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
 	error   : ( v: string ) => console.log( red( '✗ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),

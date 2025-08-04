@@ -1,15 +1,25 @@
 <script setup>
 
-import { computed } from 'vue'
+import {
+	useRoute,
+	useData,
+} from 'vitepress/client'
+import {
+	ref,
+	watch,
+} from 'vue'
 
-import { getRouteData } from '../../../../src/client' // NOTE: Change to: import { getData } from 'vitepress-plugin-llmstxt/client'
+import { useLLMsRouteData } from '../../../../../src/client' // NOTE: Change to: import { getData } from 'vitepress-plugin-llmstxt/client'
 
-const llmsPath = computed( () => {
+const data     = useData()
+const route    = useRoute()
+const llmsPath = ref( useLLMsRouteData( route, data )?.path )
 
-	const llmsData = getRouteData()
-	return llmsData?.path
-
-} )
+watch(
+	route,
+	newValue => llmsPath.value = useLLMsRouteData( newValue, data )?.path,
+	{ immediate: true },
+)
 
 </script>
 
@@ -28,7 +38,7 @@ const llmsPath = computed( () => {
 					target="_blank"
 					class="VPLink link"
 				>
-					llms.txt
+					{{ llmsPath }}
 				</a>
 			</li>
 		</ul>

@@ -19,9 +19,15 @@ export type LlmsPageData = {
 	frontmatter : Record<string, Any>
 	content     : string
 }
-
 export type IndexTOC = boolean | 'only-llms' | 'only-llms-links' | 'only-web' | 'only-web-links'
-
+export type LlmsClientPageData = {
+	path   : string
+	url    : string
+	llmUrl : string
+}
+export type LlmsClientConfig = {
+	pageData? : LlmsClientPageData[]
+}
 export type LlmsConfig = {
 	/**
 	 * Hostname
@@ -71,6 +77,13 @@ export type LlmsConfig = {
 	 * @default true
 	 */
 	mdFiles?       : boolean
+	/**
+	 * Watch for changes in pages in development mode
+	 * If set to true, llms files will be recompiled on changes in pages
+	 *
+	 * @default false
+	 */
+	watch?         : boolean
 	/**
 	 * Callback for transform each page
 	 */
