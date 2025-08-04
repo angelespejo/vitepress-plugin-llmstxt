@@ -11,7 +11,7 @@ import {
 } from 'node:path'
 import { styleText } from 'node:util'
 
-import { name } from '../../../package.json'
+import { name } from '../package.json'
 
 export {
 	writeFile,
