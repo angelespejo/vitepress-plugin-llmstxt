@@ -135,6 +135,16 @@ Controls the content of the table of contents inside the `llms.txt` file.
 - `true` - Show both  
 - `false` - No index included  
 
+#### Examples
+
+```js
+{
+  llmsFile: {
+    indexTOC: 'only-llms'
+  }
+}
+```
+
 ### `llmsFullFile` (boolean)
 
 Whether to generate the extended `llms-full.txt` file.  
@@ -153,25 +163,24 @@ Support vitepress [dynamic routes](https://vitepress.dev/guide/routing#dynamic-r
 ### `transform` (function)
 
 A callback to transform each page's data before writing it.  
-It receives:
 
 ```ts
 {
-  transform: (data: {
-    page: LlmsPageData,
-    pages: LlmsPageData[],
-    vpConfig?: VPConfig,
+  transform?: (data: {
+    page: LlmsPageData
+    pages: LlmsPageData[]
+    vpConfig?: VPConfig
     utils: {
-      getIndexTOC: (type: IndexTOC) => string,
+      getIndexTOC: (type: IndexTOC) => string
       removeFrontmatter: (content: string) => string
     }
-  }) => {}
+  }) => Promise<LlmsPageData> | LlmsPageData
 }
 ```
 
 You can use this to mutate `page.content`, add or remove metadata, or conditionally skip pages.
 
-### Examples 
+#### Examples 
 
 ```ts
 {
@@ -194,10 +203,11 @@ You can use this to mutate `page.content`, add or remove metadata, or conditiona
 }
 ```
 
-### watch` (boolean)
+### `watch` (boolean)
 
-Whether to watch for changes to the source files and regenerate the llms.txt and llms-full.txt files.
+Whether to watch for changes to the source files and regenerate the `llms.txt`, `llms-full.txt` and `.md` files.
 **@default** `false`
+
 > This feature is only enabled in **development mode**.
 
 ## 💡 Examples
