@@ -62,8 +62,8 @@
 		"test": "pnpx tsx tests/run.ts"
 	},
 	"devDependencies": {
-		"vitepress": "1.6.3",
-		"vue": "3.5.18"
+		"vitepress": "1.6.4",
+		"vue": "3.5.22"
 	},
 	"peerDependencies": {
 		"vitepress": "^1.0.0"
