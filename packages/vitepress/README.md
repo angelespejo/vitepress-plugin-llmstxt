@@ -35,6 +35,7 @@ It can be used to create useful metadata files and provide structured informatio
 - Supports for building only certain files.
 - Generates a table of contents (**TOC**).
 - Follows the https://llmstxt.org/ standard.
+- Experimental support for **VitePress v2.0.0-alpha**.
 
 ## 🔑 Installation
 

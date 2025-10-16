@@ -69,6 +69,7 @@ export const configs: ConfigExamples = {
 			testforTextPath( '/llms.txt' )( utils )
 			testforTextPath( '/llms-full.txt' )( utils )
 			testforTextPath( '/guide.md' )( utils )
+			testforTextPath( CONSTANTS.dynamicRouteMD )( utils )
 
 		},
 	},
@@ -79,6 +80,7 @@ export const configs: ConfigExamples = {
 			testfor404page( '/llms.txt' )( utils )
 			testforTextPath( '/llms-full.txt' )( utils )
 			testforTextPath( '/guide.md' )( utils )
+			testforTextPath( CONSTANTS.dynamicRouteMD )( utils )
 
 		},
 	},
@@ -89,6 +91,7 @@ export const configs: ConfigExamples = {
 			testforTextPath( '/llms.txt' )( utils )
 			testforTextPath( '/guide.md' )( utils )
 			testfor404page( '/llms-full.txt' )( utils )
+			testforTextPath( CONSTANTS.dynamicRouteMD )( utils )
 
 		},
 	},
@@ -99,6 +102,7 @@ export const configs: ConfigExamples = {
 			testforTextPath( '/llms.txt' )( utils )
 			testforTextPath( '/llms-full.txt' )( utils )
 			testfor404page( '/guide.md' )( utils )
+			testfor404page( CONSTANTS.dynamicRouteMD )( utils )
 
 		},
 	},

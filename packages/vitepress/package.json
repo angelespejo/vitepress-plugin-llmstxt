@@ -1,6 +1,6 @@
 {
 	"name": "vitepress-plugin-llmstxt",
-	"version": "0.4.2",
+	"version": "0.5.0",
 	"description": "VitePress plugin to generate llms.txt files automatically",
 	"keywords": [
 		"ai",

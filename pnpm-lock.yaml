@@ -25,19 +25,19 @@ importers:
         version: 0.5.1
       '@changesets/cli':
         specifier: 2.29.7
-        version: 2.29.7(@types/node@24.7.2)
+        version: 2.29.7(@types/node@24.8.0)
       '@dovenv/core':
         specifier: 1.6.1
         version: 1.6.1
       '@dovenv/theme-pigeonposse':
         specifier: 1.6.1
-        version: 1.6.1(@dovenv/core@1.6.1)(@types/estree@1.0.8)(@types/node@24.7.2)(@typescript-eslint/parser@8.39.0(eslint@9.37.0(jiti@2.4.2))(typescript@5.9.3))(change-case@5.4.4)(eslint@9.37.0(jiti@2.4.2))(jiti@2.4.2)(markdown-it@14.1.0)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(vue-eslint-parser@9.4.3(eslint@9.37.0(jiti@2.4.2)))(workbox-build@7.3.0)(workbox-window@7.3.0)(yaml@2.8.0)
+        version: 1.6.1(@dovenv/core@1.6.1)(@types/estree@1.0.8)(@types/node@24.8.0)(@typescript-eslint/parser@8.39.0(eslint@9.37.0(jiti@2.4.2))(typescript@5.9.3))(change-case@5.4.4)(eslint@9.37.0(jiti@2.4.2))(jiti@2.4.2)(markdown-it@14.1.0)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(vue-eslint-parser@9.4.3(eslint@9.37.0(jiti@2.4.2)))(workbox-build@7.3.0)(workbox-window@7.3.0)(yaml@2.8.0)
       '@playwright/test':
         specifier: 1.56.0
         version: 1.56.0
       '@types/node':
-        specifier: 24.7.2
-        version: 24.7.2
+        specifier: 24.8.0
+        version: 24.8.0
       eslint:
         specifier: 9.37.0
         version: 9.37.0(jiti@2.4.2)
@@ -55,7 +55,7 @@ importers:
     devDependencies:
       vitepress:
         specifier: 1.6.4
-        version: 1.6.4(@algolia/client-search@5.21.0)(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(search-insights@2.17.3)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0)
+        version: 1.6.4(@algolia/client-search@5.21.0)(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(search-insights@2.17.3)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0)
       vue:
         specifier: 3.5.22
         version: 3.5.22(typescript@5.9.3)
@@ -1948,8 +1948,8 @@ packages:
   '@types/node@12.20.55':
     resolution: {integrity: sha512-J8xLz7q2OFulZ2cyGTLE1TbbZcjpno7FaN6zdJNrgAdrJ+DZzh/uFR6YrTb4C+nXakvud8Q4+rbhoIWlYQbUFQ==}
 
-  '@types/node@24.7.2':
-    resolution: {integrity: sha512-/NbVmcGTP+lj5oa4yiYxxeBjRivKQ5Ns1eSZeB99ExsEQ6rX5XYU1Zy/gGxY/ilqtD4Etx9mKyrPxZRetiahhA==}
+  '@types/node@24.8.0':
+    resolution: {integrity: sha512-5x08bUtU8hfboMTrJ7mEO4CpepS9yBwAqcL52y86SWNmbPX8LVbNs3EP4cNrIZgdjk2NAlP2ahNihozpoZIxSg==}
 
   '@types/resolve@1.20.2':
     resolution: {integrity: sha512-60BCwRFOZCQhDncwQdxxeOEEkbc5dIMccYLwbxsS4TUNeVECQ/pBJ0j09mrHOl/JJvpRPGwO9SvE4nR2Nb/a4Q==}
@@ -7103,7 +7103,7 @@ snapshots:
       spawndamnit: 3.0.1
       term-size: 2.2.1
 
-  '@changesets/cli@2.29.7(@types/node@24.7.2)':
+  '@changesets/cli@2.29.7(@types/node@24.8.0)':
     dependencies:
       '@changesets/apply-release-plan': 7.0.13
       '@changesets/assemble-release-plan': 6.0.9
@@ -7119,7 +7119,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@changesets/write': 0.4.0
-      '@inquirer/external-editor': 1.0.2(@types/node@24.7.2)
+      '@inquirer/external-editor': 1.0.2(@types/node@24.8.0)
       '@manypkg/get-packages': 1.1.3
       ansi-colors: 4.1.3
       ci-info: 3.9.0
@@ -7272,7 +7272,7 @@ snapshots:
       '@commitlint/rules': 19.8.1
       '@commitlint/types': 19.8.1
 
-  '@commitlint/load@19.8.1(@types/node@24.7.2)(typescript@5.9.3)':
+  '@commitlint/load@19.8.1(@types/node@24.8.0)(typescript@5.9.3)':
     dependencies:
       '@commitlint/config-validator': 19.8.1
       '@commitlint/execute-rule': 19.8.1
@@ -7280,7 +7280,7 @@ snapshots:
       '@commitlint/types': 19.8.1
       chalk: 5.4.1
       cosmiconfig: 9.0.0(typescript@5.9.3)
-      cosmiconfig-typescript-loader: 6.1.0(@types/node@24.7.2)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3)
+      cosmiconfig-typescript-loader: 6.1.0(@types/node@24.8.0)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -7393,7 +7393,7 @@ snapshots:
     transitivePeerDependencies:
       - encoding
 
-  '@dovenv/docs@1.6.1(@dovenv/core@1.6.1)(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(markdown-it@14.1.0)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0)(yaml@2.8.0)':
+  '@dovenv/docs@1.6.1(@dovenv/core@1.6.1)(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(markdown-it@14.1.0)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0)(yaml@2.8.0)':
     dependencies:
       '@dovenv/core': 1.6.1
       '@resvg/resvg-js': 2.6.2
@@ -7405,12 +7405,12 @@ snapshots:
       satori: 0.16.2
       satori-html: 0.3.2
       vite-plugin-full-reload: 1.2.0
-      vite-plugin-pwa: 1.0.2(@vite-pwa/assets-generator@1.0.0)(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0)
-      vite-plugin-restart: 1.0.0(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))
-      vitepress: 1.6.3(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0)
-      vitepress-plugin-group-icons: 1.6.1(markdown-it@14.1.0)(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))
-      vitepress-plugin-llmstxt: 0.4.2(vitepress@1.6.3(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0))
-      vitepress-plugin-rss: 0.3.1(vitepress@1.6.3(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0))
+      vite-plugin-pwa: 1.0.2(@vite-pwa/assets-generator@1.0.0)(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0)
+      vite-plugin-restart: 1.0.0(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))
+      vitepress: 1.6.3(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0)
+      vitepress-plugin-group-icons: 1.6.1(markdown-it@14.1.0)(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))
+      vitepress-plugin-llmstxt: 0.4.2(vitepress@1.6.3(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0))
+      vitepress-plugin-rss: 0.3.1(vitepress@1.6.3(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0))
       vue: 3.5.18(typescript@5.9.3)
     transitivePeerDependencies:
       - '@algolia/client-search'
@@ -7498,11 +7498,11 @@ snapshots:
       '@dovenv/core': 1.6.1
       comment-parser: 1.4.1
 
-  '@dovenv/lint@1.6.1(@dovenv/core@1.6.1)(@types/node@24.7.2)(typescript@5.9.3)':
+  '@dovenv/lint@1.6.1(@dovenv/core@1.6.1)(@types/node@24.8.0)(typescript@5.9.3)':
     dependencies:
       '@commitlint/format': 19.8.1
       '@commitlint/lint': 19.8.1
-      '@commitlint/load': 19.8.1(@types/node@24.7.2)(typescript@5.9.3)
+      '@commitlint/load': 19.8.1(@types/node@24.8.0)(typescript@5.9.3)
       '@commitlint/read': 19.8.1
       '@dovenv/core': 1.6.1
       commitlint-config-gitmoji: 2.3.1
@@ -7526,13 +7526,13 @@ snapshots:
     dependencies:
       '@dovenv/core': 1.6.1
 
-  '@dovenv/theme-banda@1.6.1(@dovenv/core@1.6.1)(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(markdown-it@14.1.0)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0)(yaml@2.8.0)':
+  '@dovenv/theme-banda@1.6.1(@dovenv/core@1.6.1)(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(markdown-it@14.1.0)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0)(yaml@2.8.0)':
     dependencies:
       '@dovenv/convert': 1.6.1(@dovenv/core@1.6.1)(typescript@5.9.3)
       '@dovenv/core': 1.6.1
-      '@dovenv/docs': 1.6.1(@dovenv/core@1.6.1)(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(markdown-it@14.1.0)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0)(yaml@2.8.0)
+      '@dovenv/docs': 1.6.1(@dovenv/core@1.6.1)(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(markdown-it@14.1.0)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0)(yaml@2.8.0)
       '@dovenv/examples': 1.6.1(@dovenv/core@1.6.1)
-      '@dovenv/lint': 1.6.1(@dovenv/core@1.6.1)(@types/node@24.7.2)(typescript@5.9.3)
+      '@dovenv/lint': 1.6.1(@dovenv/core@1.6.1)(@types/node@24.8.0)(typescript@5.9.3)
       '@dovenv/repo': 1.6.1(@dovenv/core@1.6.1)
       '@dovenv/templates': 1.6.1(@dovenv/core@1.6.1)
       '@dovenv/todo': 1.6.1(@dovenv/core@1.6.1)
@@ -7577,11 +7577,11 @@ snapshots:
       - workbox-window
       - yaml
 
-  '@dovenv/theme-pigeonposse@1.6.1(@dovenv/core@1.6.1)(@types/estree@1.0.8)(@types/node@24.7.2)(@typescript-eslint/parser@8.39.0(eslint@9.37.0(jiti@2.4.2))(typescript@5.9.3))(change-case@5.4.4)(eslint@9.37.0(jiti@2.4.2))(jiti@2.4.2)(markdown-it@14.1.0)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(vue-eslint-parser@9.4.3(eslint@9.37.0(jiti@2.4.2)))(workbox-build@7.3.0)(workbox-window@7.3.0)(yaml@2.8.0)':
+  '@dovenv/theme-pigeonposse@1.6.1(@dovenv/core@1.6.1)(@types/estree@1.0.8)(@types/node@24.8.0)(@typescript-eslint/parser@8.39.0(eslint@9.37.0(jiti@2.4.2))(typescript@5.9.3))(change-case@5.4.4)(eslint@9.37.0(jiti@2.4.2))(jiti@2.4.2)(markdown-it@14.1.0)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(vue-eslint-parser@9.4.3(eslint@9.37.0(jiti@2.4.2)))(workbox-build@7.3.0)(workbox-window@7.3.0)(yaml@2.8.0)':
     dependencies:
       '@dovenv/core': 1.6.1
       '@dovenv/eslint-config': 1.6.1(@types/estree@1.0.8)(@typescript-eslint/parser@8.39.0(eslint@9.37.0(jiti@2.4.2))(typescript@5.9.3))(eslint@9.37.0(jiti@2.4.2))(typescript@5.9.3)(vue-eslint-parser@9.4.3(eslint@9.37.0(jiti@2.4.2)))
-      '@dovenv/theme-banda': 1.6.1(@dovenv/core@1.6.1)(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(markdown-it@14.1.0)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0)(yaml@2.8.0)
+      '@dovenv/theme-banda': 1.6.1(@dovenv/core@1.6.1)(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(markdown-it@14.1.0)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0)(yaml@2.8.0)
     transitivePeerDependencies:
       - '@75lb/nature'
       - '@algolia/client-search'
@@ -8041,12 +8041,12 @@ snapshots:
   '@img/sharp-win32-x64@0.33.5':
     optional: true
 
-  '@inquirer/external-editor@1.0.2(@types/node@24.7.2)':
+  '@inquirer/external-editor@1.0.2(@types/node@24.8.0)':
     dependencies:
       chardet: 2.1.0
       iconv-lite: 0.7.0
     optionalDependencies:
-      '@types/node': 24.7.2
+      '@types/node': 24.8.0
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -8570,7 +8570,7 @@ snapshots:
 
   '@types/conventional-commits-parser@5.0.1':
     dependencies:
-      '@types/node': 24.7.2
+      '@types/node': 24.8.0
 
   '@types/debug@4.1.12':
     dependencies:
@@ -8609,7 +8609,7 @@ snapshots:
 
   '@types/node@12.20.55': {}
 
-  '@types/node@24.7.2':
+  '@types/node@24.8.0':
     dependencies:
       undici-types: 7.14.0
 
@@ -8829,9 +8829,9 @@ snapshots:
       sharp-ico: 0.1.5
       unconfig: 7.3.2
 
-  '@vitejs/plugin-vue@5.2.2(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(vue@3.5.22(typescript@5.9.3))':
+  '@vitejs/plugin-vue@5.2.2(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(vue@3.5.22(typescript@5.9.3))':
     dependencies:
-      vite: 7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)
+      vite: 7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)
       vue: 3.5.22(typescript@5.9.3)
 
   '@volar/language-core@2.4.23':
@@ -9491,9 +9491,9 @@ snapshots:
 
   core-util-is@1.0.3: {}
 
-  cosmiconfig-typescript-loader@6.1.0(@types/node@24.7.2)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3):
+  cosmiconfig-typescript-loader@6.1.0(@types/node@24.8.0)(cosmiconfig@9.0.0(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
-      '@types/node': 24.7.2
+      '@types/node': 24.8.0
       cosmiconfig: 9.0.0(typescript@5.9.3)
       jiti: 2.4.2
       typescript: 5.9.3
@@ -13186,12 +13186,12 @@ snapshots:
       picocolors: 1.1.1
       picomatch: 2.3.1
 
-  vite-plugin-pwa@1.0.2(@vite-pwa/assets-generator@1.0.0)(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0):
+  vite-plugin-pwa@1.0.2(@vite-pwa/assets-generator@1.0.0)(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(workbox-build@7.3.0)(workbox-window@7.3.0):
     dependencies:
       debug: 4.4.1
       pretty-bytes: 6.1.1
       tinyglobby: 0.2.15
-      vite: 7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)
+      vite: 7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)
       workbox-build: 7.3.0
       workbox-window: 7.3.0
     optionalDependencies:
@@ -13199,12 +13199,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-restart@1.0.0(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)):
+  vite-plugin-restart@1.0.0(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)):
     dependencies:
       micromatch: 4.0.8
-      vite: 7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)
+      vite: 7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)
 
-  vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0):
+  vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0):
     dependencies:
       esbuild: 0.25.1
       fdir: 6.5.0(picomatch@4.0.3)
@@ -13213,33 +13213,33 @@ snapshots:
       rollup: 4.52.4
       tinyglobby: 0.2.15
     optionalDependencies:
-      '@types/node': 24.7.2
+      '@types/node': 24.8.0
       fsevents: 2.3.3
       jiti: 2.4.2
       terser: 5.39.0
       yaml: 2.8.0
 
-  vitepress-plugin-group-icons@1.6.1(markdown-it@14.1.0)(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)):
+  vitepress-plugin-group-icons@1.6.1(markdown-it@14.1.0)(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)):
     dependencies:
       '@iconify-json/logos': 1.2.4
       '@iconify-json/vscode-icons': 1.2.23
       '@iconify/utils': 2.3.0
       markdown-it: 14.1.0
-      vite: 7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)
+      vite: 7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)
     transitivePeerDependencies:
       - supports-color
 
-  vitepress-plugin-llmstxt@0.4.2(vitepress@1.6.3(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0)):
+  vitepress-plugin-llmstxt@0.4.2(vitepress@1.6.3(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0)):
     dependencies:
-      vitepress: 1.6.3(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0)
+      vitepress: 1.6.3(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0)
 
-  vitepress-plugin-rss@0.3.1(vitepress@1.6.3(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0)):
+  vitepress-plugin-rss@0.3.1(vitepress@1.6.3(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0)):
     dependencies:
       '@sugarat/theme-shared': 0.0.4
       feed: 4.2.2
-      vitepress: 1.6.3(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0)
+      vitepress: 1.6.3(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0)
 
-  vitepress@1.6.3(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0):
+  vitepress@1.6.3(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0):
     dependencies:
       '@docsearch/css': 3.8.2
       '@docsearch/js': 3.8.2(@algolia/client-search@5.21.0)(search-insights@2.17.3)
@@ -13248,7 +13248,7 @@ snapshots:
       '@shikijs/transformers': 2.5.0
       '@shikijs/types': 2.5.0
       '@types/markdown-it': 14.1.2
-      '@vitejs/plugin-vue': 5.2.2(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(vue@3.5.22(typescript@5.9.3))
+      '@vitejs/plugin-vue': 5.2.2(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(vue@3.5.22(typescript@5.9.3))
       '@vue/devtools-api': 7.7.2
       '@vue/shared': 3.5.22
       '@vueuse/core': 12.8.2(typescript@5.9.3)
@@ -13257,7 +13257,7 @@ snapshots:
       mark.js: 8.11.1
       minisearch: 7.1.2
       shiki: 2.5.0
-      vite: 7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)
+      vite: 7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)
       vue: 3.5.22(typescript@5.9.3)
     optionalDependencies:
       postcss: 8.5.6
@@ -13291,7 +13291,7 @@ snapshots:
       - universal-cookie
       - yaml
 
-  vitepress@1.6.4(@algolia/client-search@5.21.0)(@types/node@24.7.2)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(search-insights@2.17.3)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0):
+  vitepress@1.6.4(@algolia/client-search@5.21.0)(@types/node@24.8.0)(change-case@5.4.4)(jiti@2.4.2)(postcss@8.5.6)(search-insights@2.17.3)(terser@5.39.0)(typescript@5.9.3)(yaml@2.8.0):
     dependencies:
       '@docsearch/css': 3.8.2
       '@docsearch/js': 3.8.2(@algolia/client-search@5.21.0)(search-insights@2.17.3)
@@ -13300,7 +13300,7 @@ snapshots:
       '@shikijs/transformers': 2.5.0
       '@shikijs/types': 2.5.0
       '@types/markdown-it': 14.1.2
-      '@vitejs/plugin-vue': 5.2.2(vite@7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(vue@3.5.22(typescript@5.9.3))
+      '@vitejs/plugin-vue': 5.2.2(vite@7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0))(vue@3.5.22(typescript@5.9.3))
       '@vue/devtools-api': 7.7.2
       '@vue/shared': 3.5.22
       '@vueuse/core': 12.8.2(typescript@5.9.3)
@@ -13309,7 +13309,7 @@ snapshots:
       mark.js: 8.11.1
       minisearch: 7.1.2
       shiki: 2.5.0
-      vite: 7.1.10(@types/node@24.7.2)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)
+      vite: 7.1.10(@types/node@24.8.0)(jiti@2.4.2)(terser@5.39.0)(yaml@2.8.0)
       vue: 3.5.22(typescript@5.9.3)
     optionalDependencies:
       postcss: 8.5.6

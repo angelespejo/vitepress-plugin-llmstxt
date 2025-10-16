@@ -1,5 +1,11 @@
 # vitepress-plugin-llmstxt
 
+## 0.5.0
+
+### Minor Changes
+
+- Add experimental support for vitepress 2.0.0-alpha
+
 ## 0.4.2
 
 ### Patch Changes

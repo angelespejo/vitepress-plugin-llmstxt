@@ -126,13 +126,20 @@ const getPages = async ( config?: LlmsConfig, vpConfig?: VPConfig ) => {
 
 	const pages = await loader.load()
 
-	if ( !vpConfig?.dynamicRoutes.routes || config?.dynamicRoutes === false ) return orderContent( pages )
+	// Handle dynamicRoutes format depending on vpConfig version.
+	// In version 2.0.0-alpha, vpConfig.dynamicRoutes is an array directly.
+	// In other versions, it's an object with a `routes` property.
+	const dynamicRoutes = Array.isArray( vpConfig?.dynamicRoutes )
+		? vpConfig.dynamicRoutes
+		: vpConfig?.dynamicRoutes?.routes
+
+	if ( !dynamicRoutes || config?.dynamicRoutes === false ) return orderContent( pages )
 
 	const dynamicPaths: string[] = []
 
-	for ( const key in vpConfig?.dynamicRoutes.routes ) {
+	for ( const key in dynamicRoutes ) {
 
-		const page    = vpConfig?.dynamicRoutes.routes[key]
+		const page    = dynamicRoutes[key]
 		const route   = markdownPathToUrlRoute( page.route )
 		const content =  pages.find( p => p.url.replace( '.html', '' ) === route )
 
