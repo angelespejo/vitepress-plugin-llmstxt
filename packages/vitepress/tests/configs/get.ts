@@ -1,8 +1,8 @@
 import { argv } from 'node:process'
 
-import { configs } from '../../configs/index' // get configs from Object
+import { configs } from './index' // get configs from Object
 
-export const getFlagValue = ( flag: string ) => {
+const getFlagValue = ( flag: string ) => {
 
 	const prefix = `--${flag}=`
 	const arg    = argv.find( arg => arg.startsWith( prefix ) )

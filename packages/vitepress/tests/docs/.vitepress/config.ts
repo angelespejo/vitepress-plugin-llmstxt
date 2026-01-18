@@ -2,8 +2,8 @@
 import { defineConfig } from 'vitepress'
 
 import bundleSizePlugin from './plugin/size'
-import { getConfig }    from './utils'
 import llmsPlugin       from '../../../src/index' // CHANGE TO: import llmsPlugin from 'vitepress-plugin-llmstxt'
+import { getConfig }    from '../../configs/get'
 
 const config = getConfig()
 

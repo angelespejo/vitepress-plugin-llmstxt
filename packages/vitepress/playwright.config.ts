@@ -6,8 +6,9 @@ export default defineConfig( {
 	testMatch : [ 'tests/index.ts' ],
 
 	webServer : {
-		command : `pnpm dev --port=5173 --config=${process.env.TEST_CONFIG}`,
-		port    : 5173,
+		command             : `pnpm dev --port=5173 --config=${process.env.TEST_CONFIG}`,
+		port                : 5173,
+		reuseExistingServer : !process.env.CI,
 	},
 	use : {
 		browserName : 'chromium',

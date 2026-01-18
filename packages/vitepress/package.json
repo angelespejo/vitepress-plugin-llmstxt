@@ -1,6 +1,6 @@
 {
 	"name": "vitepress-plugin-llmstxt",
-	"version": "0.5.0",
+	"version": "0.5.1",
 	"description": "VitePress plugin to generate llms.txt files automatically",
 	"keywords": [
 		"ai",
@@ -63,7 +63,7 @@
 	},
 	"devDependencies": {
 		"vitepress": "1.6.4",
-		"vue": "3.5.22"
+		"vue": "3.5.26"
 	},
 	"peerDependencies": {
 		"vitepress": "^1.0.0"

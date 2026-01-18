@@ -1,5 +1,11 @@
 # vitepress-plugin-llmstxt
 
+## 0.5.1
+
+### Patch Changes
+
+- update dependences and add tests for vitepress v2
+
 ## 0.5.0
 
 ### Minor Changes

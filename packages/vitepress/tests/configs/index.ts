@@ -1,5 +1,4 @@
-
-import {
+import type {
 	ConfigExamples,
 	TestFn,
 } from './types'

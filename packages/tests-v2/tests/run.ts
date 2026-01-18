@@ -1,5 +1,6 @@
-import { configs }         from './configs'
-import { runTests }        from './shared'
+
+import { configs }         from '../../vitepress/tests/configs'
+import { runTests }        from '../../vitepress/tests/shared'
 import { devDependencies } from '../package.json'
 
 await runTests( {

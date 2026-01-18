@@ -1,0 +1,17 @@
+{
+	"name": "@llms-txt/tests-v2",
+	"private": true,
+	"description": "VitePress plugin to generate llms.txt files automatically",
+	"homepage": "https://www.npmjs.com/package/vitepress-plugin-llmstxt",
+	"type": "module",
+	"scripts": {
+		"dev": "vitepress dev ../vitepress/tests/docs --force",
+		"dev-build": "vitepress build tests/docs",
+		"dev-preview": "vitepress preview tests/docs",
+		"test": "pnpx tsx tests/run.ts"
+	},
+	"devDependencies": {
+		"vitepress": "2.0.0-alpha.12",
+		"vue": "3.5.26"
+	}
+}
