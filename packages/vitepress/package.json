@@ -24,8 +24,8 @@
 		"email": "dev@pigeonposse.com"
 	},
 	"repository": {
-		"type": "https",
-		"url": "https://github.com/angelespejo/vitepress-plugin-llmstxt"
+		"type": "git",
+		"url": "git+https://github.com/angelespejo/vitepress-plugin-llmstxt.git"
 	},
 	"funding": {
 		"type": "individual",
