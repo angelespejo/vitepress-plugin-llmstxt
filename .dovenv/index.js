@@ -1,19 +1,21 @@
 import { defineConfig } from '@dovenv/core'
-import {
-	copyFile,
-	joinPath,
-} from '@dovenv/core/utils'
+
 import {
 	pigeonposseMonorepoTheme,
 	getWorkspaceConfig,
 } from '@dovenv/theme-pigeonposse'
 
 const corePath = './packages/vitepress'
+
 export default defineConfig(
 	{ custom : { readme : {
 		desc : 'Readme file',
 		fn   : async props => {
 
+			const {
+				copyFile,
+				joinPath,
+			} = await import('@dovenv/core/utils')
 			await copyFile( {
 				input  : joinPath( props.utils.wsDir, corePath, './README.md' ),
 				output : joinPath( props.utils.wsDir, './README.md' ),

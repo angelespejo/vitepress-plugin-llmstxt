@@ -148,7 +148,7 @@ const getPages = async ( config?: LlmsConfig, vpConfig?: VPConfig ) => {
 		dynamicPaths.push( content.url )
 		pages.push( {
 			excerpt     : undefined,
-			frontmatter : {},
+			frontmatter : content.frontmatter || {},
 			html        : undefined,
 			url         : markdownPathToUrlRoute( page.path ),
 			src         : replaceMarkdownTemplate( content.src, page.params, {}, page.content ),
@@ -199,8 +199,8 @@ export const getPagesData = async ( config: Omit<LlmsConfig, 'hostname'> & { hos
 
 		const path    = '/' + LLM_FULL_FILENAME
 		const extra   = {
-			URL      : join( originURL, path ),
-			LLMS_URL : join( originURL, path ),
+			URL      : joinUrl( originURL, path ),
+			LLMS_URL : joinUrl( originURL, path ),
 		}
 		const content = mdFiles.map( d => d.content ).join( '\n\n' )
 		allFiles.push( {
@@ -220,8 +220,8 @@ export const getPagesData = async ( config: Omit<LlmsConfig, 'hostname'> & { hos
 
 		const path    = '/' + LLM_FILENAME
 		const extra   = {
-			URL      : join( originURL, path ),
-			LLMS_URL : join( originURL, path ),
+			URL      : joinUrl( originURL, path ),
+			LLMS_URL : joinUrl( originURL, path ),
 		}
 		const content = getIndex( mdFiles, config, vpConfig ).trim()
 

@@ -1,5 +1,15 @@
 # vitepress-plugin-llmstxt
 
+## 0.5.2
+
+### Patch Changes
+
+- [#7](https://github.com/angelespejo/vitepress-plugin-llmstxt/pull/7) [`26d249a`](https://github.com/angelespejo/vitepress-plugin-llmstxt/commit/26d249a8aa144ee9ae9019af9382e8619ab54883) Thanks [@YfengJ](https://github.com/YfengJ)! - Fix the package repository git metadata.
+
+- - fix [issue](https://github.com/angelespejo/vitepress-plugin-llmstxt/issues/8)
+  - add more tests
+  - update devDependences
+
 ## 0.5.1
 
 ### Patch Changes

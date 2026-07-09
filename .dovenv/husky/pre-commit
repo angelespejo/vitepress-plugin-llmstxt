@@ -9,4 +9,4 @@
 
 echo '🚀 Precommit'
 echo
-pnpm --silent . lint staged --silent
+pnpm --silent dovenv lint staged --silent

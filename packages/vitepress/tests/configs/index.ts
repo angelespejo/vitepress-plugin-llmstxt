@@ -72,6 +72,25 @@ export const configs: ConfigExamples = {
 
 		},
 	},
+	HOSTNAME : {
+		llmsConfig : {hostname: 'https://example.com/'},
+		test       : utils => {
+
+			testforTextPath( '/llms.txt' )( utils )
+			testforTextPath( '/llms-full.txt' )( utils )
+			testforTextPath( '/guide.md' )( utils )
+			testforTextPath( CONSTANTS.dynamicRouteMD )( utils )
+
+			utils.test( `Should exists hostname and title frontmatter value in "${CONSTANTS.dynamicRouteMD}"`, async ( { page } ) => {
+
+				const response = await page.goto( CONSTANTS.dynamicRouteMD )
+				utils.expect( response?.ok() ).toBeTruthy()
+				const content = await page.textContent( 'body' )
+				utils.expect(content?.trim()).toContain('LLMS_URL: "https://example.com/dynamic/1.md"\ntitle: "Vitepress Dynamic routes"')
+
+			} )
+		},
+	},
 	NO_LLMS_FILE : {
 		llmsConfig : { llmsFile: false },
 		test       : utils => {
