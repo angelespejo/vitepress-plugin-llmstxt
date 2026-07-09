@@ -14,7 +14,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 env:
   GITHUB_TOKEN: ${{ github.token }}
-  NPM_TOKEN: ${{ secrets.NPM_ACCESS_TOKEN }}
+  NPM_TOKEN: ${{ secrets.NPM_VITEPRESS_PLUGIN_LLMSTXT_ACCESS_TOKEN }}
 permissions:
   contents: write # to create release (changesets/action)
   pull-requests: write # to create pull request (changesets/action)
@@ -43,7 +43,7 @@ jobs:
       - name: ⬇️🟢 Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 22.12.0
+          node-version: 24.15.0
           cache: 'pnpm'
 
       - name: 🐙😺 Check GitHub API Rate Limit
@@ -124,6 +124,7 @@ jobs:
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ env.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
+		
       - name: Get updated versions if exists
         id: updated
         run: |
@@ -156,7 +157,7 @@ jobs:
 
       - name: ℹ️🐙😺➡️ Update repo info
         if: steps.check_package_json.outputs.stdout != 'No changes in package.json'
-        run: pnpm . gh info update
+        run: pnpm dovenv gh info update
         continue-on-error: true
 
 
