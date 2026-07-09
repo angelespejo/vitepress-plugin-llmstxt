@@ -20,6 +20,7 @@ permissions:
   pull-requests: write # to create pull request (changesets/action)
   issues: write # to post issue comments (changesets/action
   id-token: write # to use OpenID Connect token for provenance (changesets/action)
+  actions: write # to create workflow dispatches 
 
 ###############################################################################
 # JOBS
