@@ -9,7 +9,9 @@ import type {
 	LlmsClientConfig,
 } from './types'
 
-export { LlmsClientConfig }
+export {
+	LlmsClientConfig,
+}
 
 type LLMsRouteData = NonNullable<LlmsClientConfig['pageData']>[number]
 

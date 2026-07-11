@@ -116,11 +116,13 @@ const getPages = async ( config?: LlmsConfig, vpConfig?: VPConfig ) => {
 		includeSrc  : true,
 		excerpt     : true,
 		globOptions : config?.ignore
-			? { ignore : [
-				'node_modules',
-				'dist',
-				...config.ignore,
-			] }
+			? {
+				ignore : [
+					'node_modules',
+					'dist',
+					...config.ignore,
+				],
+			}
 			: undefined,
 	} )
 

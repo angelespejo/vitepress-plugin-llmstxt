@@ -1,5 +1,7 @@
 
-import { defineConfig } from 'vitepress'
+import {
+	DefaultTheme, defineConfig,
+} from 'vitepress'
 
 import bundleSizePlugin from './plugin/size'
 import llmsPlugin       from '../../../src/index' // CHANGE TO: import llmsPlugin from 'vitepress-plugin-llmstxt'
@@ -7,53 +9,96 @@ import { getConfig }    from '../../configs/get'
 
 const config = getConfig()
 
-// https://vitepress.vuejs.org/config/app-configs
-export default defineConfig( {
-	title       : 'VitePress Example page',
-	description : 'VitePress Plugin for LLMs',
-	themeConfig : {
+const translations = {
+	en : {
+		guide        : 'Guide',
+		contributors : 'Contributors',
+		index        : 'Index',
+		api          : 'Api',
+		core         : 'Core',
+		coreExamples : 'Core Examples',
+		coreApi      : 'Core API',
+		dynamic      : 'Dynamic routes',
+	},
+	es : {
+		guide        : 'Guía',
+		contributors : 'Colaboradores',
+		index        : 'Índice',
+		api          : 'API',
+		core         : 'Núcleo',
+		coreExamples : 'Ejemplos del Núcleo',
+		coreApi      : 'API del Núcleo',
+		dynamic      : 'Rutas dinámicas',
+	},
+}
+
+const getThemeConfig = ( locale: 'en' | 'es' = 'en' ): DefaultTheme.Config => {
+
+	const t      = translations[locale]
+	const prefix = locale === 'en' ? '' : `/${locale}`
+
+	return {
 		nav : [
 			{
-				text : 'Guide',
-				link : '/guide/',
+				text : t.guide,
+				link : `${prefix}/guide/`,
 			},
 			{
-				text : 'Contributors',
-				link : '/contributors/',
+				text : t.contributors,
+				link : `${prefix}/contributors/`,
 			},
 		],
 		sidebar : [
 			{
-				text  : 'Guide',
+				text  : t.guide,
 				items : [
 					{
-						text : 'Index',
-						link : '/guide/',
+						text : t.index,
+						link : `${prefix}/guide/`,
 					},
 					{
-						text : 'Api',
-						link : '/guide/api/',
+						text : t.api,
+						link : `${prefix}/guide/api/`,
 					},
 					{
-						text : 'Core',
-						link : '/guide/core/',
+						text : t.core,
+						link : `${prefix}/guide/core/`,
 					},
 					{
-						text : 'Core Examples',
-						link : '/guide/core/examples/',
+						text : t.coreExamples,
+						link : `${prefix}/guide/core/examples/`,
 					},
 					{
-						text : 'Core API',
-						link : '/guide/core/api/',
+						text : t.coreApi,
+						link : `${prefix}/guide/core/api/`,
 					},
 				],
 			},
 			{
-				text : 'Dynamic routes',
-				link : '/dynamic/',
+				text : t.dynamic,
+				link : `${prefix}/dynamic/`,
 			},
 		],
+	}
+
+}
+
+// https://vitepress.vuejs.org/config/app-configs
+export default defineConfig( {
+	title       : 'VitePress Example page',
+	description : 'VitePress Plugin for LLMs',
+	locales     : {
+		root : {
+			label : 'English',
+			lang  : 'en',
+		},
+		es : {
+			label       : 'Español',
+			lang        : 'es',
+			themeConfig : getThemeConfig( 'es' ),
+		},
 	},
-	vite : { plugins: [ llmsPlugin( { ...config.llmsConfig || {} } ), bundleSizePlugin() ] },
+	themeConfig : getThemeConfig(),
+	vite        : { plugins: [ llmsPlugin( { ...config.llmsConfig || {} } ), bundleSizePlugin() ] },
 	...config.vpConfig || {},
 } )

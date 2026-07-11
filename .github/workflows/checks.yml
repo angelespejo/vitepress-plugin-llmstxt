@@ -34,37 +34,14 @@ jobs:
       #########################################################################
       # INIT
       #########################################################################
-
-      - name: ⬇️🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.12.1
       - name: ⬇️🛎 Checkout
-        uses: actions/checkout@v4
-      - name: ⬇️🥡 Install pnpm
-        uses: pnpm/action-setup@v4
-      - name: ⬇️🟢 Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24.15.0
-          cache: 'pnpm'
-
-      - name: 🐙😺 Check GitHub API Rate Limit
-        id: rate_limit
-        run: |
-          response=$(gh api rate_limit)
-          limit=$(echo $response | jq -r '.resources.core.limit')
-          remaining=$(echo $response | jq -r '.resources.core.remaining')
-          echo "GitHub API Rate Limit: $remaining/$limit"
-
-          if [ "$remaining" -lt 10 ]; then
-              exit 1
-          fi
-        env:
-            GH_TOKEN: ${{ env.GITHUB_TOKEN }}
-
-      - name: ⬇️📦 Install dependencies
-        run: |
-           export npm_config_build_from_source=false
-           pnpm install --no-frozen-lockfile --ignore-scripts
+        uses: actions/checkout@v6
+        with: 
+          persist-credentials: false
+      - name: ⬇️🏃‍♂️ Set up
+        uses: ./.github/actions/setup/
+        with: 
+          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
 
       # Playwright binaries
       - name: Get installed Playwright version

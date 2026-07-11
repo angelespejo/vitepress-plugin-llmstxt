@@ -73,7 +73,7 @@ export const configs: ConfigExamples = {
 		},
 	},
 	HOSTNAME : {
-		llmsConfig : {hostname: 'https://example.com/'},
+		llmsConfig : { hostname: 'https://example.com/' },
 		test       : utils => {
 
 			testforTextPath( '/llms.txt' )( utils )
@@ -86,9 +86,10 @@ export const configs: ConfigExamples = {
 				const response = await page.goto( CONSTANTS.dynamicRouteMD )
 				utils.expect( response?.ok() ).toBeTruthy()
 				const content = await page.textContent( 'body' )
-				utils.expect(content?.trim()).toContain('LLMS_URL: "https://example.com/dynamic/1.md"\ntitle: "Vitepress Dynamic routes"')
+				utils.expect( content?.trim() ).toContain( 'LLMS_URL: "https://example.com/dynamic/1.md"\ntitle: "Vitepress Dynamic routes"' )
 
 			} )
+
 		},
 	},
 	NO_LLMS_FILE : {

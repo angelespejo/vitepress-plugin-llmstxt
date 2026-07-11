@@ -1,4 +1,4 @@
-/* eslint-disable @stylistic/object-curly-newline */
+
 import type {
 	ContentData,
 	SiteConfig,

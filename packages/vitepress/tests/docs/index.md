@@ -11,8 +11,11 @@ hero:
       text: Get started
       link: /guide
     - theme: alt
-      text: View on GitHub
-      link: https://github.com/angelespejo/vitepress-plugin-llmstxt/tree/main/examples
+      text: view llms.txt
+      link: /llms.txt
+    - theme: alt
+      text: View llms-full.txt
+      link: /llms-full.txt
 features:
   - title: Get started
     icon: 🏁

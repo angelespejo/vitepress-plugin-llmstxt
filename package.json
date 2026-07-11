@@ -51,7 +51,6 @@
 		"lint:staged": "dovenv lint staged --silent",
 		"prepare": "dovenv git husky --silent",
 		"test": "pnpm run --sequential \"/test:.*/\"",
-		"test:check": "pnpm --parallel check",
 		"test:check-ws": "dovenv check --silent",
 		"test:pkg": "pnpm --parallel test"
 	},

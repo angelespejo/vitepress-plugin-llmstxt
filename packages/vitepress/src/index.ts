@@ -18,17 +18,21 @@ import type {
 	VPConfig,
 } from './types'
 
-export type { LlmsConfig }
+export type {
+	LlmsConfig,
+}
 
 const addVPConfigLllmData = ( data: LlmsPageData[] | undefined, vpConfig?: VPConfig ) => {
 
 	if ( !vpConfig ) return
 
-	const config: LlmsClientConfig = { pageData : data?.map( d => ( {
-		path   : d.path,
-		url    : d.url,
-		llmUrl : d.llmUrl,
-	} ) ) }
+	const config: LlmsClientConfig = {
+		pageData : data?.map( d => ( {
+			path   : d.path,
+			url    : d.url,
+			llmUrl : d.llmUrl,
+		} ) ),
+	}
 
 	vpConfig.site.themeConfig.llmstxt = config
 
@@ -181,7 +185,6 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 			} )
 
 		},
-
 		/**
 		 * Called once the final Vite config is resolved.
 		 *
@@ -197,11 +200,11 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 			if ( !vpConfig ) return
 
 			//////////////////////////////////////////////////////////////////////////////////////////////////
-			// ALERT!
+			// WARNING: Maintain this block empty.
 			//////////////////////////////////////////////////////////////////////////////////////////////////
-			// Don't put anything here. This runs before buildEnd and can cause:
-			// - disruption to plugin execution
-			// - increase bundle size
+			// Code execution here occurs prior to buildEnd, which can lead to:
+			// - Plugin conflicts and unexpected build behavior.
+			// - Unnecessary inflation of the final bundle size.
 			//////////////////////////////////////////////////////////////////////////////////////////////////
 
 			const selfBuildEnd = vpConfig.buildEnd
@@ -212,7 +215,7 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 
 				const outDir = siteConfig.outDir
 
-				// The data is already compiled in the 'buildStart' hook, but if it fails, it will be compiled here.
+				// The data is already compiled in the 'buildStart' hook, but if it fails for unknown reasons, it will be compiled here.
 				if ( !data ) {
 
 					// console.log( 'buildEnd' )
