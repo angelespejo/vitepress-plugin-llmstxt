@@ -8,5 +8,6 @@ export default setConfig( {
 	json      : true,
 	vue       : true,
 	ignore    : [ '**/README.md', '**/CHANGELOG.md' ],
-} )
+
+}, c => [ ...c, { rules: { 'package-json/no-redundant-publishConfig': 'off' } } ] )
 
