@@ -125,7 +125,7 @@ jobs:
           GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ env.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
-		
+
       - name: Get updated versions if exists
         id: updated
         run: |
