@@ -2,10 +2,12 @@
 import {
 	DefaultTheme, defineConfig,
 } from 'vitepress'
+import sizePlugin from 'vitepress-plugin-size'
 
-import bundleSizePlugin from './plugin/size'
-import llmsPlugin       from '../../../src/index' // CHANGE TO: import llmsPlugin from 'vitepress-plugin-llmstxt'
-import { getConfig }    from '../../configs/get'
+import llmsPlugin    from '../../../src/index'
+import { getConfig } from '../../configs/get'
+
+import type { Any } from '../../../src/types'
 
 const config = getConfig()
 
@@ -99,6 +101,6 @@ export default defineConfig( {
 		},
 	},
 	themeConfig : getThemeConfig(),
-	vite        : { plugins: [ llmsPlugin( { ...config.llmsConfig || {} } ), bundleSizePlugin() ] },
+	vite        : { plugins: [ llmsPlugin( { ...config.llmsConfig || {} } ), sizePlugin() as Any ] },
 	...config.vpConfig || {},
 } )
