@@ -163,8 +163,18 @@ const getPages = async ( config?: LlmsConfig, vpConfig?: VPConfig ) => {
 	return orderContent( res )
 
 }
+type PagesDataConfig = Omit<LlmsConfig, 'hostname'> & { hostname: string }
 
-export const getPagesData = async ( config: Omit<LlmsConfig, 'hostname'> & { hostname: string }, vpConfig?: VPConfig ) => {
+/**
+ * Returns the processed collection of page data for the LLMS plugin,
+ * including path normalization, generation of llms.txt and llms-full.txt files,
+ * and application of custom transformation hooks.
+ *
+ * @param   {PagesDataConfig}         config   - Plugin configuration (must include hostname).
+ * @param   {VPConfig}                vpConfig - Optional VitePress configuration context.
+ * @returns {Promise<LlmsPageData[]>}          The final collection of page data.
+ */
+export const getPagesData = async ( config: PagesDataConfig, vpConfig?: VPConfig ) => {
 
 	const pages                    = await getPages( config, vpConfig )
 	const originURL                = config.hostname

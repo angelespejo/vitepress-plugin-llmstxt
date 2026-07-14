@@ -155,10 +155,20 @@ export const removeFrontmatter = ( markdown: string ): string => {
 
 }
 
+/**
+ * Converts a Markdown file path into a clean URL route.
+ *
+ * Removes the `.md` extension if present and ensures the path
+ * starts with a leading slash (`/`).
+ *
+ * @param   {string} path - The file path or route string to normalize.
+ * @returns {string}      The normalized route ready to be used as a URL (e.g., "/my-page").
+ */
 export const markdownPathToUrlRoute = ( path: string ) => {
 
 	// const basePath = path.endsWith( '/' ) ? path : path + '/'
 	const route = path.endsWith( '.md' ) ? path.slice( 0, -3 ) : path
+	// Ensure the route starts with a slash
 	return route.startsWith( '/' ) ? route : '/' + route
 
 }
@@ -172,6 +182,15 @@ export const markdownPathToUrlRoute = ( path: string ) => {
 
 // }
 
+/**
+ * Extracts the first H1 title from a Markdown string.
+ *
+ * Searches for a line starting with `# ` and returns the text content
+ * after the hash symbol, trimmed of whitespace.
+ *
+ * @param   {string}             markdown - The raw Markdown content to parse.
+ * @returns {string | undefined}          The extracted title text, or undefined if no H1 title is found.
+ */
 export const getMDTitleLine = ( markdown: string ): string | undefined => {
 
 	try {
@@ -221,6 +240,15 @@ export async function existsDir( path: string ): Promise<boolean> {
 
 }
 
+/**
+ * Ensures that a directory exists at the specified path.
+ *
+ * If the directory does not exist, it creates it (including any necessary
+ * parent directories). If it already exists, it does nothing.
+ *
+ * @param   {string}        path - The path of the directory to ensure.
+ * @returns {Promise<void>}      A promise that resolves when the directory is verified or created.
+ */
 export const ensureDir = async ( path: string ) => {
 
 	const exist = await existsDir( path )
@@ -241,9 +269,40 @@ const bold   = ( v: string ) => styleText( 'bold', v )
 const red    = ( v: string ) => styleText( 'red', v )
 const yellow = ( v: string ) => styleText( 'yellow', v )
 
+/**
+ * Utility object for standardized plugin logging.
+ * Provides formatted console output for success, error, warning, and info messages.
+ */
 export const log = {
-	success : ( v: string ) => console.log( green( '✓ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
-	error   : ( v: string ) => console.log( red( '✗ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
-	warn    : ( v: string ) => console.log( yellow( '⚠ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
-	info    : ( v: string ) => console.log( 'i ' + bold( PLUGIN_NAME ) + ' ' + v ),
+	/**
+	 * Logs a success message to the console with a green checkmark.
+	 *
+	 * @param   {string} v - The message string to display.
+	 * @returns {void}
+	 */
+	success : ( v: string ): void => console.log( green( '✓ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
+
+	/**
+	 * Logs an error message to the console with a red cross.
+	 *
+	 * @param   {string} v - The message string to display.
+	 * @returns {void}
+	 */
+	error : ( v: string ): void => console.log( red( '✗ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
+
+	/**
+	 * Logs a warning message to the console with a yellow warning icon.
+	 *
+	 * @param   {string} v - The message string to display.
+	 * @returns {void}
+	 */
+	warn : ( v: string ): void => console.log( yellow( '⚠ ' + bold( PLUGIN_NAME ) + ' ' + v ) ),
+
+	/**
+	 * Logs an informational message to the console.
+	 *
+	 * @param   {string} v - The message string to display.
+	 * @returns {void}
+	 */
+	info : ( v: string ): void => console.log( 'i ' + bold( PLUGIN_NAME ) + ' ' + v ),
 }

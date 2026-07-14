@@ -22,6 +22,16 @@ export type {
 	LlmsConfig,
 }
 
+/**
+ * Injects LLM-specific page data into the VitePress theme configuration.
+ *
+ * This enables client-side components to access metadata about available LLM-optimized
+ * pages, allowing for dynamic features like automatic menus or LLM-version links.
+ *
+ * @param   {LlmsPageData[] | undefined} data       - The collection of page data.
+ * @param   {VPConfig}                   [vpConfig] - The VitePress configuration object.
+ * @returns {void}
+ */
 const addVPConfigLllmData = ( data: LlmsPageData[] | undefined, vpConfig?: VPConfig ) => {
 
 	if ( !vpConfig ) return

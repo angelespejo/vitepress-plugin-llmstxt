@@ -1,6 +1,6 @@
 
 import {
-	Route,
+	type Route,
 	useData,
 } from 'vitepress'
 
@@ -9,7 +9,7 @@ import type {
 	LlmsClientConfig,
 } from './types'
 
-export {
+export type {
 	LlmsClientConfig,
 }
 
