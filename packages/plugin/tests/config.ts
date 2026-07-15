@@ -19,12 +19,22 @@ const CONSTANTS = {
 export const config: TestConfig = {
 	DEFAULT : {
 		pluginConfig : undefined,
+		// vpConfig     : { cleanUrls: true },
 		test         : utils => {
 
 			testforTextPath( '/llms.txt' )( utils )
 			testforTextPath( '/llms-full.txt' )( utils )
 			testforTextPath( '/guide.md' )( utils )
 			testforTextPath( CONSTANTS.dynamicRouteMD )( utils )
+
+			utils.test( 'Exists llms.txt link', async ( { page } ) => {
+
+				const response = await page.goto( '/guide/' )
+				utils.expect( response?.ok() ).toBeTruthy()
+				const el = await page.$( '.llmstxt-section' )
+				utils.expect( el ).toBeTruthy( )
+
+			} )
 
 		},
 	},

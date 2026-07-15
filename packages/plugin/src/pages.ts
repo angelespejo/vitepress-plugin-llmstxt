@@ -40,17 +40,29 @@ const getIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConf
 		const indextoc = typeof config?.llmsFile === 'object' ? config?.llmsFile?.indexTOC : config?.llmsFile
 		if ( !indextoc ) return res
 
-		const h        = '#'.repeat( 1 )
-		const webLinks = pages.filter( d => !d.path.endsWith( '.txt' ) ).map( p => `- [${p.title}](${p.url})` ).join( '\n' )
-		const llmLinks = pages.filter( d => !d.path.endsWith( '.txt' ) ).map( p => `- [${p.title}](${p.llmUrl})` ).join( '\n' )
+		const h              = '#'.repeat( 1 )
+		const web: string[]  = []
+		const llms: string[] = []
 
-		res += `${h} Table of contents\n${vpConfig?.userConfig.description ? '\n' + vpConfig?.userConfig.description.trimEnd() + '\n' : ''}`
+		for ( const p of pages ) if ( !p.path.endsWith( '.txt' ) ) {
 
-		if ( indextoc === 'only-web' ) res += `\n${h}# Web links\n\n${webLinks}`
+			web.push( `- [${p.title}](${p.url})` )
+			llms.push( `- [${p.title}](${p.llmUrl})` )
+
+		}
+
+		const webLinks   = web.join( '\n' )
+		const llmLinks   = llms.join( '\n' )
+		const desc       = vpConfig?.userConfig.description?.trimEnd()
+		const header     = `${h} Table of contents\n${desc ? '\n' + desc + '\n' : ''}`
+		const setContent = ( title: string, content: string ) => `\n${h}# ${title}\n\n${content}`
+
+		res += header
+		if ( indextoc === 'only-web' ) res += setContent( 'Web links', webLinks )
 		else if ( indextoc === 'only-web-links' ) res = webLinks
-		else if ( indextoc === 'only-llms' && config?.mdFiles ) res += `\n${h}# LLMs links\n\n${llmLinks}`
+		else if ( indextoc === 'only-llms' && config?.mdFiles ) res += setContent( 'LLMs links', llmLinks )
 		else if ( indextoc === 'only-llms-links' && config?.mdFiles ) res  = llmLinks
-		else res += `\n${h}# Web links\n\n${webLinks}${config?.mdFiles ? `\n\n${h}# LLMs links\n\n${llmLinks}` : ''}`
+		else res += `${setContent( 'Web links', webLinks )}${config?.mdFiles ? `\n${setContent( 'LLMs links', llmLinks )}` : ''}`
 
 		return res
 
@@ -75,20 +87,6 @@ const transformPages = async ( pages: LlmsPageData[], config?: LlmsConfig, vpCon
 		}, vpConfig ),
 		removeFrontmatter,
 	}
-
-	// for ( const key in pages ) {
-
-	// 	const tRes = await config?.transform( {
-	// 		page  : pages[key],
-	// 		pages : pages,
-	// 		vpConfig,
-	// 		utils,
-	// 	} )
-	// 	if ( tRes ) pages[key] = tRes
-
-	// }
-
-	// return pages
 
 	return Promise.all( pages.map( async page => await _transform( {
 		page,
@@ -129,9 +127,13 @@ const getPages = async ( config?: LlmsConfig, vpConfig?: VPConfig ) => {
 			: undefined,
 	} )
 
-	const pages = await loader.load()
-
+	const pages         = await loader.load()
 	const dynamicRoutes = getDynamicRoutes( config, vpConfig )
+	// console.log( vpConfig )
+	// console.log( ( await ( createContentLoader( vpConfig?.pages, {
+	// 	includeSrc : true,
+	// 	excerpt    : true,
+	// } ) ).load() ).filter( v => v.url === '/dynamic/1/' ) )
 	// console.log( pages.map( v => v.url ).length, dynamicRoutes?.length, vpConfig?.pages.length )
 
 	if ( !dynamicRoutes ) return orderContent( pages )
@@ -176,83 +178,81 @@ type PagesDataConfig = Omit<LlmsConfig, 'hostname'> & { hostname: string }
  */
 export const getPagesData = async ( config: PagesDataConfig, vpConfig?: VPConfig ) => {
 
-	const pages                    = await getPages( config, vpConfig )
-	const originURL                = config.hostname
-	const mdFiles : LlmsPageData[] = []
-	const allFiles: LlmsPageData[] = []
+	const pages = await getPages( config, vpConfig )
 
-	const getExtraData = ( urlPath: string, llmsPath?: string ) => ( {
-		URL      : joinUrl( originURL, urlPath ),
-		LLMS_URL : joinUrl( originURL, llmsPath || urlPath ),
+	const getExtraData   = ( urlPath: string, llmsPath?: string ) => ( {
+		URL      : joinUrl( config.hostname, urlPath ),
+		LLMS_URL : joinUrl( config.hostname, llmsPath || urlPath ),
+	} )
+	const createFileData = ( data: { content : string
+		path                                    : string
+		extra                                   : ReturnType<typeof getExtraData>
+		title?                                  : string
+		frontmatter?                            : LlmsPageData['frontmatter'] },
+	): LlmsPageData => ( {
+		path        : data.path,
+		url         : data.extra.URL,
+		llmUrl      : data.extra.LLMS_URL,
+		content     : data.content,
+		title       : data.title || getMDTitleLine( data.content ) || data.frontmatter?.title || '',
+		frontmatter : data.frontmatter || {},
 	} )
 
-	for ( const page of pages.slice().reverse() ) {
+	const allFiles: LlmsPageData[] = []
+	const mdFiles: LlmsPageData[]  = pages.slice().reverse().map( page => {
 
-		const route    = page.url
-		const pathname = route.replace( '.html', '' )
-		const path     = joinUrl( ( pathname === '/' ? '/index' : pathname.endsWith( '/' ) ? pathname.slice( 0, -1 ) : pathname ) + '.md' )
-		const extra    = getExtraData( route, path )
-
+		const route       = page.url
+		const pathname    = route.replace( '.html', '' ).replace( /\/$/, '' ) || '/index'
+		const path        = `${pathname}.md`
+		const extra       = getExtraData( route, path )
 		const frontmatter = {
 			...extra,
 			...page.frontmatter,
 		}
+		const content     = overrideFrontmatter( page.src || '', frontmatter )
 
-		const content = overrideFrontmatter( page.src || '', frontmatter )
-
-		mdFiles.push( {
+		return createFileData( {
 			path,
-			url     : extra.URL,
-			llmUrl  : extra.LLMS_URL,
-			content : content,
-			title   : page.frontmatter.title || getMDTitleLine( content ) || page.frontmatter.layout || '',
+			extra,
+			content,
 			frontmatter,
+			title : page.frontmatter.title || getMDTitleLine( content ) || page.frontmatter.layout || '',
 		} )
 
-	}
-
-	if ( config?.llmsFullFile ) {
-
-		const path    = '/' + LLM_FULL_FILENAME
-		const extra   = getExtraData( path )
-		const content = mdFiles.map( d => d.content ).join( '\n\n' )
-
-		allFiles.push( {
-			path,
-			url         : extra.URL,
-			llmUrl      : extra.LLMS_URL,
-			content     : content,
-			title       : getMDTitleLine( content ) || '',
-			frontmatter : extra,
-		} )
-
-	}
+	} )
 
 	if ( config.mdFiles ) allFiles.push( ...mdFiles )
 
+	if ( config?.llmsFullFile ) {
+
+		const path = '/' + LLM_FULL_FILENAME
+		allFiles.push( createFileData( {
+			path,
+			extra   : getExtraData( path ),
+			content : mdFiles.map( d => d.content ).join( '\n\n' ),
+		} ) )
+
+	}
+
 	if ( config?.llmsFile ) {
 
-		const path    = '/' + LLM_FILENAME
-		const extra   = getExtraData( path )
-		const content = getIndex( mdFiles, config, vpConfig ).trim()
-
-		allFiles.push( {
+		const path = '/' + LLM_FILENAME
+		allFiles.push( createFileData( {
 			path,
-			url         : extra.URL,
-			llmUrl      : extra.LLMS_URL,
-			content,
-			title       : getMDTitleLine( content ) || '',
-			frontmatter : extra,
-		} )
+			extra   : getExtraData( path ),
+			content : getIndex( mdFiles, config, vpConfig ).trim(),
+		} ) )
 
 	}
 
 	const res = await transformPages( allFiles, config, vpConfig )
 
 	// console.log( {
+	// 	vpConfig,
 	// 	config,
 	// 	mdFiles        : mdFiles.map( d => d.url ),
 	// 	allPaths       : res.map( d => d.url ),
+	// 	pages          : vpConfig?.pages,
 	// 	pagesNumber    : vpConfig?.pages.length,
 	// 	mdFilesNumber  : mdFiles.length,
 	// 	allFilesNumber : res.length,

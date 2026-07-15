@@ -3,8 +3,9 @@ import { getConfig }    from '@vitepress-plugin-llmstxt/repo-config/test/config'
 import { defineConfig } from 'vitepress'
 import sizePlugin       from 'vitepress-plugin-size'
 
-import llmsPlugin         from '../../../src/index'
-import { config as conf } from '../../config'
+import { buildEndTextPlugin } from './extra'
+import llmsPlugin             from '../../../src/index'
+import { config as conf }     from '../../config'
 
 import type { DefaultTheme } from 'vitepress'
 
@@ -88,6 +89,8 @@ const getThemeConfig = ( locale: 'en' | 'es' = 'en' ): DefaultTheme.Config => {
 export default defineConfig( {
 	title       : 'VitePress Example page',
 	description : 'VitePress Plugin for LLMs',
+	// ⚠ Marked as experimental for now. Therefore, it is not necessary to apply compatibility to the plugin.
+	//rewrites    : { rewritten: 'rewrite' },
 	locales     : {
 		root : {
 			label : 'English',
@@ -100,6 +103,15 @@ export default defineConfig( {
 		},
 	},
 	themeConfig : getThemeConfig(),
-	vite        : { plugins: [ llmsPlugin( { ...config.pluginConfig || {} } ), sizePlugin() ] },
+	vite        : {
+		plugins : [
+			buildEndTextPlugin( 'Before "llmsPlugin" build' ),
+			llmsPlugin( { ...config.pluginConfig || {} } ),
+			buildEndTextPlugin( 'After "llmsPlugin" build' ),
+			buildEndTextPlugin( 'Before "sizePlugin" build' ),
+			sizePlugin(),
+			buildEndTextPlugin( 'After "sizePlugin" build' ),
+		],
+	},
 	...config.vpConfig || {},
 } )

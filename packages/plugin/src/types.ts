@@ -26,7 +26,17 @@ export type LlmsPageData = {
 	/** The raw content of the page. */
 	content     : string
 }
+type Hook = ( data: {
+	/**
+	 * An array containing the data of all pages in the project.
+	 */
+	pages : LlmsPageData[]
 
+	/**
+	 * The active VitePress configuration object, if available.
+	 */
+	vpConfig? : VPConfig
+} ) => void | Promise<void>
 export type LlmsConfig = {
 	/**
 	 * Hostname
@@ -134,4 +144,22 @@ export type LlmsConfig = {
 			removeFrontmatter : ( content: string ) => string
 		}
 	} ) => Promise<LlmsPageData> | LlmsPageData
+	/**
+	 * Lifecycle hooks for the build process.
+	 *
+	 * Allows executing custom logic at specific stages of the plugin execution.
+	 */
+	hook?: {
+		/**
+		 * Callback executed before the llms files are generated.
+		 * Useful for filtering pages or modifying the environment before processing.
+		 */
+		beforeBuild? : Hook
+
+		/**
+		 * Callback executed after all llms files have been generated.
+		 * Useful for post-processing steps, logging, or triggering external tasks.
+		 */
+		afterBuild? : Hook
+	}
 }

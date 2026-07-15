@@ -228,7 +228,6 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 				// The data is already compiled in the 'buildStart' hook, but if it fails for unknown reasons, it will be compiled here.
 				if ( !data ) {
 
-					// console.log( 'buildEnd' )
 					data = await getPagesData(
 						c,
 						vpConfig,
@@ -237,14 +236,21 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 
 				}
 
-				for ( const page of data ) {
+				config?.hook?.beforeBuild?.( {
+					pages    : data,
+					vpConfig : siteConfig,
+				} )
+				await Promise.all( data.map( async page => {
 
-					const dir = join( outDir, dirname( page.path ) )
+					const path = join( outDir, page.path )
+					await ensureDir( dirname( path ) )
+					await writeFile( path, page.content, 'utf-8' )
 
-					await ensureDir( dir )
-					await writeFile( join( outDir, page.path ), page.content, 'utf-8' )
-
-				}
+				} ) )
+				config?.hook?.afterBuild?.( {
+					pages    : data,
+					vpConfig : siteConfig,
+				} )
 
 				log.success( 'LLM routes builded susccesfully ✨' )
 
