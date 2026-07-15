@@ -221,6 +221,45 @@ You can use this to mutate `page.content`, add or remove metadata, or conditiona
 }
 ```
 
+### `hook`
+
+Lifecycle hooks for the build process. Allows for executing custom logic at specific stages of the plugin's execution.
+
+#### Properties
+
+- **`beforeBuild`**: `(data) => void | Promise<void>`
+Callback executed **before** all plugin files are generated. Useful for filtering pages, validating configurations, or preparing the environment before processing.
+
+- **`afterBuild`**: `(data) => void | Promise<void>`
+Callback executed **after** all plugin files have been generated. Ideal for post-processing steps, final logging, or triggering external tasks (such as CI/CD notifications).
+
+##### Hook Arguments
+
+Both hooks receive an object containing the following data:
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `pages` | `LlmsPageData[]` | An array containing data for all pages in the project. |
+| `vpConfig` | `VPConfig` | The active VitePress configuration object. |
+
+#### Example
+
+```typescript
+pluginConfig: {
+    hook: {
+        beforeBuild: ({ pages }) => {
+            console.log(`🚀 Starting generation for ${pages.length} pages.`);
+        },
+        afterBuild: ({ pages }) => {
+            console.log(`✅ Build completed successfully. Processed ${pages.length} pages.`);
+        }
+    }
+}
+
+```
+
+
+
 ### `watch` (boolean)
 
 Whether to watch for changes to the source files and regenerate the `llms.txt`, `llms-full.txt` and `.md` files.

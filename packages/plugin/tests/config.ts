@@ -214,18 +214,41 @@ export const config: TestConfig = {
 		},
 	},
 	LLMS_TRANSFORM_FILES : {
+
 		pluginConfig : {
+			hook : {
+				beforeBuild : ( {
+					pages, vpConfig,
+				} ) => {
+
+					vpConfig.logger.info( `[vitepress-plugin-llms] 🚀 Starting build for ${pages.length} pages...` )
+
+				},
+				afterBuild : ( {
+					pages, vpConfig,
+				} ) => {
+
+					vpConfig.logger.info( `[vitepress-plugin-llms] ✅ Build completed successfully. Generated LLM-optimized files for ${pages.length} pages.` )
+
+				},
+			},
 			transform : ( {
 				page, utils,
 			} ) => {
 
 				if ( page.path === '/llms.txt' ) {
 
+					if ( Object.keys( page.frontmatter ).length > 0 )
+						throw new Error( `Frontmatter is not allowed in ${page.path}. Found: ${Object.keys( page.frontmatter ).join( ', ' )}` )
+
 					const toc    = utils.getIndexTOC( 'only-web' )
 					page.content = `# LLMS\n\nStructured information designed to provide useful metadata to large language models (LLMs)\n\n${toc}`
 
 				}
 				if ( page.path === '/llms-full.txt' ) {
+
+					if ( Object.keys( page.frontmatter ).length > 0 )
+						throw new Error( `Frontmatter is not allowed in ${page.path}. Found: ${Object.keys( page.frontmatter ).join( ', ' )}` )
 
 					// eslint-disable-next-line @typescript-eslint/no-explicit-any
 					return undefined as any as typeof page
