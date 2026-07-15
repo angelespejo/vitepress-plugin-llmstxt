@@ -33,10 +33,11 @@ type Hook = ( data: {
 	pages : LlmsPageData[]
 
 	/**
-	 * The active VitePress configuration object, if available.
+	 * The active VitePress configuration object.
 	 */
-	vpConfig? : VPConfig
+	vpConfig : VPConfig
 } ) => void | Promise<void>
+
 export type LlmsConfig = {
 	/**
 	 * Hostname
