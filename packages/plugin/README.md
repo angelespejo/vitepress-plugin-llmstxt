@@ -221,7 +221,7 @@ You can use this to mutate `page.content`, add or remove metadata, or conditiona
 }
 ```
 
-### `hook`
+### `hook` (object)
 
 Lifecycle hooks for the build process. Allows for executing custom logic at specific stages of the plugin's execution.
 
