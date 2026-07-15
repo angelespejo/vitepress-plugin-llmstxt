@@ -1,16 +1,18 @@
-import { createContentLoader } from 'vitepress'
+import {
+	createContentLoader,
+	type ResolvedRouteConfig,
+} from 'vitepress'
 
 import {
-	joinUrl,
-	join,
 	removeFrontmatter,
 	overrideFrontmatter,
 	getMDTitleLine,
 	markdownPathToUrlRoute,
-} from './utils'
+	replaceMarkdownTemplate,
+} from './_shared/md'
+import { joinUrl } from './_shared/string'
 
 import type {
-	Any,
 	IndexTOC,
 	LlmsConfig,
 	LlmsPageData,
@@ -21,63 +23,14 @@ import type {
 const LLM_FILENAME      = 'llms.txt' as const
 const LLM_FULL_FILENAME = 'llms-full.txt' as const
 
-const replaceMarkdownTemplate = (
-	template: string,
-	params: Record<string, Any>,
-	frontmatter: Record<string, Any>,
-	content?: string,
-): string => {
-
-	try {
-
-		return template
-			.replace( /\{\{\s*\$params\.(\w+)\s*\}\}/g, ( _, key ) => params[key] ?? '' )
-			.replace( /\{\{\s*\$frontmatter\.(\w+)\s*\}\}/g, ( _, key ) => frontmatter[key] ?? '' )
-			.replace( /<!--\s*@content\s*-->/g, content ?? '' )
-
-	}
-	catch ( _e ) {
-
-		return template
-
-	}
-
-}
-
 /**
  * Sorts an array of PageData objects by their URL in descending order.
  *
  * @param   {PageData[]} content - The array of PageData objects to be sorted.
  * @returns {PageData[]}         The sorted array of PageData objects.
  */
-
 const orderContent = ( content: PageData[] ) =>
 	content.sort( ( a, b ) => b.url.localeCompare( a.url ) )
-
-const transformPages = async ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConfig ) => {
-
-	if ( !config?.transform ) return pages
-
-	const utils = {
-		getIndexTOC : ( type: IndexTOC ) => getIndex( pages, { llmsFile: { indexTOC: type } }, vpConfig ),
-		removeFrontmatter,
-	}
-
-	for ( const key in pages ) {
-
-		const tRes = await config?.transform( {
-			page  : pages[key],
-			pages : pages,
-			vpConfig,
-			utils,
-		} )
-		if ( tRes ) pages[key] = tRes
-
-	}
-
-	return pages
-
-}
 
 const getIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConfig ) => {
 
@@ -110,6 +63,56 @@ const getIndex = ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConf
 
 }
 
+const transformPages = async ( pages: LlmsPageData[], config?: LlmsConfig, vpConfig?: VPConfig ) => {
+
+	const _transform = config?.transform
+	if ( !_transform ) return pages
+
+	const utils = {
+		getIndexTOC : ( type: IndexTOC ) => getIndex( pages, {
+			...config,
+			llmsFile : { indexTOC: type },
+		}, vpConfig ),
+		removeFrontmatter,
+	}
+
+	// for ( const key in pages ) {
+
+	// 	const tRes = await config?.transform( {
+	// 		page  : pages[key],
+	// 		pages : pages,
+	// 		vpConfig,
+	// 		utils,
+	// 	} )
+	// 	if ( tRes ) pages[key] = tRes
+
+	// }
+
+	// return pages
+
+	return Promise.all( pages.map( async page => await _transform( {
+		page,
+		pages,
+		vpConfig,
+		utils,
+	} ) || page ) )
+
+}
+
+const getDynamicRoutes = ( config?: LlmsConfig, vpConfig?: VPConfig ) => {
+
+	// Handle dynamicRoutes format depending on vpConfig version.
+	// In version 2.0.0-alpha, vpConfig.dynamicRoutes is an array directly.
+	// In other versions, it's an object with a `routes` property.
+	const dynamicRoutes = Array.isArray( vpConfig?.dynamicRoutes )
+		? vpConfig.dynamicRoutes as ResolvedRouteConfig[] | undefined
+		: vpConfig?.dynamicRoutes?.routes
+
+	if ( !dynamicRoutes || config?.dynamicRoutes === false ) return undefined
+	return dynamicRoutes
+
+}
+
 const getPages = async ( config?: LlmsConfig, vpConfig?: VPConfig ) => {
 
 	const loader = createContentLoader( '**/*.md', {
@@ -128,14 +131,10 @@ const getPages = async ( config?: LlmsConfig, vpConfig?: VPConfig ) => {
 
 	const pages = await loader.load()
 
-	// Handle dynamicRoutes format depending on vpConfig version.
-	// In version 2.0.0-alpha, vpConfig.dynamicRoutes is an array directly.
-	// In other versions, it's an object with a `routes` property.
-	const dynamicRoutes = Array.isArray( vpConfig?.dynamicRoutes )
-		? vpConfig.dynamicRoutes
-		: vpConfig?.dynamicRoutes?.routes
+	const dynamicRoutes = getDynamicRoutes( config, vpConfig )
+	// console.log( pages.map( v => v.url ).length, dynamicRoutes?.length, vpConfig?.pages.length )
 
-	if ( !dynamicRoutes || config?.dynamicRoutes === false ) return orderContent( pages )
+	if ( !dynamicRoutes ) return orderContent( pages )
 
 	const dynamicPaths: string[] = []
 
@@ -159,10 +158,11 @@ const getPages = async ( config?: LlmsConfig, vpConfig?: VPConfig ) => {
 	}
 
 	const res = dynamicPaths.length ? pages.filter( p => dynamicPaths.includes( p.url ) ? undefined : p ) : pages
-	// console.log( res.map( p => p.url ), dynamicPaths )
+
 	return orderContent( res )
 
 }
+
 type PagesDataConfig = Omit<LlmsConfig, 'hostname'> & { hostname: string }
 
 /**
@@ -181,16 +181,20 @@ export const getPagesData = async ( config: PagesDataConfig, vpConfig?: VPConfig
 	const mdFiles : LlmsPageData[] = []
 	const allFiles: LlmsPageData[] = []
 
+	const getExtraData = ( urlPath: string, llmsPath?: string ) => ( {
+		URL      : joinUrl( originURL, urlPath ),
+		LLMS_URL : joinUrl( originURL, llmsPath || urlPath ),
+	} )
+
 	for ( const page of pages.slice().reverse() ) {
 
-		const route       = page.url
-		const pathname    = route.replace( '.html', '' )
-		const path        = join( ( pathname === '/' ? '/index' : pathname.endsWith( '/' ) ? pathname.slice( 0, -1 ) : pathname ) + '.md' )
-		const URL         = joinUrl( originURL, route )
-		const LLMS_URL    = joinUrl( originURL, path )
+		const route    = page.url
+		const pathname = route.replace( '.html', '' )
+		const path     = joinUrl( ( pathname === '/' ? '/index' : pathname.endsWith( '/' ) ? pathname.slice( 0, -1 ) : pathname ) + '.md' )
+		const extra    = getExtraData( route, path )
+
 		const frontmatter = {
-			URL,
-			LLMS_URL,
+			...extra,
 			...page.frontmatter,
 		}
 
@@ -198,8 +202,8 @@ export const getPagesData = async ( config: PagesDataConfig, vpConfig?: VPConfig
 
 		mdFiles.push( {
 			path,
-			url     : URL,
-			llmUrl  : LLMS_URL,
+			url     : extra.URL,
+			llmUrl  : extra.LLMS_URL,
 			content : content,
 			title   : page.frontmatter.title || getMDTitleLine( content ) || page.frontmatter.layout || '',
 			frontmatter,
@@ -210,11 +214,9 @@ export const getPagesData = async ( config: PagesDataConfig, vpConfig?: VPConfig
 	if ( config?.llmsFullFile ) {
 
 		const path    = '/' + LLM_FULL_FILENAME
-		const extra   = {
-			URL      : joinUrl( originURL, path ),
-			LLMS_URL : joinUrl( originURL, path ),
-		}
+		const extra   = getExtraData( path )
 		const content = mdFiles.map( d => d.content ).join( '\n\n' )
+
 		allFiles.push( {
 			path,
 			url         : extra.URL,
@@ -231,10 +233,7 @@ export const getPagesData = async ( config: PagesDataConfig, vpConfig?: VPConfig
 	if ( config?.llmsFile ) {
 
 		const path    = '/' + LLM_FILENAME
-		const extra   = {
-			URL      : joinUrl( originURL, path ),
-			LLMS_URL : joinUrl( originURL, path ),
-		}
+		const extra   = getExtraData( path )
 		const content = getIndex( mdFiles, config, vpConfig ).trim()
 
 		allFiles.push( {
@@ -252,10 +251,11 @@ export const getPagesData = async ( config: PagesDataConfig, vpConfig?: VPConfig
 
 	// console.log( {
 	// 	config,
-	// 	mdFilesNumber  : mdFiles.length,
-	// 	allFilesNumber : res.length,
 	// 	mdFiles        : mdFiles.map( d => d.url ),
 	// 	allPaths       : res.map( d => d.url ),
+	// 	pagesNumber    : vpConfig?.pages.length,
+	// 	mdFilesNumber  : mdFiles.length,
+	// 	allFilesNumber : res.length,
 	// } )
 
 	return res

@@ -1,4 +1,7 @@
 
-import { executeConfigFromEnv } from '../../vitepress/tests/configs/execute'
+import { executeConfigFromEnv } from '@vitepress-plugin-llmstxt/repo-config/test/config'
 
-await executeConfigFromEnv()
+import { config } from '../../plugin/tests/config'
+
+await executeConfigFromEnv( config )
+

@@ -1,5 +1,5 @@
 {
-	"name": "@llms-txt/monorepo",
+	"name": "@vitepress-plugin-llmstxt/monorepo",
 	"private": true,
 	"description": "VitePress plugin to generate llms.txt files automatically",
 	"keywords": [

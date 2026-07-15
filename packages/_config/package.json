@@ -1,0 +1,31 @@
+{
+	"name": "@vitepress-plugin-llmstxt/repo-config",
+	"private": true,
+	"description": "Config for monorepo",
+	"bugs": {
+		"url": "https://github.com/angelespejo/vitepress-plugin-llmstxt/issues",
+		"email": "dev@pigeonposse.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/angelespejo/vitepress-plugin-llmstxt",
+		"directory": "packages/_config"
+	},
+	"funding": {
+		"type": "individual",
+		"url": "https://pigeonposse.com/?popup=donate"
+	},
+	"license": "GPL-3.0",
+	"author": {
+		"name": "Angelo",
+		"email": "angelo@pigeonposse.com",
+		"url": "https://github.com/angelespejo"
+	},
+	"type": "module",
+	"exports": {
+		"./playwright": "./playwright.config.ts",
+		"./test/config": "./src/test/config/index.ts",
+		"./test/run": "./src/test/run.ts",
+		"./tsconfig.json": "./tsconfig.json"
+	}
+}

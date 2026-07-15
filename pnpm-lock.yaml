@@ -56,23 +56,31 @@ importers:
         specifier: ~1.0.1
         version: 1.0.1(vitepress@2.0.0-alpha.18(@types/node@26.1.1)(change-case@5.4.4)(esbuild@0.28.1)(jiti@2.7.0)(postcss@8.5.16)(terser@5.49.0)(typescript@5.9.3)(yaml@2.9.0))
 
-  packages/tests-v2:
-    devDependencies:
-      vitepress:
-        specifier: 2.0.0-alpha.12
-        version: 2.0.0-alpha.12(@types/node@26.1.1)(change-case@5.4.4)(jiti@2.7.0)(lightningcss@1.32.0)(postcss@8.5.16)(terser@5.49.0)(typescript@7.0.2)(yaml@2.9.0)
-      vue:
-        specifier: 3.5.26
-        version: 3.5.26(typescript@7.0.2)
+  packages/_config: {}
 
-  packages/vitepress:
+  packages/plugin:
     devDependencies:
+      '@vitepress-plugin-llmstxt/repo-config':
+        specifier: workspace:*
+        version: link:../_config
       vitepress:
         specifier: 1.6.4
         version: 1.6.4(@algolia/client-search@5.55.2)(@types/node@26.1.1)(change-case@5.4.4)(jiti@2.7.0)(lightningcss@1.32.0)(postcss@8.5.16)(search-insights@2.17.3)(terser@5.49.0)(typescript@7.0.2)(yaml@2.9.0)
       vue:
         specifier: 3.5.39
         version: 3.5.39(typescript@7.0.2)
+
+  packages/tests-v2:
+    devDependencies:
+      '@vitepress-plugin-llmstxt/repo-config':
+        specifier: workspace:*
+        version: link:../_config
+      vitepress:
+        specifier: 2.0.0-alpha.12
+        version: 2.0.0-alpha.12(@types/node@26.1.1)(change-case@5.4.4)(jiti@2.7.0)(lightningcss@1.32.0)(postcss@8.5.16)(terser@5.49.0)(typescript@7.0.2)(yaml@2.9.0)
+      vue:
+        specifier: 3.5.26
+        version: 3.5.26(typescript@7.0.2)
 
 packages:
 

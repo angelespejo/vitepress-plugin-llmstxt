@@ -1,15 +1,14 @@
 
-import {
-	DefaultTheme, defineConfig,
-} from 'vitepress'
-import sizePlugin from 'vitepress-plugin-size'
+import { getConfig }    from '@vitepress-plugin-llmstxt/repo-config/test/config'
+import { defineConfig } from 'vitepress'
+import sizePlugin       from 'vitepress-plugin-size'
 
-import llmsPlugin    from '../../../src/index'
-import { getConfig } from '../../configs/get'
+import llmsPlugin         from '../../../src/index'
+import { config as conf } from '../../config'
 
-import type { Any } from '../../../src/types'
+import type { DefaultTheme } from 'vitepress'
 
-const config = getConfig()
+const config = getConfig( conf )
 
 const translations = {
 	en : {
@@ -101,6 +100,6 @@ export default defineConfig( {
 		},
 	},
 	themeConfig : getThemeConfig(),
-	vite        : { plugins: [ llmsPlugin( { ...config.llmsConfig || {} } ), sizePlugin() as Any ] },
+	vite        : { plugins: [ llmsPlugin( { ...config.pluginConfig || {} } ), sizePlugin() ] },
 	...config.vpConfig || {},
 } )

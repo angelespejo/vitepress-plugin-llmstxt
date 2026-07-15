@@ -1,35 +1,10 @@
 
-import { spawn } from 'node:child_process'
+import { exec } from '../_shared/index.ts'
 
-import type { ConfigExamples } from './configs/types'
+import type { TestConfig } from './config/types'
 
-const exec = async ( cmd: string ): Promise<void> => {
-
-	await new Promise<void>( ( resolve, reject ) => {
-
-		const childProcess = spawn( cmd, {
-			shell : true,
-			stdio : 'inherit',
-		} )
-
-		childProcess.on( 'close', code => {
-
-			if ( code === 0 ) resolve()
-			else {
-
-				const error = new Error( `Command failed with code ${code}` )
-				reject( error )
-
-			}
-
-		} )
-
-	} )
-
-}
-
-type RunTestsOptions = {
-	config : ConfigExamples
+export type RunTestsOptions<PluginConfig, VPUserConfig> = {
+	config : TestConfig<PluginConfig, VPUserConfig>
 	deps?: {
 		vue?       : string
 		vitepress? : string
@@ -44,14 +19,14 @@ type RunTestsOptions = {
  * await runTests({
  *   config: {
  *     DEFAULT: {
- *       llmsConfig: undefined,
+ *       pluginConfig: undefined,
  *       test: (utils) => {
  *       },
  *     },
  *   },
  * });
  */
-export const runTests = async ( data: RunTestsOptions ) => {
+export const runTests = async <PluginConfig, VPUserConfig>( data: RunTestsOptions<PluginConfig, VPUserConfig> ) => {
 
 	const {
 		deps, config,

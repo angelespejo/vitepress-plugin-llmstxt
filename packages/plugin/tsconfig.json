@@ -1,0 +1,11 @@
+{
+	"extends": "./node_modules/@vitepress-plugin-llmstxt/repo-config/tsconfig.json",
+	"compilerOptions": {
+		"rootDir": ".",
+		"outDir": "./dist"
+	},
+	"include": [
+		"src",
+		"tests"
+	]
+}

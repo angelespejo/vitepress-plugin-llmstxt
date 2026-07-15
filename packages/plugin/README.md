@@ -173,10 +173,22 @@ A callback to transform each page's data before writing it.
 ```ts
 {
   transform?: (data: {
-    page: LlmsPageData
-    pages: LlmsPageData[]
-    vpConfig?: VPConfig
-    utils: {
+	/**
+	 * The data of the current page being processed.
+	 */
+	page : LlmsPageData
+	/**
+	 * An array containing the data of all pages in the project.
+	 */
+	pages : LlmsPageData[]
+	/**
+	 * The active VitePress configuration object, if available.
+	 */
+	vpConfig? : VPConfig
+	/**
+	 * Helper functions for content processing and generation.
+	 */
+	utils: {
       getIndexTOC: (type: IndexTOC) => string
       removeFrontmatter: (content: string) => string
     }
@@ -190,7 +202,7 @@ You can use this to mutate `page.content`, add or remove metadata, or conditiona
 
 ```ts
 {
-  transform: async ({ page }) => {
+  transform: async ({ page, utils }) => {
 
     // Add a content before llms.txt content
     if (page.path === '/llms.txt')

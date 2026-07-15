@@ -1,13 +1,11 @@
 /* eslint-disable jsdoc/check-param-names */
 
+import type { Any } from './_shared/types'
 import type {
 	ContentData,
 	SiteConfig,
 	UserConfig,
 } from 'vitepress'
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type Any = any
 
 export type PageData = ContentData
 export type VitePlugin = NonNullable<NonNullable<UserConfig['vite']>['plugins']>[number]
@@ -15,32 +13,18 @@ export type VPConfig = SiteConfig
 export type IndexTOC = boolean | 'only-llms' | 'only-llms-links' | 'only-web' | 'only-web-links'
 
 export type LlmsPageData = {
-	/** The relative file path of the page. */
+	/** The url path of the page. */
 	path        : string
 	/** The website URL of the page. */
 	url         : string
-	/** The title of the page. */
-	title       : string
 	/** The specific LLM-optimized URL for the page. */
 	llmUrl      : string
+	/** The title of the page. */
+	title       : string
 	/** A record containing the frontmatter metadata. */
 	frontmatter : Record<string, Any>
 	/** The raw content of the page. */
 	content     : string
-}
-
-export type LlmsClientPageData = {
-	/** The relative file path of the page. */
-	path   : string
-	/** The website URL of the page. */
-	url    : string
-	/** The specific LLM-optimized URL for the page. */
-	llmUrl : string
-}
-
-export type LlmsClientConfig = {
-	/** Collection of page data to be exposed to the client. */
-	pageData? : LlmsClientPageData[]
 }
 
 export type LlmsConfig = {
