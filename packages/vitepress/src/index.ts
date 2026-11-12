@@ -3,6 +3,7 @@ import { getPagesData } from './pages'
 import {
 	ensureDir,
 	joinUrl,
+	joinUrlPath,
 	join,
 	dirname,
 	writeFile,
@@ -166,11 +167,11 @@ export const llmstxtPlugin = ( config?: LlmsConfig ): VitePlugin => {
 					for ( const d of data ) {
 
 						const llmRoute = [
-							join( '/', d.path ),
-							join( '/', d.path, 'index.md' ),
-							join( '/', d.path + '.md' ),
-							join( '/', d.path + '.html' ),
-							join( '/', d.path + '.html', 'index.md' ),
+							joinUrlPath( '/', d.path ),
+							joinUrlPath( '/', d.path, 'index.md' ),
+							joinUrlPath( '/', d.path + '.md' ),
+							joinUrlPath( '/', d.path + '.html' ),
+							joinUrlPath( '/', d.path + '.html', 'index.md' ),
 						]
 
 						if ( llmRoute.includes( url.pathname ) ) {
