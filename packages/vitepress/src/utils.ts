@@ -8,6 +8,7 @@ import {
 import {
 	join,
 	dirname,
+	posix,
 } from 'node:path'
 import { styleText } from 'node:util'
 
@@ -42,6 +43,17 @@ export const joinUrl = ( ...parts: string[] ) => {
 	return parts.join( '/' )
 
 }
+
+/**
+ * Joins URL path segments with forward slashes.
+ *
+ * Unlike `join` from `node:path`, it does not use backslashes on Windows,
+ * so the result can be used in a URL or compared with a request pathname.
+ *
+ * @param   {string[]} parts - The path segments to join.
+ * @returns {string}         - The joined path, e.g. "/guide/index.md".
+ */
+export const joinUrlPath = ( ...parts: string[] ) => posix.join( ...parts )
 
 // /**
 //  * Cleans the given URL path by removing leading and trailing slashes.

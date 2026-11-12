@@ -2,7 +2,7 @@ import { createContentLoader } from 'vitepress'
 
 import {
 	joinUrl,
-	join,
+	joinUrlPath,
 	removeFrontmatter,
 	overrideFrontmatter,
 	getMDTitleLine,
@@ -185,7 +185,7 @@ export const getPagesData = async ( config: PagesDataConfig, vpConfig?: VPConfig
 
 		const route       = page.url
 		const pathname    = route.replace( '.html', '' )
-		const path        = join( ( pathname === '/' ? '/index' : pathname.endsWith( '/' ) ? pathname.slice( 0, -1 ) : pathname ) + '.md' )
+		const path        = joinUrlPath( ( pathname === '/' ? '/index' : pathname.endsWith( '/' ) ? pathname.slice( 0, -1 ) : pathname ) + '.md' )
 		const URL         = joinUrl( originURL, route )
 		const LLMS_URL    = joinUrl( originURL, path )
 		const frontmatter = {
