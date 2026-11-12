@@ -1,15 +1,18 @@
 
-import { spawn } from 'node:child_process'
+import {
+	spawn, type SpawnOptions,
+} from 'node:child_process'
 
 import type { ConfigExamples } from './configs/types'
 
-const exec = async ( cmd: string ): Promise<void> => {
+const exec = async ( cmd: string, opts?: SpawnOptions ): Promise<void> => {
 
 	await new Promise<void>( ( resolve, reject ) => {
 
 		const childProcess = spawn( cmd, {
 			shell : true,
 			stdio : 'inherit',
+			...opts,
 		} )
 
 		childProcess.on( 'close', code => {
@@ -74,7 +77,12 @@ export const runTests = async ( data: RunTestsOptions ) => {
 		console.log( `🔧 Running tests for: ${key}\n` )
 		try {
 
-			await exec( `TEST_CONFIG=${key} playwright test` )
+			await exec( `playwright test`, {
+				env : {
+					...process.env,
+					TEST_CONFIG : key,
+				},
+			} )
 			console.log( `\n✅ Test finished: ${key}\n` )
 
 		}

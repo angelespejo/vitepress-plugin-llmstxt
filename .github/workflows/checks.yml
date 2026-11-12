@@ -45,17 +45,17 @@ jobs:
 
       # Playwright binaries
       - name: Get installed Playwright version
-        id: playwright-version
-        run: echo "PLAYWRIGHT_VERSION=$( node -e "console.log(require('./package.json').devDependencies['@playwright/test'])" )" >> $GITHUB_ENV
+        id: playwright_data
+        run: echo "version=$( node -e "console.log(require('./package.json').devDependencies['@playwright/test'])" )" >> $GITHUB_OUTPUT
       - name: Cache playwright binaries
-        uses: actions/cache@v3
-        id: playwright-cache
+        uses: actions/cache@v5
+        id: playwright_cache
         with:
           path: ~/.cache/ms-playwright
-          key: ${{ runner.os }}-playwright-${{ env.PLAYWRIGHT_VERSION }}
+          key: ${{ runner.os }}-playwright-${{ steps.playwright_data.outputs.version }}
       - name: ⬇️🌐 Install Playwright Browsers
         run: pnpx playwright install --with-deps
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        if: steps.playwright_cache.outputs.cache-hit != 'true'
 
       #########################################################################
       # BUILD
@@ -91,22 +91,22 @@ jobs:
 
       - name: 📣 Create Release Pull Request or Publish to npm
         id: changesets
-        uses: changesets/action@v1
+        uses: changesets/action@v2
         with:
-          title: "chore(release): version packages 🦋"
-          version: pnpm exec changeset version
-          publish: pnpm exec changeset publish
-          commit: "chore(release): version packages 🦋 [skip ci]"
-          createGithubReleases: true
+          # github-token: ${{ env.GITHUB_TOKEN }}
+          pr-title: "chore(release): version packages 🦋"
+          version-script: pnpm exec changeset version
+          publish-script: pnpm exec changeset publish
+          commit-message: "chore(release): version packages 🦋 [skip ci]"
+          create-github-releases: true
         env:
-          GITHUB_TOKEN: ${{ env.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ env.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
       - name: Get updated versions if exists
         id: updated
         run: |
-          core_version=$(echo '${{ steps.changesets.outputs.publishedPackages }}' | jq -r '.[] | select(.name == "vitepress-plugin-llmstxt") | .version')
+          core_version=$(echo '${{ steps.changesets.outputs.published-packages }}' | jq -r '.[] | select(.name == "vitepress-plugin-llmstxt") | .version')
           core_version_major=${core_version%%.*}
           echo Set changesets outputs
           echo '${{ toJSON(steps.changesets.outputs) }}'
