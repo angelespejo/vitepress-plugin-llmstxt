@@ -1,4 +1,7 @@
 # VitePress Plugin LLMS Text
+<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
+<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![BANNER](.dovenv/banner.png)
 
@@ -346,3 +349,34 @@ export default {
 [![License](https://img.shields.io/github/license/angelespejo/vitepress-plugin-llmstxt?style=for-the-badge&color=green&logoColor=white)](/LICENSE)
 [![Version](https://img.shields.io/npm/v/vitepress-plugin-llmstxt?style=for-the-badge&color=blue&label=Version)](https://www.npmjs.com/package/vitepress-plugin-llmstxt)
 [![NPM Unpacked Size](https://img.shields.io/npm/unpacked-size/vitepress-plugin-llmstxt/0.0.2?style=for-the-badge&color=orange&logoColor=white)](https://www.npmjs.com/package/vitepress-plugin-llmstxt)
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/en/reference/emoji-key/)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/rhorenov"><img src="https://avatars.githubusercontent.com/u/6729857?v=4&size=100" width="100px" height="100px" alt="Roman Hořeňovský"/><br /><sub><b>Roman Hořeňovský</b></sub></a><br /><a href="https://github.com/angelespejo/vitepress-plugin-llmstxt/commits?author=rhorenov" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+  <tfoot>
+    <tr>
+      <td align="center" size="13px" colspan="7">
+        <img src="https://raw.githubusercontent.com/all-contributors/all-contributors-cli/1b8533af435da9854653492b1327a23a4dbd0a10/assets/logo-small.svg">
+          <a href="https://all-contributors.js.org/docs/en/bot/usage">Add your contributions</a>
+        </img>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
