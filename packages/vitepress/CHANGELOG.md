@@ -10,8 +10,6 @@
 
 ### Patch Changes
 
-- Use forward slashes in URL paths on Windows: `LLMS_URL` and the LLMs links in `llms.txt` no longer contain backslashes, and the dev server now serves `llms.txt`, `llms-full.txt` and the `.md` files ([#8](https://github.com/angelespejo/vitepress-plugin-llmstxt/issues/8)).
-
 - [#9](https://github.com/angelespejo/vitepress-plugin-llmstxt/pull/9) [`fc59993`](https://github.com/angelespejo/vitepress-plugin-llmstxt/commit/fc59993927c2ff0278221f46c9ead602a159e82c) Thanks [@rhorenov](https://github.com/rhorenov)! - Use forward slashes in URL paths on Windows: `LLMS_URL` and the LLMs links in `llms.txt` no longer contain backslashes, and the dev server now serves `llms.txt`, `llms-full.txt` and the `.md` files ([#8](https://github.com/angelespejo/vitepress-plugin-llmstxt/issues/8)).
 
 ## 0.5.2
