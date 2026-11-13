@@ -16,8 +16,16 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/6729857?v=4",
       "profile": "https://github.com/rhorenov",
       "contributions": [
-        "code",
-        "test"
+        "code"
+      ]
+    },
+    {
+      "login": "otomad",
+      "name": "otomad",
+      "avatar_url": "https://avatars.githubusercontent.com/u/56647156?v=4",
+      "profile": "https://otomad.github.io/",
+      "contributions": [
+        "bug"
       ]
     }
   ],
