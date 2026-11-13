@@ -1,5 +1,11 @@
 # vitepress-plugin-llmstxt
 
+## 0.5.4
+
+### Patch Changes
+
+- [`feb1338`](https://github.com/angelespejo/vitepress-plugin-llmstxt/commit/feb1338dd9f6b64391ef13b11d6a0ceb943b6112) Thanks [@angelespejo](https://github.com/angelespejo)! - fix: resolve `ignore` globs relative to the VitePress `srcDir`, so they also work when VitePress is started from a directory other than the docs root (e.g. `vitepress dev ../docs`)
+
 ## 0.5.3
 
 ### Patch Changes
