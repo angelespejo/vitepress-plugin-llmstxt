@@ -115,15 +115,27 @@ const getPages = async ( config?: LlmsConfig, vpConfig?: VPConfig ) => {
 	const loader = createContentLoader( '**/*.md', {
 		includeSrc  : true,
 		excerpt     : true,
-		globOptions : config?.ignore
-			? {
-				ignore : [
-					'node_modules',
-					'dist',
-					...config.ignore,
-				],
-			}
-			: undefined,
+		globOptions : {
+			/**
+			 * `ignore` patterns are resolved relative to the current working directory
+			 * by the glob library. When VitePress is launched from a directory other
+			 * than the docs root (e.g. `vitepress dev ../docs`), they no longer match.
+			 * Setting `cwd` to the VitePress `srcDir` and returning absolute paths
+			 * makes `ignore` work regardless of the directory the dev server is
+			 * started from.
+			 */
+			...( vpConfig?.srcDir ? { cwd: vpConfig.srcDir } : {} ),
+			absolute : true,
+			...( config?.ignore
+				? {
+					ignore : [
+						'node_modules',
+						'dist',
+						...config.ignore,
+					],
+				}
+				: {} ),
+		},
 	} )
 
 	const pages = await loader.load()

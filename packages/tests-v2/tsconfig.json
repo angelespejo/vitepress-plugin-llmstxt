@@ -25,7 +25,10 @@
 		"removeComments": false,
 		"allowSyntheticDefaultImports": true,
 		"outDir": "./dist",
-		"rootDir": ".."
+		"rootDir": "..",
+		"types": [
+			"node"
+		]
 	},
 	"include": [
 		"src",

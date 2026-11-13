@@ -25,6 +25,9 @@
 		"removeComments": false,
 		"allowSyntheticDefaultImports": true,
 		"outDir": "./dist",
+		"types": [
+			"node"
+		]
 	},
 	"include": [
 		"src",
