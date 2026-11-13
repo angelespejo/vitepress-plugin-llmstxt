@@ -360,7 +360,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/e
 <table>
   <tbody>
     <tr>
-      <td align="center" valign="top" width="14.28%"><a href="https://github.com/rhorenov"><img src="https://avatars.githubusercontent.com/u/6729857?v=4&size=100" width="100px" height="100px" alt="Roman Hořeňovský"/><br /><sub><b>Roman Hořeňovský</b></sub></a><br /><a href="https://github.com/angelespejo/vitepress-plugin-llmstxt/commits?author=rhorenov" title="Code">💻</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/rhorenov"><img src="https://avatars.githubusercontent.com/u/6729857?v=4&size=100" width="100px" height="100px" alt="Roman Hořeňovský"/><br /><sub><b>Roman Hořeňovský</b></sub></a><br /><a href="https://github.com/angelespejo/vitepress-plugin-llmstxt/commits?author=rhorenov" title="Code">💻</a> <a href="https://github.com/angelespejo/vitepress-plugin-llmstxt/commits?author=rhorenov" title="Tests">⚠️</a></td>
     </tr>
   </tbody>
   <tfoot>
