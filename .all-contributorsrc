@@ -38,6 +38,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "pepicrft",
+      "name": "Pedro Piñera Buendía",
+      "avatar_url": "https://avatars.githubusercontent.com/u/663605?v=4",
+      "profile": "http://pepicrft.me/",
+      "contributions": [
+        "bug"
+      ]
     }
   ],
   "contributorsPerLine": 7,
